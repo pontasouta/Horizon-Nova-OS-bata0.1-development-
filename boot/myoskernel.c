@@ -66,13 +66,13 @@ extern char kernel_stack_bottom[];
 static inline UINT8 inb(UINT16 port){
     UINT8 data;
 
-    _asm_ _volatile_("inb %w1, %0" : "=a"(data) : "Nd"(port));
+    asm volatile("inb %w1, %0" : "=a"(data) : "Nd"(port));
     return data;
 }
 //inlineの定義１００
 static inline void outb(UINT16 port, UINT8 data ){
 
-_asm_ _volatile_("outb %b0, %w1" : : "a"(data), "Nd"(port));
+asm volatile("outb %b0, %w1" : : "a"(data), "Nd"(port));
 
 }
 
