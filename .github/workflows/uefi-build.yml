@@ -107,7 +107,7 @@ jobs:
     
     - name: Build UEFI kernel
       run: |
-        cd ${{ github.workspace }}
+        cd ~/myos/boot
         make all
     
     - name: Test with QEMU (timeout 5 seconds)
