@@ -12,14 +12,14 @@ jobs:
     
     steps:
     - uses: actions/checkout@v4
-    - uses: actions/upload-artifact@v4.4.0
+    - uses: actions/upload-artifact@v4
       with:
         
-        name: source-code
+        name: source-code-v4
         path: .
         overwrite: true
     
-    - name: Install dependencies
+    - name: Install dependencies-v4
       run: |
         sudo apt-get update
         sudo apt-get install -y \
@@ -29,12 +29,12 @@ jobs:
           binutils \
           qemu-system-x86-64
     
-    - name: Build UEFI kernel
+    - name: Build UEFI kernel-v4
       run: |
         cd ${{ github.workspace }}
         make all
     
-    - name: Verify EFI binary
+    - name: Verify EFI binary-v4
       run: |
         if [ -f myoskernel.efi ]; then
           echo "✓ EFI binary created successfully"
@@ -45,7 +45,7 @@ jobs:
           exit 1
         fi
     
-    - name: Verify ELF binary
+    - name: Verify ELF binary-v4
       run: |
         if [ -f myoskernel.elf ]; then
           echo "✓ ELF binary created successfully"
@@ -56,7 +56,7 @@ jobs:
           exit 1
         fi
     
-    - name: Verify bootloader in ESP
+    - name: Verify bootloader in ESP-v4
       run: |
         if [ -f esp/EFI/BOOT/BOOTX64.EFI ]; then
           echo "✓ Bootloader deployed to ESP"
@@ -66,9 +66,9 @@ jobs:
           exit 1
         fi
     
-    - name: Upload build artifacts
+    - name: Upload build artifacts-v4
       if: success()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: uefi-kernel-artifacts
         path: |
@@ -95,8 +95,8 @@ jobs:
     
     steps:
     - uses: actions/checkout@v4
-    
-    - name: Install dependencies
+
+    - name: Install dependencies-v4
       run: |
         sudo apt-get update
         sudo apt-get install -y \
