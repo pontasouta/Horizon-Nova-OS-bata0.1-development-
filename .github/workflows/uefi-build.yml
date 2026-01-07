@@ -30,7 +30,7 @@ jobs:
     - name: Build UEFI kernel
       run: |
         cd ${{ github.workspace }}
-        make all
+        make -C boot
     
     - name: Verify EFI binary
       run: |
