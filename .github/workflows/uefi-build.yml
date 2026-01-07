@@ -108,7 +108,7 @@ jobs:
     - name: Build UEFI kernel
       run: |
         cd ~/myos/boot
-        make all
+        make
     
     - name: Test with QEMU (timeout 5 seconds)
       run: |
