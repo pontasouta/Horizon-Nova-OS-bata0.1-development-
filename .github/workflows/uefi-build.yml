@@ -37,7 +37,7 @@ jobs:
         if [ -f BOOTX64.EFI ]; then
           echo "✓ EFI binary created successfully"
           file BOOTX64.EFI
-          ls -lh BOOTX64.EFI
+          ls -lh esp/EFI/BOOT/BOOTX64.EFI
         else
           echo "✗ EFI binary not found"
           exit 1
