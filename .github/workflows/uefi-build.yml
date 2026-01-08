@@ -34,7 +34,7 @@ jobs:
     
     - name: Verify EFI binary
       run: |
-        if [ -f myoskernel.efi ]; then
+        if [ -f BOOTX64.EFI ]; then
           echo "✓ EFI binary created successfully"
           file BOOTX64.EFI
           ls -lh BOOTX64.EFI
