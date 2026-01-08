@@ -36,6 +36,7 @@ jobs:
       run: |
         if [ -f BOOTX64.EFI ]; then
           echo "✓ EFI binary created successfully"
+          test -f esp/EFI/BOOT/BOOTX64.EFI && echo "✓ Bootloader deployed to ESP"
           file BOOTX64.EFI
           ls -lh esp/EFI/BOOT/BOOTX64.EFI
         else
