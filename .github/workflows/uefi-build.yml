@@ -36,8 +36,8 @@ jobs:
       run: |
         if [ -f myoskernel.efi ]; then
           echo "✓ EFI binary created successfully"
-          file myoskernel.efi
-          ls -lh myoskernel.efi
+          file BOOTX64.EFI
+          ls -lh BOOTX64.EFI
         else
           echo "✗ EFI binary not found"
           exit 1
