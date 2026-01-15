@@ -1,9 +1,6 @@
-#include <stdint.h>
-#include "../includemyos/efi.h"
 
-
-
-// UEFIの基本型定義
+#ifndef EFI_H_
+#define EFI_H_
 typedef unsigned long long UINTN;
 typedef unsigned int UINT32;
 typedef unsigned long long UINT64;
@@ -79,22 +76,5 @@ typedef struct {
 extern EFI_SYSTEM_TABLE *SystemTable;
 
 EFI_BOOT_SERVICES *BootServices;
-//EFI SERVICE created here
-
-// エントリポイント
-__attribute__((ms_abi))
-
-EFI_STATUS EFI_Main(EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable) {
-
-    BootServices = SystemTable->BootServices;
-
-    
-
-    SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"Hello");
-    while (1){
-SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"kernel check");
-
-    }
-   
-    
-}
+extern EFI_STATUS EFI_Main(EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable);
+#endif /* EFI_H_ */
