@@ -76,5 +76,5 @@ typedef struct {
 extern EFI_SYSTEM_TABLE *SystemTable;
 
 EFI_BOOT_SERVICES *BootServices;
-extern EFI_STATUS EFI_Main(EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable);
+extern __attribute__((ms_abi)) EFI_STATUS EFI_Main(EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable);
 #endif /* EFI_H_ */
