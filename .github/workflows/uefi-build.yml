@@ -37,9 +37,9 @@ jobs:
       
         if [ -f BOOTX64.EFI ]; then
           echo "✓ EFI binary created successfully"
-          test -f myos/esp/EFI/BOOT/BOOTX64.EFI && echo "✓ Bootloader deployed to ESP"
+          test -f /home/runner/work/Horizon-Nova-OS-bata0.1-development-/Horizon-Nova-OS-bata0.1-development-/boot/esp/EFI/BOOT/BOOTX64.EFI && echo "✓ Bootloader deployed to ESP"
           file BOOTX64.EFI
-          ls -lh myos/esp/EFI/BOOT/BOOTX64.EFI
+          ls -lh /home/runner/work/Horizon-Nova-OS-bata0.1-development-/Horizon-Nova-OS-bata0.1-development-/boot/esp/EFI/BOOT/BOOTX64.EFI
         else
           echo "✗ EFI binary not found"
           exit 1
