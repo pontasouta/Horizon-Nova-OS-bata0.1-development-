@@ -44,6 +44,7 @@ jobs:
           test -d ${{ github.workspace }}/myos/boot/esp/EFI/BOOT && echo "✓ Bootloader deployed to ESP"
           file ${{ github.workspace }}/myos/boot/esp/EFI/BOOT/BOOTX64.EFI
           ls -lh ${{ github.workspace }}/myos/boot/esp/EFI/BOOT/
+          echo "skip CI"
         else
           echo "✗ EFI binary not found"
           exit 1
