@@ -41,7 +41,7 @@ jobs:
           echo "--- root ls ---"
           ls -lh ${{ github.workspace }}
           echo "--- myos ls ---"
-          test -f ${{ github.workspace }}/myos/boot/esp/EFI/BOOT && echo "✓ Bootloader deployed to ESP"
+          test -d ${{ github.workspace }}/myos/boot/esp/EFI/BOOT && echo "✓ Bootloader deployed to ESP"
           file ${{ github.workspace }}/myos/boot/esp/EFI/BOOT/BOOTX64.EFI
           ls -lh ${{ github.workspace }}/myos/boot/esp/EFI/BOOT/
         else
