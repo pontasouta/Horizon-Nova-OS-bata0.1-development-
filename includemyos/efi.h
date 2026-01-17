@@ -13,6 +13,27 @@ typedef UINTN EFI_STATUS;
 // UEFIの基本型
 typedef unsigned short CHAR16;
 typedef void*          EFI_HANDLE;
+typedef struct {
+   UINT32 Type;
+   UINT32 Pad;
+    EFI_PHYSICAL_ADDRESS PhysicalStart;
+    EFI_VIRTUAL_ADDRESS VirtualStart;
+    UINT64 NumberOfPages;
+    UINT64 Attribute;
+} EFI_MEMORY_DESCRIPTOR;
+
+typedef __attribute__((ms_abi)) EFI_STATUS (*EFI_GET_MEMORY_MAP)(
+    UINTN *MemoryMapSize,
+    EFI_MEMORY_DESCRIPTOR *MemoryMap,
+    UINTN *MapKey,
+    UINTN *DescriptorSize,
+    UINT32 *DescriptorVersion
+); 
+typedef __attribute__((ms_abi)) EFI_STATUS (*EFI_ALLOCATE_POOL)
+(   UINT32 Type, 
+    UINTN Size, 
+     void **Buffer 
+);
 
 typedef struct {
     UINT64 Signature;
@@ -26,9 +47,19 @@ typedef struct _EFI_RUNTIME_SERVICES {
     EFI_TABLE_HEADER Hdr;
     //  Remaining members are omitted for brevity
 } EFI_RUNTIME_SERVICES;
-typedef struct _EFI_BOOT_SERVICES {
+typedef struct EFI_BOOT_SERVICES {
     EFI_TABLE_HEADER Hdr;
-    Get_Memorymap * GetMemoryMap;
+    void *RaiseTPL;
+    void *RestoreTPL; 
+    void *AllocatePages; 
+    void *FreePages;
+    EFI_GET_MEMORY_MAP GetMemoryMap;
+    EFI_STATUS (*ExitBootServices)(
+        EFI_HANDLE ImageHandle,
+        UINTN MapKey
+    );
+    EFI_ALLOCATE_POOL AllocatePool;
+
     //  Remaining members are omitted for brevity
 } EFI_BOOT_SERVICES;
 
@@ -73,26 +104,28 @@ typedef struct {
     UINTN                            NumberOfTableEntries;
     EFI_CONFIGURATION_TABLE          *ConfigurationTable;
 } EFI_SYSTEM_TABLE;
-typedef struct 
-{
-   UINT32 Type;
-   UINT32 Pad;
-    EFI_PHYSICAL_ADDRESS PhysicalStart;
-    EFI_VIRTUAL_ADDRESS VirtualStart;
-    UINT64 NumberOfPages;
-    UINT64 Attribute;
-} EFI_MEMORY_DESCRIPTOR;
+
+typedef enum { EfiReservedMemoryType,
+    EfiLoaderCode,
+    EfiLoaderData,
+    EfiBootServicesCode,
+    EfiBootServicesData,
+    EfiRuntimeServicesCode,
+    EfiRuntimeServicesData,
+    EfiConventionalMemory,
+    EfiUnusableMemory,
+    EfiACPIReclaimMemory,
+    EfiACPIMemoryNVS,
+    EfiMemoryMappedIO,
+    EfiMemoryMappedIOPortSpace,
+    EfiPalCode,
+    EfiPersistentMemory,
+    EfiMaxMemoryType
+} EFI_MEMORY_TYPE;
 
 
-typedef struct  {
-    UINTN *MemoryMapSize;
-    EFI_MEMORY_DESCRIPTOR *MemoryMap;
-    UINTN *MapKey;
-    UINTN *DescriptorSize;
-    UINT32 *DescriptorVersion;
-} Get_Memorymap;
 //efi service created end
-extern EFI_SYSTEM_TABLE *SystemTable;
+EFI_SYSTEM_TABLE *SystemTable;
 
 EFI_BOOT_SERVICES *BootServices;
 extern __attribute__((ms_abi)) EFI_STATUS EFI_Main(EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable);
