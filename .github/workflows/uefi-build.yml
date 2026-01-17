@@ -34,7 +34,7 @@ jobs:
     
     - name: Verify EFI binary
       run: |
-        if [ -f myos/boot/esp/EFI/BOOT/BOOTX64.EFI ]; then
+        if [ -f ${{ github.workspace }}/myos/boot/esp/EFI/BOOT/BOOTX64.EFI ]; then
           echo "✓ EFI binary created successfully"
           echo "PWD: $(pwd)"
           echo "Workspace: ${{ github.workspace }}"
