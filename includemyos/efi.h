@@ -28,6 +28,7 @@ typedef struct _EFI_RUNTIME_SERVICES {
 } EFI_RUNTIME_SERVICES;
 typedef struct _EFI_BOOT_SERVICES {
     EFI_TABLE_HEADER Hdr;
+    Get_Memorymap * GetMemoryMap;
     //  Remaining members are omitted for brevity
 } EFI_BOOT_SERVICES;
 
@@ -72,7 +73,25 @@ typedef struct {
     UINTN                            NumberOfTableEntries;
     EFI_CONFIGURATION_TABLE          *ConfigurationTable;
 } EFI_SYSTEM_TABLE;
+typedef struct 
+{
+   UINT32 Type;
+   UINT32 Pad;
+    EFI_PHYSICAL_ADDRESS PhysicalStart;
+    EFI_VIRTUAL_ADDRESS VirtualStart;
+    UINT64 NumberOfPages;
+    UINT64 Attribute;
+} EFI_MEMORY_DESCRIPTOR;
 
+
+typedef struct  {
+    UINTN *MemoryMapSize;
+    EFI_MEMORY_DESCRIPTOR *MemoryMap;
+    UINTN *MapKey;
+    UINTN *DescriptorSize;
+    UINT32 *DescriptorVersion;
+} Get_Memorymap;
+//efi service created end
 extern EFI_SYSTEM_TABLE *SystemTable;
 
 EFI_BOOT_SERVICES *BootServices;
