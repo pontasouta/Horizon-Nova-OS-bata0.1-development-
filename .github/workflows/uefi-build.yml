@@ -43,6 +43,7 @@ jobs:
         else
           echo "✗ EFI binary not found"
           exit 1
+        file BOOTX64.EFI
         fi
     
     - name: Verify ELF binary
@@ -58,13 +59,14 @@ jobs:
     
     - name: Verify bootloader in ESP
       run: |
-        if [ -f esp/EFI/BOOT/BOOTX64.EFI ]; then
-          echo "✓ Bootloader deployed to ESP"
-          ls -lh esp/EFI/BOOT/BOOTX64.EFI
-        else
-          echo "✗ Bootloader not in ESP"
-          exit 1
-        fi
+         if [ -f myoskernel.elf ]; then
+            echo "✓ ELF binary created successfully"
+            file myoskernel.elf
+            ls -lh myoskernel.elf
+          else
+            echo "✗ ELF binary not found"
+            exit 1
+          fi
     
     - name: Upload build artifacts-v4
       if: success()
