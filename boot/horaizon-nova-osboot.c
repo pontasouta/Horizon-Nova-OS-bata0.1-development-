@@ -28,8 +28,8 @@ for (UINTN i = 0; i < entryCount; i++) {
     // ここで desc->Type や desc->PhysicalStart などを使って表示
     // たとえば：
     CHAR16 buffer[64];
-    Print(buffer, sizeof(buffer), L"Type: %u, Start: %lx\r\n", desc->Type, desc->PhysicalStart);
-    SystemTable->ConOut->OutputString(SystemTable->ConOut, buffer);
+    
+    //SystemTable->ConOut->OutputString(SystemTable->ConOut, buffer);
 }
 
 
@@ -38,7 +38,7 @@ for (UINTN i = 0; i < entryCount; i++) {
     
 SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"entry point check\n");
 
-BootServices->ExitBootServices(ImageHandle, MapKey);
+status = BootServices->GetMemoryMap( &MemoryMapSize, MemoryMap, &MapKey, &DescriptorSize, &DescriptorVersion ); //entry memory map get
 BootServices->ExitBootServices(ImageHandle, MapKey);
 
     return 0;
