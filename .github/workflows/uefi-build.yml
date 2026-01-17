@@ -34,15 +34,17 @@ jobs:
     
     - name: Verify EFI binary
       run: |
-      
-        if [ -f BOOTX64.EFI ]; then
+        if [ -f myos/boot/esp/EFI/BOOT/BOOTX64.EFI ]; then
           echo "✓ EFI binary created successfully"
-          
+          echo "PWD: $(pwd)"
+          echo "Workspace: ${{ github.workspace }}"
+          echo "--- root ls ---"
+          ls -lh ${{ github.workspace }}
+          echo "--- myos ls ---"
           test -f ${{ github.workspace }}/myos/boot/esp/EFI/BOOT && echo "✓ Bootloader deployed to ESP"
-          file BOOTX64.EFI
+          file myos/boot/esp/EFI/BOOT/BOOTX64.EFI
           ls -lh ${{ github.workspace }}/myos/boot/esp/EFI/BOOT/
         else
-        
           echo "✗ EFI binary not found"
           exit 1
         fi
