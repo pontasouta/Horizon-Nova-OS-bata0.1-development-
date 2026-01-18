@@ -15,7 +15,7 @@ EFI_SYSTEM_TABLE *SystemTable;
 extern __attribute__((ms_abi)) EFI_STATUS efi_main(EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *ST) {
 SystemTable = ST;
 BootServices = ST->BootServices;
-UINTN MemoryMapSize = 0;
+UINTN MemoryMapSize = 1;
 EFI_MEMORY_DESCRIPTOR *MemoryMap = NULL;
 UINTN MapKey;
 UINTN DescriptorSize;
@@ -26,7 +26,7 @@ UINT32 DescriptorVersion;
          SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"oh no not crash\n");
          return status;
    }
-  MemoryMapSize += DescriptorSize * 10;
+  MemoryMapSize += DescriptorSize * 20;
 
    BootServices->AllocatePool(EfiLoaderData, MemoryMapSize, (void**)&MemoryMap);
    status = BootServices->GetMemoryMap( &MemoryMapSize, MemoryMap, &MapKey, &DescriptorSize, &DescriptorVersion ); //entry memory map get
@@ -35,6 +35,7 @@ UINT32 DescriptorVersion;
          SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"oh no crash\n");
          return status;
    };
+    MemoryMapSize += DescriptorSize * 20;
    UINTN entryCount = MemoryMapSize / DescriptorSize;
 for (UINTN i = 0; i < entryCount; i++) {
     EFI_MEMORY_DESCRIPTOR *desc = (EFI_MEMORY_DESCRIPTOR *)((UINT8 *)MemoryMap + (i * DescriptorSize));
