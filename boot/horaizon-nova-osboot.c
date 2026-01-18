@@ -15,9 +15,6 @@ EFI_SYSTEM_TABLE *SystemTable;
 extern __attribute__((ms_abi)) EFI_STATUS efi_main(EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *ST) {
 SystemTable = ST;
 BootServices = ST->BootServices;
-  
-
-    BootServices = SystemTable->BootServices;
 UINTN MemoryMapSize = 0;
 void* MemoryMap = 0;
 UINTN MapKey;
@@ -127,7 +124,12 @@ UINTN kernelSize = fileInfo->FileSize;
     
 SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"entry point check\n");
 status = BootServices->GetMemoryMap( &MemoryMapSize, MemoryMap, &MapKey, &DescriptorSize, &DescriptorVersion ); //entry memory map get
-status = BootServices->GetMemoryMap( &MemoryMapSize, MemoryMap, &MapKey, &DescriptorSize, &DescriptorVersion ); //entry memory map get
+if (status != EFI_SUCCESS)
+{
+    SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"GetMemoryMap failed\n");
+    return status;
+}
+
 // Exit boot services
 BootServices->ExitBootServices(ImageHandle, MapKey);
 typedef void (*kernelEntry)(void);
