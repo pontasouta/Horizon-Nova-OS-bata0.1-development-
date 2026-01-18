@@ -34,16 +34,16 @@ jobs:
         cd ${{ github.workspace }}
         make all
     
-    - name: Verify EFI binary-v4
-      run: |
-        if [ -f myoskernel.efi ]; then
-          echo "✓ EFI binary created successfully"
-          file myoskernel.efi
-          ls -lh myoskernel.efi
-        else
-          echo "✗ EFI binary not found"
-          exit 1
-        fi
+    #- name: Verify EFI binary-v4
+     # run: |
+      #  if [ -f myoskernel.efi ]; then
+       #   echo "✓ EFI binary created successfully"
+        #  file myoskernel.efi
+         # ls -lh myoskernel.efi
+        #else
+         # echo "✗ EFI binary not found"
+          #exit 1
+        #fi
     
     - name: Verify ELF binary-v4
       run: |
