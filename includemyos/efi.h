@@ -6,6 +6,7 @@ typedef unsigned int UINT32;
 typedef unsigned long long UINT64;
 typedef unsigned short UINT16;
 typedef unsigned char UINT8;
+typedef int INT16;
 typedef UINT64 EFI_PHYSICAL_ADDRESS;
 typedef UINT64 EFI_VIRTUAL_ADDRESS;
 typedef UINTN EFI_STATUS;
@@ -36,6 +37,30 @@ typedef __attribute__((ms_abi)) EFI_STATUS (*EFI_ALLOCATE_POOL)
 );
 
 typedef struct {
+    UINT8 Data[16];
+} EFI_GUID;
+
+typedef struct {
+    UINT16 Year;
+    UINT8 Month;
+    UINT8 Day;
+    UINT8 Hour;
+    UINT8 Minute;
+    UINT8 Second;
+    UINT8 Pad1;
+    UINT32 Nanosecond;
+    INT16 TimeZone;
+    UINT8 Daylight;
+    UINT8 Pad2;
+} EFI_TIME;
+
+typedef __attribute__((ms_abi)) EFI_STATUS (*EFI_HANDLE_PROTOCOL)(
+    EFI_HANDLE Handle,
+    EFI_GUID *Protocol,
+    void **Interface
+);
+
+typedef struct {
     UINT64 Signature;
     UINT32 Revision;
     UINT32 HeaderSize;
@@ -59,14 +84,121 @@ typedef struct EFI_BOOT_SERVICES {
         UINTN MapKey
     );
     EFI_ALLOCATE_POOL AllocatePool;
+    EFI_HANDLE_PROTOCOL HandleProtocol;
 
     //  Remaining members are omitted for brevity
 } EFI_BOOT_SERVICES;
+
+typedef __attribute__((ms_abi)) EFI_STATUS (*EFI_FILE_CLOSE)(
+    void* File
+);
+typedef __attribute__((ms_abi)) EFI_STATUS (*EFI_FILE_DELETE)(
+    void* File
+);
+typedef __attribute__((ms_abi)) EFI_STATUS (*EFI_FILE_READ)(
+    void* File,
+    UINTN *BufferSize,
+    void* Buffer
+);
+typedef __attribute__((ms_abi)) EFI_STATUS (*EFI_FILE_WRITE)(
+    void* File,
+    UINTN *BufferSize,
+    void* Buffer
+);
+typedef __attribute__((ms_abi)) EFI_STATUS (*EFI_FILE_GET_POSITION)(
+    void* File,
+    UINT64 *Position
+);
+typedef __attribute__((ms_abi)) EFI_STATUS (*EFI_FILE_SET_POSITION)(
+    void* File,
+    UINT64 Position
+);
+typedef __attribute__((ms_abi)) EFI_STATUS (*EFI_FILE_GET_INFO)(
+    void* File,
+    void* InformationType,
+    UINTN *BufferSize,
+    void* Buffer
+);
+typedef __attribute__((ms_abi)) EFI_STATUS (*EFI_FILE_SET_INFO)(
+    void* File,
+    void* InformationType,
+    UINTN BufferSize,
+    void* Buffer
+);
+typedef __attribute__((ms_abi)) EFI_STATUS (*EFI_FILE_FLUSH)(
+    void* File
+);
+typedef __attribute__((ms_abi)) EFI_STATUS (*EFI_FILE_OPEN_EX)(
+    void* File,
+    void** NewHandle,
+    CHAR16 *FileName,
+    UINT64 OpenMode,
+    UINT64 Attributes,
+    void* Token
+);
+typedef __attribute__((ms_abi)) EFI_STATUS (*EFI_FILE_READ_EX)(
+    void* File,
+    void* Token
+);
+typedef __attribute__((ms_abi)) EFI_STATUS (*EFI_FILE_WRITE_EX)(
+    void* File,
+    void* Token
+);
+typedef __attribute__((ms_abi)) EFI_STATUS (*EFI_FILE_FLUSH_EX)(
+    void* File,
+    void* Token
+);
+
+typedef __attribute__((ms_abi)) EFI_STATUS (*EFI_FILE_OPEN)(
+    void* File,
+    void** NewHandle,
+    CHAR16 *FileName,
+    UINT64 OpenMode,
+    UINT64 Attributes
+);
+
+typedef __attribute__((ms_abi)) EFI_STATUS (*EFI_OPEN_VOLUME)(
+    void* This,
+    void** Root
+);
+
+typedef struct EFI_FILE_PROTOCOL {
+  UINT64                          Revision;
+  EFI_FILE_OPEN                   Open;
+  EFI_FILE_CLOSE                  Close;
+  EFI_FILE_DELETE                 Delete;
+  EFI_FILE_READ                   Read;
+  EFI_FILE_WRITE                  Write;
+  EFI_FILE_GET_POSITION           GetPosition;
+  EFI_FILE_SET_POSITION           SetPosition;
+  EFI_FILE_GET_INFO               GetInfo;
+  EFI_FILE_SET_INFO               SetInfo;
+  EFI_FILE_FLUSH                  Flush;
+  EFI_FILE_OPEN_EX                OpenEx; // Added for revision 2
+  EFI_FILE_READ_EX                ReadEx; // Added for revision 2
+  EFI_FILE_WRITE_EX               WriteEx; // Added for revision 2
+  EFI_FILE_FLUSH_EX               FlushEx; // Added for revision 2
+} EFI_FILE_PROTOCOL;
 
 typedef struct {
     UINT64 VendorGuid[2];
     void* VendorTable;
 } EFI_CONFIGURATION_TABLE;
+
+typedef struct {
+    UINT64 Size;
+    UINT64 FileSize;
+    UINT64 PhysicalSize;
+    EFI_TIME CreateTime;
+    EFI_TIME LastAccessTime;
+    EFI_TIME ModificationTime;
+    UINT64 Attribute;
+    CHAR16 FileName[256];
+} EFI_FILE_INFO;
+
+typedef struct {
+    EFI_OPEN_VOLUME OpenVolume;
+} EFI_SIMPLE_FILE_SYSTEM_PROTOCOL;
 
 // ConOut create
 struct _EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL;
@@ -128,5 +260,19 @@ typedef enum { EfiReservedMemoryType,
 EFI_SYSTEM_TABLE *SystemTable;
 
 EFI_BOOT_SERVICES *BootServices;
-extern __attribute__((ms_abi)) EFI_STATUS EFI_Main(EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable);
+
+// GUIDs
+extern EFI_GUID gEfiSimpleFileSystemProtocolGuid;
+extern EFI_GUID gEfiFileInfoGuid;
+
+// File open modes
+#define EFI_FILE_MODE_READ   0x0000000000000001ULL
+#define EFI_FILE_MODE_WRITE  0x0000000000000002ULL
+#define EFI_FILE_MODE_CREATE 0x8000000000000000ULL
+
+// Status codes
+#define EFI_SUCCESS 0
+#define EFI_BUFFER_TOO_SMALL 5
+
+extern __attribute__((ms_abi)) EFI_STATUS efi_main(EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable);
 #endif /* EFI_H_ */
