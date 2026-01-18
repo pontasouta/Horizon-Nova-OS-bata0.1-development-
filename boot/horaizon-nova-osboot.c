@@ -1,4 +1,5 @@
 #include <../includemyos/efi.h>
+#include <../includemyos/framebuffer.h>
 #include <stdint.h>
 
 
@@ -18,7 +19,20 @@ BootServices = ST->BootServices;
 EFI_STATUS status = 0;
 
 SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"=== Horizon Nova OS Boot Loader ===\n");
+SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"geting GOP\n");
+EFI_GRAPHICS_OUTPUT_PROTOCOL *gop;
+EFI_GUID gopGuid = EFI_GRAPHICS_OUTPUT_PROTOCOL_GUID;
 
+status = SystemTable->BootServices->LocateProtocol(
+  &gopGuid,     // 取得したいプロトコルのGUID
+  NULL,         // 通常は NULL
+  (void **)&gop // 出力先のポインタ（キャストが必要）
+);
+FramebufferInfo fbinfo;
+fbinfo.framebuffer = (void*)gop->Mode->FrameBufferBase;
+fbinfo.Width = gop->Mode->Info->HorizontalResolution;
+fbinfo.Height = gop->Mode->Info->VerticalResolution;
+fbinfo.Pixels_Per_ScanLine = gop->Mode->Info->PixelsPerScanLine;
 // LocateHandleBufferで全SimpleFileSystemハンドルを探す
 EFI_HANDLE* handles = NULL;
 UINTN handleCount = 0;
@@ -179,9 +193,9 @@ while (retry < 5) {
 jump_kernel:
 SystemTable->ConOut->OutputString(SystemTable->ConOut, L"Jumping to kernel...\n");
 
-typedef void (*kernelEntry)(void);
+typedef void (*kernelEntry)(FramebufferInfo*);
 kernelEntry entry = (kernelEntry)(KERNEL_LOAD_ADDRESS);
-entry();
+entry(&fbinfo);
 
 return EFI_SUCCESS;
 }

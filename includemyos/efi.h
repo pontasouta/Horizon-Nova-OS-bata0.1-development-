@@ -10,6 +10,30 @@ typedef int INT16;
 typedef UINT64 EFI_PHYSICAL_ADDRESS;
 typedef UINT64 EFI_VIRTUAL_ADDRESS;
 typedef UINTN EFI_STATUS;
+typedef void VOID;
+
+#define IN
+#define OUT
+#define OPTIONAL
+#define EFIAPI __attribute__((ms_abi))
+typedef struct {
+    UINT32 Data1;
+    UINT16 Data2;
+    UINT16 Data3;
+    UINT8 Data4[8];
+} EFI_GUID;
+typedef
+EFI_STATUS
+(EFIAPI *EFI_LOCATE_PROTOCOL)(
+  IN EFI_GUID *Protocol,
+  IN VOID *Registration OPTIONAL,
+  OUT VOID **Interface
+);
+
+
+    
+
+
 
 // UEFIの基本型
 typedef unsigned short CHAR16;
@@ -36,9 +60,7 @@ typedef __attribute__((ms_abi)) EFI_STATUS (*EFI_ALLOCATE_POOL)
      void **Buffer 
 );
 
-typedef struct {
-    UINT8 Data[16];
-} EFI_GUID;
+
 
 typedef struct {
     UINT16 Year;
@@ -94,6 +116,7 @@ typedef struct EFI_BOOT_SERVICES {
     );
     EFI_ALLOCATE_POOL AllocatePool;
     EFI_HANDLE_PROTOCOL HandleProtocol;
+    EFI_LOCATE_PROTOCOL  LocateProtocol;         // EFI 1.1+
 
     //  Remaining members are omitted for brevity
 } EFI_BOOT_SERVICES;
@@ -263,6 +286,67 @@ typedef enum { EfiReservedMemoryType,
     EfiPersistentMemory,
     EfiMaxMemoryType
 } EFI_MEMORY_TYPE;
+typedef enum {
+  PixelRedGreenBlueReserved8BitPerColor,
+  PixelBlueGreenRedReserved8BitPerColor,
+  PixelBitMask,
+  PixelBltOnly,
+  PixelFormatMax
+} EFI_GRAPHICS_PIXEL_FORMAT;
+typedef struct { UINT32 RedMask;
+    UINT32 GreenMask;
+    UINT32 BlueMask;
+    UINT32 ReservedMask;
+    } EFI_PIXEL_BITMASK;
+    typedef struct {
+  UINT32 Version;
+  UINT32 HorizontalResolution;
+  UINT32 VerticalResolution;
+  EFI_GRAPHICS_PIXEL_FORMAT PixelFormat;
+  EFI_PIXEL_BITMASK PixelInformation;
+  UINT32 PixelsPerScanLine;
+} EFI_GRAPHICS_OUTPUT_MODE_INFORMATION;
+typedef struct {
+  UINT32 MaxMode;
+  UINT32 Mode;
+  EFI_GRAPHICS_OUTPUT_MODE_INFORMATION *Info;
+  UINTN SizeOfInfo;
+  EFI_PHYSICAL_ADDRESS FrameBufferBase;
+  UINTN FrameBufferSize;
+} EFI_GRAPHICS_OUTPUT_PROTOCOL_MODE;
+typedef struct _EFI_GRAPHICS_OUTPUT_PROTOCOL EFI_GRAPHICS_OUTPUT_PROTOCOL;
+struct _EFI_GRAPHICS_OUTPUT_PROTOCOL {
+  EFI_STATUS (*QueryMode)(
+    struct _EFI_GRAPHICS_OUTPUT_PROTOCOL *This,
+    UINT32 ModeNumber,
+    UINTN *SizeOfInfo,
+    EFI_GRAPHICS_OUTPUT_MODE_INFORMATION **Info
+    );
+  EFI_STATUS (*SetMode)(
+    struct _EFI_GRAPHICS_OUTPUT_PROTOCOL *This,
+    UINT32 ModeNumber
+    );
+  EFI_STATUS (*Blt)(
+    struct _EFI_GRAPHICS_OUTPUT_PROTOCOL *This,
+    void *BltBuffer,
+    UINT32 BltOperation,
+    UINTN SourceX,
+    UINTN SourceY,
+    UINTN DestinationX,
+    UINTN DestinationY,
+    UINTN Width,
+    UINTN Height,
+    UINTN Delta
+    );
+  EFI_GRAPHICS_OUTPUT_PROTOCOL_MODE *Mode;
+};
+
+
+
+
+
+
+
 
 
 //efi service created end
@@ -299,9 +383,13 @@ extern EFI_GUID gEfiFileInfoGuid;
 #define ByRegisterNotify 1
 #define ByProtocol 2
 
+
+
 // Status codes
 #define EFI_SUCCESS 0
 #define EFI_BUFFER_TOO_SMALL 5
-
+//GOP protocol GUID
+#define EFI_GRAPHICS_OUTPUT_PROTOCOL_GUID \
+  { 0x9042a9de, 0x23dc, 0x4a38, { 0x96, 0xfb, 0x7a, 0xde, 0xd0, 0x80, 0x51, 0x6a } }
 extern __attribute__((ms_abi)) EFI_STATUS efi_main(EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable);
 #endif /* EFI_H_ */
