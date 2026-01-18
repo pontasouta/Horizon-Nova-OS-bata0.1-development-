@@ -2,7 +2,7 @@
 #include <stdint.h>
 
 
-#ifdef NULL
+#ifndef NULL
 #define NULL ((void*)0)
 #endif
 #define KERNEL_LOAD_ADDRESS 0x100000  // カーネルのロードアドレス
