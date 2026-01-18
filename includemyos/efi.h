@@ -88,7 +88,7 @@ typedef struct EFI_BOOT_SERVICES {
 
     //  Remaining members are omitted for brevity
 } EFI_BOOT_SERVICES;
-
+//file protocol create
 typedef __attribute__((ms_abi)) EFI_STATUS (*EFI_FILE_CLOSE)(
     void* File
 );
@@ -179,7 +179,7 @@ typedef struct EFI_FILE_PROTOCOL {
   EFI_FILE_WRITE_EX               WriteEx; // Added for revision 2
   EFI_FILE_FLUSH_EX               FlushEx; // Added for revision 2
 } EFI_FILE_PROTOCOL;
-
+//file protocol create s end
 typedef struct {
     UINT64 VendorGuid[2];
     void* VendorTable;
@@ -257,9 +257,6 @@ typedef enum { EfiReservedMemoryType,
 
 
 //efi service created end
-EFI_SYSTEM_TABLE *SystemTable;
-
-EFI_BOOT_SERVICES *BootServices;
 
 // GUIDs
 extern EFI_GUID gEfiSimpleFileSystemProtocolGuid;
