@@ -157,21 +157,15 @@ while (1) {
     status = BootServices->ExitBootServices(ImageHandle, MapKey);
     if (status == EFI_SUCCESS) {
         break; // 抜けたらもう BootServices は使えない
+   
     }
 
     // 失敗したら、また最初から GetMemoryMap やり直し
 }
-status = BootServices->GetMemoryMap( &MemoryMapSize, MemoryMap, &MapKey, &DescriptorSize, &DescriptorVersion ); //entry memory map get
-if (status != EFI_SUCCESS)
-{
-    SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"GetMemoryMap failed\n");
-    return status;
-}
-
-// Exit boot services
-BootServices->ExitBootServices(ImageHandle, MapKey);
-typedef void (*kernelEntry)(void);
+     typedef void (*kernelEntry)(void);
 kernelEntry entry = (kernelEntry)(KERNEL_LOAD_ADDRESS);
 entry();
-    return 0;
+
+return EFI_SUCCESS;
+
 }
