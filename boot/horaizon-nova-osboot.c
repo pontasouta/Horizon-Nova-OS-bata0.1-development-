@@ -23,9 +23,13 @@ UINT32 DescriptorVersion;
    EFI_STATUS status = BootServices->GetMemoryMap(&MemoryMapSize, MemoryMap, &MapKey, &DescriptorSize, &DescriptorVersion); //entry memory map size get
    if ( status != EFI_BUFFER_TOO_SMALL )
    {
-         SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"oh no not crash\n");
+         SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"1 getmemorymap\n");
          return status;
    }
+
+SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"DescriptorSize = %d\n, DescriptorSize");
+SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"MemoryMapSize = %d\n, MemoryMapSize");
+
   MemoryMapSize += DescriptorSize * 20;
 
    BootServices->AllocatePool(EfiLoaderData, MemoryMapSize, (void**)&MemoryMap);
@@ -35,7 +39,7 @@ UINT32 DescriptorVersion;
          SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"oh no crash\n");
          return status;
    };
-    MemoryMapSize += DescriptorSize * 20;
+    
    UINTN entryCount = MemoryMapSize / DescriptorSize;
 for (UINTN i = 0; i < entryCount; i++) {
     EFI_MEMORY_DESCRIPTOR *desc = (EFI_MEMORY_DESCRIPTOR *)((UINT8 *)MemoryMap + (i * DescriptorSize));
@@ -124,6 +128,39 @@ UINTN kernelSize = fileInfo->FileSize;
     SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"Hello");
     
 SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"entry point check\n");
+// ここまでに：カーネル読み込み完了、必要な BootServices 呼び出しも全部終わってる
+
+while (1) {
+    UINTN MemoryMapSize = 0;
+    EFI_MEMORY_DESCRIPTOR* MemoryMap = NULL;
+    UINTN MapKey;
+    UINTN DescriptorSize;
+    UINT32 DescriptorVersion;
+
+    // サイズ取得
+    BootServices->GetMemoryMap(&MemoryMapSize, NULL, &MapKey, &DescriptorSize, &DescriptorVersion);
+    MemoryMapSize += DescriptorSize * 20;
+    BootServices->AllocatePool(EfiLoaderData, MemoryMapSize, (void**)&MemoryMap);
+
+    EFI_STATUS status = BootServices->GetMemoryMap(
+        &MemoryMapSize,
+        MemoryMap,
+        &MapKey,
+        &DescriptorSize,
+        &DescriptorVersion
+    );
+    if (status != EFI_SUCCESS) {
+        // ここでまた BufferTooSmall ならループ継続
+        continue;
+    }
+
+    status = BootServices->ExitBootServices(ImageHandle, MapKey);
+    if (status == EFI_SUCCESS) {
+        break; // 抜けたらもう BootServices は使えない
+    }
+
+    // 失敗したら、また最初から GetMemoryMap やり直し
+}
 status = BootServices->GetMemoryMap( &MemoryMapSize, MemoryMap, &MapKey, &DescriptorSize, &DescriptorVersion ); //entry memory map get
 if (status != EFI_SUCCESS)
 {
