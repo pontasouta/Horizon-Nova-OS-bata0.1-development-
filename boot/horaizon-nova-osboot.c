@@ -15,174 +15,173 @@ EFI_SYSTEM_TABLE *SystemTable;
 extern __attribute__((ms_abi)) EFI_STATUS efi_main(EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *ST) {
 SystemTable = ST;
 BootServices = ST->BootServices;
-UINTN DebugMemoryMapSize = 1;
-UINTN MemoryMapSize = 1;
-EFI_MEMORY_DESCRIPTOR *DebugMemoryMap = NULL;
-UINTN MapKey;
-UINTN DescriptorSize ;
-UINT32 DescriptorVersion;
-EFI_STATUS status;
-   //EFI_STATUS status = BootServices->GetMemoryMap(&MemoryMapSize, DebugMemoryMap, &MapKey, &DescriptorSize, &DescriptorVersion); //entry memory map size get
-   //if ( status != EFI_BUFFER_TOO_SMALL )
-   //{
-      //   SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"1 getmemorymap\n");
-    //     return status;
-  // }
+EFI_STATUS status = 0;
 
-//SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"DescriptorSize = %d\n, DescriptorSize");
-//SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"MemoryMapSize = %d\n, MemoryMapSize");
+SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"=== Horizon Nova OS Boot Loader ===\n");
 
-  //MemoryMapSize += DescriptorSize * 20;
+// LocateHandleBufferで全SimpleFileSystemハンドルを探す
+EFI_HANDLE* handles = NULL;
+UINTN handleCount = 0;
+EFI_SIMPLE_FILE_SYSTEM_PROTOCOL* fs = NULL;
 
-   //BootServices->AllocatePool(EfiLoaderData, MemoryMapSize, (void**)&DebugMemoryMap);
-   //status = BootServices->GetMemoryMap( &MemoryMapSize, DebugMemoryMap, &MapKey, &DescriptorSize, &DescriptorVersion ); //entry memory map get
-   //if ( status != EFI_SUCCESS )
-   //{
-       //  SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"oh no crash\n");
-     //    return status;
-   //};
-    
-   //UINTN entryCount = MemoryMapSize / DescriptorSize;
-//for (UINTN i = 0; i < entryCount; i++) {
-    //EFI_MEMORY_DESCRIPTOR *desc = (EFI_MEMORY_DESCRIPTOR *)((UINT8 *)DebugMemoryMap + (i * DescriptorSize));
-
-    // ここで desc->Type や desc->PhysicalStart などを使って表示
-    // たとえば：
-   // CHAR16 buffer[64];
-    
-    //SystemTable->ConOut->OutputString(SystemTable->ConOut, buffer);
-//}
-SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"start open root dir\n");
-EFI_LOADED_IMAGE_PROTOCOL* loadedImage;
-status = BootServices->HandleProtocol(
-    ImageHandle,
-    &gEfiLoadedImageProtocolGuid,
-    (void**)&loadedImage
+status = BootServices->LocateHandleBuffer(
+    ByProtocol,
+    &gEfiSimpleFileSystemProtocolGuid,
+    NULL,
+    &handleCount,
+    &handles
 );
-if (status != EFI_SUCCESS) {
-    SystemTable->ConOut->OutputString(SystemTable->ConOut, L"HandleProtocol(LoadedImage) failed\n");
-    return status;
+
+if (status == EFI_SUCCESS && handleCount > 0) {
+    // 最初のファイルシステムハンドルを使用
+    status = BootServices->HandleProtocol(
+        handles[0],
+        &gEfiSimpleFileSystemProtocolGuid,
+        (void**)&fs
+    );
+    
+    if (status == EFI_SUCCESS && fs != NULL) {
+        SystemTable->ConOut->OutputString(SystemTable->ConOut, L"FileSystem found via LocateHandleBuffer\n");
+    } else {
+        SystemTable->ConOut->OutputString(SystemTable->ConOut, L"ERROR: HandleProtocol failed\n");
+        goto jump_kernel;
+    }
+} else {
+    SystemTable->ConOut->OutputString(SystemTable->ConOut, L"FileSystem not found, assuming kernel in memory\n");
+    goto jump_kernel;
 }
-EFI_HANDLE deviceHandle = loadedImage->DeviceHandle;
 
-
-
-EFI_SIMPLE_FILE_SYSTEM_PROTOCOL* fs;
-status =BootServices->HandleProtocol(
-deviceHandle,
-&gEfiSimpleFileSystemProtocolGuid,
-(void**)&fs
-);
-if (status != EFI_SUCCESS) {
-    SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"HandleProtocol failed\n");
-    return status;
-}
-//open root directory
-EFI_FILE_PROTOCOL* root;
+// ルートボリュームを開く
+EFI_FILE_PROTOCOL* root = NULL;
 status = fs->OpenVolume(fs, &root);
 if (status != EFI_SUCCESS) {
-    SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"OpenVolume failed\n");
+    SystemTable->ConOut->OutputString(SystemTable->ConOut, L"ERROR: OpenVolume failed\n");
     return status;
-
 }
-//kernelfile s open
-EFI_FILE_PROTOCOL* kernelFile;
+
+SystemTable->ConOut->OutputString(SystemTable->ConOut, L"Root volume opened\n");
+
+// カーネルファイルを開く
+EFI_FILE_PROTOCOL* kernelFile = NULL;
 status = root->Open(
     root,
     &kernelFile,
-    L"horaizon-nova-oskernel.elf",
+    L"myoskernel.bin",
     EFI_FILE_MODE_READ,
     0
 );
-if (status != EFI_SUCCESS){
-    SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"Open failed\n");
+
+if (status != EFI_SUCCESS) {
+    SystemTable->ConOut->OutputString(SystemTable->ConOut, L"ERROR: Kernel file not found\n");
     return status;
 }
-//file s size get
+
+SystemTable->ConOut->OutputString(SystemTable->ConOut, L"Kernel file opened\n");
+
+// ファイルサイズを取得
 UINTN infosize = 0;
-EFI_FILE_INFO* fileInfo;
+EFI_FILE_INFO* fileInfo = NULL;
 status = kernelFile->GetInfo(
     kernelFile,
     &gEfiFileInfoGuid,
     &infosize,
     (void*)0
 );
-if (status != EFI_BUFFER_TOO_SMALL){
-    SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"GetInfo size failed\n");
-    return status;
-}        
-// buffer get
-status = BootServices->AllocatePool(EfiLoaderData, infosize, (void**)&fileInfo);
-if (status != EFI_SUCCESS){
-    SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"AllocatePool for fileinfo failed\n");
+
+if (status != EFI_BUFFER_TOO_SMALL) {
+    SystemTable->ConOut->OutputString(SystemTable->ConOut, L"ERROR: GetInfo size failed\n");
     return status;
 }
+
+// FileInfo用メモリを確保
+status = BootServices->AllocatePool(EfiLoaderData, infosize, (void**)&fileInfo);
+if (status != EFI_SUCCESS) {
+    SystemTable->ConOut->OutputString(SystemTable->ConOut, L"ERROR: AllocatePool for fileinfo failed\n");
+    return status;
+}
+
 status = kernelFile->GetInfo(
     kernelFile,
     &gEfiFileInfoGuid,
     &infosize,
     fileInfo
 );
-if (status != EFI_SUCCESS){
-    SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"GetInfo failed\n");
+
+if (status != EFI_SUCCESS) {
+    SystemTable->ConOut->OutputString(SystemTable->ConOut, L"ERROR: GetInfo failed\n");
     return status;
 }
 
 UINTN kernelSize = fileInfo->FileSize;
-    status = kernelFile->Read(
+SystemTable->ConOut->OutputString(SystemTable->ConOut, L"Kernel size obtained\n");
+
+// カーネルを読み込む
+status = kernelFile->Read(
     kernelFile,
     &kernelSize,
     (void*)KERNEL_LOAD_ADDRESS
-    );
-    if (status != EFI_SUCCESS){
-        SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"Read failed\n");
-        return status;
-    };
-    SystemTable->ConOut->OutputString(SystemTable->ConOut, L"Kernel loaded\n");
+);
 
+if (status != EFI_SUCCESS) {
+    SystemTable->ConOut->OutputString(SystemTable->ConOut, L"ERROR: Read kernel failed\n");
+    return status;
+}
 
+SystemTable->ConOut->OutputString(SystemTable->ConOut, L"Kernel loaded to memory\n");
 
-    SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"Hello");
+// メモリマップを取得してExitBootServices
+UINTN MemoryMapSize = 0;
+UINTN DescriptorSize = 0;
+UINT32 DescriptorVersion = 0;
+
+status = BootServices->GetMemoryMap(&MemoryMapSize, NULL, NULL, &DescriptorSize, NULL);
+
+if (MemoryMapSize == 0) {
+    MemoryMapSize = 4096;
+    DescriptorSize = 48;
+}
+
+int retry = 0;
+while (retry < 5) {
+    retry++;
     
-SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"entry point check\n");
-// ここまでに：カーネル読み込み完了、必要な BootServices 呼び出しも全部終わってる
-
-while (1) {
-    UINTN MemoryMapSize = 0;
     EFI_MEMORY_DESCRIPTOR* MemoryMap = NULL;
-    UINTN MapKey;
-    UINTN DescriptorSize;
-    UINT32 DescriptorVersion;
-
-    // サイズ取得
-    BootServices->GetMemoryMap(&MemoryMapSize, NULL, &MapKey, &DescriptorSize, &DescriptorVersion);
-    MemoryMapSize += DescriptorSize * 20;
-    BootServices->AllocatePool(EfiLoaderData, MemoryMapSize, (void**)&MemoryMap);
-
-    EFI_STATUS status = BootServices->GetMemoryMap(
+    UINTN MapKey = 0;
+    
+    UINTN AllocSize = MemoryMapSize + (DescriptorSize * 20);
+    status = BootServices->AllocatePool(EfiLoaderData, AllocSize, (void**)&MemoryMap);
+    
+    if (status != EFI_SUCCESS) {
+        SystemTable->ConOut->OutputString(SystemTable->ConOut, L"AllocatePool for memorymap failed\n");
+        continue;
+    }
+    
+    status = BootServices->GetMemoryMap(
         &MemoryMapSize,
         MemoryMap,
         &MapKey,
         &DescriptorSize,
         &DescriptorVersion
     );
+    
     if (status != EFI_SUCCESS) {
-        // ここでまた BufferTooSmall ならループ継続
+        SystemTable->ConOut->OutputString(SystemTable->ConOut, L"GetMemoryMap failed\n");
         continue;
     }
-
+    
     status = BootServices->ExitBootServices(ImageHandle, MapKey);
     if (status == EFI_SUCCESS) {
-        break; // 抜けたらもう BootServices は使えない
-   
+        SystemTable->ConOut->OutputString(SystemTable->ConOut, L"ExitBootServices succeeded\n");
+        break;
     }
-
-    // 失敗したら、また最初から GetMemoryMap やり直し
 }
-     typedef void (*kernelEntry)(void);
+
+jump_kernel:
+SystemTable->ConOut->OutputString(SystemTable->ConOut, L"Jumping to kernel...\n");
+
+typedef void (*kernelEntry)(void);
 kernelEntry entry = (kernelEntry)(KERNEL_LOAD_ADDRESS);
 entry();
 
 return EFI_SUCCESS;
-
 }

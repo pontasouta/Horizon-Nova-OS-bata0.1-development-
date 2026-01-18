@@ -60,6 +60,14 @@ typedef __attribute__((ms_abi)) EFI_STATUS (*EFI_HANDLE_PROTOCOL)(
     void **Interface
 );
 
+typedef __attribute__((ms_abi)) EFI_STATUS (*EFI_LOCATE_HANDLE_BUFFER)(
+    UINT32 SearchType,
+    EFI_GUID *Protocol,
+    void *SearchKey,
+    UINTN *NoHandles,
+    EFI_HANDLE **Buffer
+);
+
 typedef struct {
     UINT64 Signature;
     UINT32 Revision;
@@ -79,6 +87,7 @@ typedef struct EFI_BOOT_SERVICES {
     void *AllocatePages; 
     void *FreePages;
     EFI_GET_MEMORY_MAP GetMemoryMap;
+    EFI_LOCATE_HANDLE_BUFFER LocateHandleBuffer;
     EFI_STATUS (*ExitBootServices)(
         EFI_HANDLE ImageHandle,
         UINTN MapKey
@@ -284,6 +293,11 @@ extern EFI_GUID gEfiFileInfoGuid;
 #define EFI_FILE_MODE_READ   0x0000000000000001ULL
 #define EFI_FILE_MODE_WRITE  0x0000000000000002ULL
 #define EFI_FILE_MODE_CREATE 0x8000000000000000ULL
+
+// Locate Handle Search Types
+#define AllHandles 0
+#define ByRegisterNotify 1
+#define ByProtocol 2
 
 // Status codes
 #define EFI_SUCCESS 0
