@@ -15,44 +15,61 @@ EFI_SYSTEM_TABLE *SystemTable;
 extern __attribute__((ms_abi)) EFI_STATUS efi_main(EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *ST) {
 SystemTable = ST;
 BootServices = ST->BootServices;
+UINTN DebugMemoryMapSize = 1;
 UINTN MemoryMapSize = 1;
-EFI_MEMORY_DESCRIPTOR *MemoryMap = NULL;
+EFI_MEMORY_DESCRIPTOR *DebugMemoryMap = NULL;
 UINTN MapKey;
-UINTN DescriptorSize;
+UINTN DescriptorSize ;
 UINT32 DescriptorVersion;
-   EFI_STATUS status = BootServices->GetMemoryMap(&MemoryMapSize, MemoryMap, &MapKey, &DescriptorSize, &DescriptorVersion); //entry memory map size get
-   if ( status != EFI_BUFFER_TOO_SMALL )
-   {
-         SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"1 getmemorymap\n");
-         return status;
-   }
+EFI_STATUS status;
+   //EFI_STATUS status = BootServices->GetMemoryMap(&MemoryMapSize, DebugMemoryMap, &MapKey, &DescriptorSize, &DescriptorVersion); //entry memory map size get
+   //if ( status != EFI_BUFFER_TOO_SMALL )
+   //{
+      //   SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"1 getmemorymap\n");
+    //     return status;
+  // }
 
-SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"DescriptorSize = %d\n, DescriptorSize");
-SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"MemoryMapSize = %d\n, MemoryMapSize");
+//SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"DescriptorSize = %d\n, DescriptorSize");
+//SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"MemoryMapSize = %d\n, MemoryMapSize");
 
-  MemoryMapSize += DescriptorSize * 20;
+  //MemoryMapSize += DescriptorSize * 20;
 
-   BootServices->AllocatePool(EfiLoaderData, MemoryMapSize, (void**)&MemoryMap);
-   status = BootServices->GetMemoryMap( &MemoryMapSize, MemoryMap, &MapKey, &DescriptorSize, &DescriptorVersion ); //entry memory map get
-   if ( status != EFI_SUCCESS )
-   {
-         SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"oh no crash\n");
-         return status;
-   };
+   //BootServices->AllocatePool(EfiLoaderData, MemoryMapSize, (void**)&DebugMemoryMap);
+   //status = BootServices->GetMemoryMap( &MemoryMapSize, DebugMemoryMap, &MapKey, &DescriptorSize, &DescriptorVersion ); //entry memory map get
+   //if ( status != EFI_SUCCESS )
+   //{
+       //  SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"oh no crash\n");
+     //    return status;
+   //};
     
-   UINTN entryCount = MemoryMapSize / DescriptorSize;
-for (UINTN i = 0; i < entryCount; i++) {
-    EFI_MEMORY_DESCRIPTOR *desc = (EFI_MEMORY_DESCRIPTOR *)((UINT8 *)MemoryMap + (i * DescriptorSize));
-    
+   //UINTN entryCount = MemoryMapSize / DescriptorSize;
+//for (UINTN i = 0; i < entryCount; i++) {
+    //EFI_MEMORY_DESCRIPTOR *desc = (EFI_MEMORY_DESCRIPTOR *)((UINT8 *)DebugMemoryMap + (i * DescriptorSize));
+
     // ここで desc->Type や desc->PhysicalStart などを使って表示
     // たとえば：
-    CHAR16 buffer[64];
+   // CHAR16 buffer[64];
     
     //SystemTable->ConOut->OutputString(SystemTable->ConOut, buffer);
+//}
+SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"start open root dir\n");
+EFI_LOADED_IMAGE_PROTOCOL* loadedImage;
+status = BootServices->HandleProtocol(
+    ImageHandle,
+    &gEfiLoadedImageProtocolGuid,
+    (void**)&loadedImage
+);
+if (status != EFI_SUCCESS) {
+    SystemTable->ConOut->OutputString(SystemTable->ConOut, L"HandleProtocol(LoadedImage) failed\n");
+    return status;
 }
+EFI_HANDLE deviceHandle = loadedImage->DeviceHandle;
+
+
+
 EFI_SIMPLE_FILE_SYSTEM_PROTOCOL* fs;
 status =BootServices->HandleProtocol(
-ImageHandle,
+deviceHandle,
 &gEfiSimpleFileSystemProtocolGuid,
 (void**)&fs
 );

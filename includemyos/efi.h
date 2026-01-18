@@ -258,7 +258,25 @@ typedef enum { EfiReservedMemoryType,
 
 //efi service created end
 
+// Loaded Image Protocol
+typedef struct {
+    EFI_TABLE_HEADER                Hdr;
+    EFI_HANDLE                      ParentHandle;
+    EFI_SYSTEM_TABLE                *SystemTable;
+    EFI_HANDLE                      DeviceHandle;
+    void                            *FilePath;  // EFI_DEVICE_PATH_PROTOCOL
+    void                            *Reserved;
+    UINT32                          LoadOptionsSize;
+    void                            *LoadOptions;
+    void                            *ImageBase;
+    UINT64                          ImageSize;
+    EFI_MEMORY_TYPE                 ImageCodeType;
+    EFI_MEMORY_TYPE                 ImageDataType;
+    EFI_STATUS (*Unload)(EFI_HANDLE ImageHandle);
+} EFI_LOADED_IMAGE_PROTOCOL;
+
 // GUIDs
+extern EFI_GUID gEfiLoadedImageProtocolGuid;
 extern EFI_GUID gEfiSimpleFileSystemProtocolGuid;
 extern EFI_GUID gEfiFileInfoGuid;
 
