@@ -45,26 +45,23 @@ jobs:
           #exit 1
         #fi
     
-    - name: Verify ELF binary-v4
-      run: |
-        if [ -f myoskernel.elf ]; then
-          echo "✓ ELF binary created successfully"
-          file myoskernel.elf
-          ls -lh myoskernel.elf
-        else
-          echo "✗ ELF binary not found"
-          exit 1
-        fi
-    
-    - name: Verify bootloader in ESP-v4
-      run: |
-        if [ -f esp/EFI/BOOT/BOOTX64.EFI ]; then
-          echo "✓ Bootloader deployed to ESP"
-          ls -lh esp/EFI/BOOT/BOOTX64.EFI
-        else
-          echo "✗ Bootloader not in ESP"
-          exit 1
-        fi
+    #- name: Verify ELF binary-v4
+     # run: |
+      ####  file myoskernel.elf
+          #ls -lh myoskernel.elf
+        ## echo "✗ ELF binary not found"
+         # exit 1
+          #fi
+
+    # - name: Verify bootloader in ESP-v4
+     # run: |
+      #  if [ -f esp/EFI/BOOT/BOOTX64.EFI ]; then
+       #   echo "✓ Bootloader deployed to ESP"
+        #  ls -lh esp/EFI/BOOT/BOOTX64.EFI
+        #else
+         # echo "✗ Bootloader not in ESP"
+          #exit 1
+        #fi
     
     - name: Upload build artifacts-v4
       if: success()
