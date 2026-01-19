@@ -11,6 +11,7 @@ BOOTX64.EFI:
   -nostdlib \
   horaizon-nova-osboot.c efi_guid.c \
   -I 	../includemyos/ \
+  -I ../includemyos/framebuffer.h \
   -o BOOTX64.EFI
 
 	objcopy --target efi-app-x86-64 BOOTX64.EFI  BOOTX64.efi

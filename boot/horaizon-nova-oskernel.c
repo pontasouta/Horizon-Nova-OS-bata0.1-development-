@@ -37,6 +37,35 @@ __attribute__((interrupt))
 void dummy_handler(void* frame) {
     // 何もしない
 }
+typedef struct {
+    uint8_t magic[2];   // 0x36, 0x04 が PSF1 のマジックナンバー
+    uint8_t mode;       // ビット0: 512文字なら1、256文字なら0
+    uint8_t charsize;   // 1文字あたりのバイト数（例: 16）
+} __attribute__((packed)) PSF1Header;
+void draw_char(uint32_t* fb, int x, int y, char c, uint32_t color,
+               FramebufferInfo* fbinfo, PSF1Header* font, uint8_t* glyphs){
+    uint8_t* glyph;
+    if (font->mode == 1) {
+        // 512文字対応
+        glyph = glyphs + c * font->charsize;
+    } else {
+        // 256文字のみ
+        glyph = glyphs + (c % 256) * font->charsize;
+    }
+
+    for (int row = 0; row < font->charsize; row++) {
+        uint8_t bits = glyph[row];
+        for (int col = 0; col < 8; col++) {
+            if ((bits >> (7 - col)) & 1) {
+                int px = x + col;
+                int py = y + row;
+                fb[py * fbinfo->Pixels_Per_ScanLine + px] = color;
+            }
+        }
+    }
+}
+
+
 
 
 
@@ -50,6 +79,13 @@ void mainkernel(FramebufferInfo* fbinfo) {
     load_idt();
     
     uint32_t* fb_ptr = (uint32_t*)fbinfo->framebuffer;
+    PSF1Header* font = (PSF1Header*)fbinfo->font;
+    uint8_t* glyphs = (uint8_t*)fbinfo->font + sizeof(PSF1Header);
+if (font->magic[0] != 0x36 || font->magic[1] != 0x04) { 
+    //　フォントが壊れてる　または未対応のフォーマット
+    return; }
+    draw_char((uint32_t*)fbinfo->framebuffer, 8, 8, 'A', 0x00FFFFFF, fbinfo, font, glyphs);
+    
 
  ((uint32_t*)fbinfo->framebuffer)[0] = 0x00FF0000; // 画面の最初のピクセルを赤に設定（例）
     while (1) {

@@ -11,11 +11,14 @@ typedef UINT64 EFI_PHYSICAL_ADDRESS;
 typedef UINT64 EFI_VIRTUAL_ADDRESS;
 typedef UINTN EFI_STATUS;
 typedef void VOID;
-
+#ifndef EFI_ERROR
+#define EFI_ERROR(Status) (((INTN)(Status)) < 0)
+#endif
 #define IN
 #define OUT
 #define OPTIONAL
 #define EFIAPI __attribute__((ms_abi))
+
 typedef struct {
     UINT32 Data1;
     UINT16 Data2;

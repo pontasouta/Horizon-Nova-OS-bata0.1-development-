@@ -3,10 +3,12 @@
 #include <stdint.h>
 
 
+
 #ifndef NULL
 #define NULL ((void*)0)
 #endif
 #define KERNEL_LOAD_ADDRESS 0x100000  // カーネルのロードアドレス
+typedef int64_t INTN; // 64bit UEFI の場合
 //EFI SERVICE is created in bootinclude/myos/efi.h
 
 // エントリポイント
@@ -17,7 +19,7 @@ extern __attribute__((ms_abi)) EFI_STATUS efi_main(EFI_HANDLE ImageHandle, EFI_S
 SystemTable = ST;
 BootServices = ST->BootServices;
 EFI_STATUS status = 0;
-
+void* fontBuffer = NULL; UINTN fontSize = 0;
 SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"=== Horizon Nova OS Boot Loader ===\n");
 SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"geting GOP\n");
 EFI_GRAPHICS_OUTPUT_PROTOCOL *gop;
@@ -33,6 +35,7 @@ fbinfo.framebuffer = (void*)gop->Mode->FrameBufferBase;
 fbinfo.Width = gop->Mode->Info->HorizontalResolution;
 fbinfo.Height = gop->Mode->Info->VerticalResolution;
 fbinfo.Pixels_Per_ScanLine = gop->Mode->Info->PixelsPerScanLine;
+fbinfo.font = fontBuffer; fbinfo.font_size = fontSize;
 // LocateHandleBufferで全SimpleFileSystemハンドルを探す
 EFI_HANDLE* handles = NULL;
 UINTN handleCount = 0;
@@ -67,7 +70,7 @@ if (status == EFI_SUCCESS && handleCount > 0) {
 
 // ルートボリュームを開く
 EFI_FILE_PROTOCOL* root = NULL;
-status = fs->OpenVolume(fs, &root);
+status = fs->OpenVolume(fs,(void**)&root);
 if (status != EFI_SUCCESS) {
     SystemTable->ConOut->OutputString(SystemTable->ConOut, L"ERROR: OpenVolume failed\n");
     return status;
@@ -101,6 +104,8 @@ status = kernelFile->GetInfo(
     &infosize,
     (void*)0
 );
+//フォント読み込み（パスはesp/EFI/BOOT/)
+
 
 if (status != EFI_BUFFER_TOO_SMALL) {
     SystemTable->ConOut->OutputString(SystemTable->ConOut, L"ERROR: GetInfo size failed\n");
@@ -125,10 +130,54 @@ if (status != EFI_SUCCESS) {
     SystemTable->ConOut->OutputString(SystemTable->ConOut, L"ERROR: GetInfo failed\n");
     return status;
 }
+EFI_FILE_PROTOCOL* fontfile = NULL;
+status = root->Open(
+    root,
+    &fontfile,
+    L"EFI/BOOT/solarize-12x29-psf",
+    EFI_FILE_MODE_READ,
+    0
+);
+if (EFI_ERROR(status)) { SystemTable->ConOut->OutputString(SystemTable->ConOut, L"ERROR: Failed to open font file\n"); return status; }
+// フォントファイルサイズを取得
+UINTN fontInfoSize = 0;
+EFI_FILE_INFO* fontFileInfo = NULL;
+status = fontfile->GetInfo(fontfile, &gEfiFileInfoGuid, &fontInfoSize, NULL);
+if (status != EFI_BUFFER_TOO_SMALL) {
+    SystemTable->ConOut->OutputString(SystemTable->ConOut, L"ERROR: GetInfo size for font failed\n");
+    return status;
+}
+
+status = BootServices->AllocatePool(EfiLoaderData, fontInfoSize, (void**)&fontFileInfo);
+if (EFI_ERROR(status)) {
+    SystemTable->ConOut->OutputString(SystemTable->ConOut, L"ERROR: AllocatePool for font info failed\n");
+    return status;
+}
+
+status = fontfile->GetInfo(fontfile, &gEfiFileInfoGuid, &fontInfoSize, fontFileInfo);
+if (EFI_ERROR(status)) {
+    SystemTable->ConOut->OutputString(SystemTable->ConOut, L"ERROR: GetInfo for font failed\n");
+    return status;
+}
+
+ fontSize = fontFileInfo->FileSize;
+ fontBuffer = NULL;
+status = BootServices->AllocatePool(EfiLoaderData, fontSize, &fontBuffer);
+if (EFI_ERROR(status)) {
+    SystemTable->ConOut->OutputString(SystemTable->ConOut, L"ERROR: AllocatePool for font buffer failed\n");
+    return status;
+}
+
+status = fontfile->Read(fontfile, &fontSize, fontBuffer);
+if (EFI_ERROR(status)) {
+    SystemTable->ConOut->OutputString(SystemTable->ConOut, L"ERROR: Read font file failed\n");
+    return status;
+}
+
+SystemTable->ConOut->OutputString(SystemTable->ConOut, L"Font loaded\n");
 
 UINTN kernelSize = fileInfo->FileSize;
 SystemTable->ConOut->OutputString(SystemTable->ConOut, L"Kernel size obtained\n");
-
 // カーネルを読み込む
 status = kernelFile->Read(
     kernelFile,
