@@ -120,7 +120,7 @@ typedef struct EFI_BOOT_SERVICES {
     EFI_ALLOCATE_POOL AllocatePool;
     EFI_HANDLE_PROTOCOL HandleProtocol;
     EFI_LOCATE_PROTOCOL  LocateProtocol;         // EFI 1.1+
-
+void (*CopyMem)(void* Destination, const void* Source, UINTN Length);
     //  Remaining members are omitted for brevity
 } EFI_BOOT_SERVICES;
 //file protocol create

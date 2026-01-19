@@ -142,11 +142,15 @@ if (EFI_ERROR(status)) { SystemTable->ConOut->OutputString(SystemTable->ConOut, 
 // フォントファイルサイズを取得
 UINTN fontInfoSize = 0;
 EFI_FILE_INFO* fontFileInfo = NULL;
+
+
+
 status = fontfile->GetInfo(fontfile, &gEfiFileInfoGuid, &fontInfoSize, NULL);
 if (status != EFI_BUFFER_TOO_SMALL) {
-    SystemTable->ConOut->OutputString(SystemTable->ConOut, L"ERROR: GetInfo size for font failed\n");
+    SystemTable->ConOut->OutputString(SystemTable->ConOut, L"ERROR: GetInfo size for font failed\n"); //sagyou
     return status;
 }
+
 
 status = BootServices->AllocatePool(EfiLoaderData, fontInfoSize, (void**)&fontFileInfo);
 if (EFI_ERROR(status)) {
@@ -173,6 +177,12 @@ if (EFI_ERROR(status)) {
     SystemTable->ConOut->OutputString(SystemTable->ConOut, L"ERROR: Read font file failed\n");
     return status;
 }
+EFI_PHYSICAL_ADDRESS safeFontAddr = 0x1000000;
+ UINTN fontPages = (fontSize + 0xFFF) / 0x1000;
+
+BootServices->CopyMem((void*)safeFontAddr, fontBuffer, fontSize);
+fbinfo.font = (void*)safeFontAddr;
+ fbinfo.font_size = fontSize;
 
 SystemTable->ConOut->OutputString(SystemTable->ConOut, L"Font loaded\n");
 

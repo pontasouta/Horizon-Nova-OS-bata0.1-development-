@@ -33,7 +33,7 @@ void load_idt() {
     idtr.base = (uint64_t)&idt;
     __asm__ volatile("lidt %0" : : "m"(idtr));
 }
-__attribute__((interrupt))
+//__attribute__((interrupt))
 void dummy_handler(void* frame) {
     // 何もしない
 }
@@ -73,10 +73,11 @@ __attribute__((section(".text.entry")))
 void mainkernel(FramebufferInfo* fbinfo) {
     __asm__ __volatile__("cli");
     // カーネルのメイン関数
-    for (int i = 0; i < 256; i++) {
-        set_idt_entry(i, dummy_handler);
-    }
-    load_idt();
+    //事情あってiDTの設定スキップ
+    //for (int i = 0; i < 256; i++) {
+    //    set_idt_entry(i, dummy_handler);
+    //}
+    //load_idt();
     
     uint32_t* fb_ptr = (uint32_t*)fbinfo->framebuffer;
     PSF1Header* font = (PSF1Header*)fbinfo->font;
