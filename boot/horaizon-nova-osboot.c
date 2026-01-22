@@ -1,5 +1,6 @@
-#include <../includemyos/efi.h>
+
 #include <../includemyos/framebuffer.h>
+#include <../includemyos/print.h>
 #include <stdint.h>
 
 
@@ -24,12 +25,14 @@ SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"=== Horizon N
 SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"geting GOP\n");
 EFI_GRAPHICS_OUTPUT_PROTOCOL *gop;
 EFI_GUID gopGuid = EFI_GRAPHICS_OUTPUT_PROTOCOL_GUID;
+SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"geting GOP test\n");
 
 status = SystemTable->BootServices->LocateProtocol(
   &gopGuid,     // 取得したいプロトコルのGUID
   NULL,         // 通常は NULL
   (void **)&gop // 出力先のポインタ（キャストが必要）
 );
+SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"geting GOP test2\n");
 FramebufferInfo fbinfo;
 fbinfo.framebuffer = (void*)gop->Mode->FrameBufferBase;
 fbinfo.Width = gop->Mode->Info->HorizontalResolution;
@@ -40,7 +43,7 @@ fbinfo.font = fontBuffer; fbinfo.font_size = fontSize;
 EFI_HANDLE* handles = NULL;
 UINTN handleCount = 0;
 EFI_SIMPLE_FILE_SYSTEM_PROTOCOL* fs = NULL;
-
+SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"geting GOP test3\n");// この前のところにバグあり
 status = BootServices->LocateHandleBuffer(
     ByProtocol,
     &gEfiSimpleFileSystemProtocolGuid,
@@ -177,9 +180,17 @@ if (EFI_ERROR(status)) {
     SystemTable->ConOut->OutputString(SystemTable->ConOut, L"ERROR: Read font file failed\n");
     return status;
 }
+SystemTable->ConOut->OutputString(SystemTable->ConOut, L"Font size after read: ");
+PrintDecimal(fontSize, SystemTable);
 EFI_PHYSICAL_ADDRESS safeFontAddr = 0x1000000;
  UINTN fontPages = (fontSize + 0xFFF) / 0x1000;
-
+  
+ status = BootServices->AllocatePages(
+    AllocateAddress,
+    EfiLoaderData,
+    fontPages,
+    &safeFontAddr
+ );
 BootServices->CopyMem((void*)safeFontAddr, fontBuffer, fontSize);
 fbinfo.font = (void*)safeFontAddr;
  fbinfo.font_size = fontSize;

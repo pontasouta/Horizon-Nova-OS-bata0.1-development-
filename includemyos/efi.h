@@ -18,6 +18,9 @@ typedef void VOID;
 #define OUT
 #define OPTIONAL
 #define EFIAPI __attribute__((ms_abi))
+#define AllocateAnyPages 0 
+#define AllocateMaxAddress 1 
+#define AllocateAddress 2
 
 typedef struct {
     UINT32 Data1;
@@ -49,6 +52,23 @@ typedef struct {
     UINT64 NumberOfPages;
     UINT64 Attribute;
 } EFI_MEMORY_DESCRIPTOR;
+typedef enum { EfiReservedMemoryType,
+    EfiLoaderCode,
+    EfiLoaderData,
+    EfiBootServicesCode,
+    EfiBootServicesData,
+    EfiRuntimeServicesCode,
+    EfiRuntimeServicesData,
+    EfiConventionalMemory,
+    EfiUnusableMemory,
+    EfiACPIReclaimMemory,
+    EfiACPIMemoryNVS,
+    EfiMemoryMappedIO,
+    EfiMemoryMappedIOPortSpace,
+    EfiPalCode,
+    EfiPersistentMemory,
+    EfiMaxMemoryType
+} EFI_MEMORY_TYPE;
 
 typedef __attribute__((ms_abi)) EFI_STATUS (*EFI_GET_MEMORY_MAP)(
     UINTN *MemoryMapSize,
@@ -109,7 +129,12 @@ typedef struct EFI_BOOT_SERVICES {
     EFI_TABLE_HEADER Hdr;
     void *RaiseTPL;
     void *RestoreTPL; 
-    void *AllocatePages; 
+    EFI_STATUS (*AllocatePages)(
+        UINTN Type,
+        EFI_MEMORY_TYPE MemoryType,
+        UINTN Pages,
+        EFI_PHYSICAL_ADDRESS *Memory
+    );
     void *FreePages;
     EFI_GET_MEMORY_MAP GetMemoryMap;
     EFI_LOCATE_HANDLE_BUFFER LocateHandleBuffer;
@@ -272,23 +297,7 @@ typedef struct {
     EFI_CONFIGURATION_TABLE          *ConfigurationTable;
 } EFI_SYSTEM_TABLE;
 
-typedef enum { EfiReservedMemoryType,
-    EfiLoaderCode,
-    EfiLoaderData,
-    EfiBootServicesCode,
-    EfiBootServicesData,
-    EfiRuntimeServicesCode,
-    EfiRuntimeServicesData,
-    EfiConventionalMemory,
-    EfiUnusableMemory,
-    EfiACPIReclaimMemory,
-    EfiACPIMemoryNVS,
-    EfiMemoryMappedIO,
-    EfiMemoryMappedIOPortSpace,
-    EfiPalCode,
-    EfiPersistentMemory,
-    EfiMaxMemoryType
-} EFI_MEMORY_TYPE;
+
 typedef enum {
   PixelRedGreenBlueReserved8BitPerColor,
   PixelBlueGreenRedReserved8BitPerColor,
@@ -370,6 +379,8 @@ typedef struct {
     EFI_MEMORY_TYPE                 ImageDataType;
     EFI_STATUS (*Unload)(EFI_HANDLE ImageHandle);
 } EFI_LOADED_IMAGE_PROTOCOL;
+void PrintDecimal(UINTN value, EFI_SYSTEM_TABLE *SystemTable);
+    
 
 // GUIDs
 extern EFI_GUID gEfiLoadedImageProtocolGuid;
