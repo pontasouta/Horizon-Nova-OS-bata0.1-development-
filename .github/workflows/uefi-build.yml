@@ -18,10 +18,8 @@ jobs:
         name: source-code-v4
         path: .
         overwrite: true
-        
-      　- name: Remove ADS
-  run: |
-    find boot -type f -name "*:Zone.Identifier" -delete
+
+
     
     - name: Install dependencies-v4
       run: |
@@ -67,16 +65,16 @@ jobs:
           #exit 1
         #fi
     
-    #- name: Upload build artifacts-v4
-     # if: success()
-      #uses: actions/upload-artifact@v4
-      #with:
-       # name: uefi-kernel-artifacts
-        #path: |
-         # myoskernel.efi
+    - name: Upload build artifacts-v4
+      if: success()
+      uses: actions/upload-artifact@v4
+      with:
+        name: uefi-kernel-artifacts
+        path: |
+          myoskernel.efi
           #myoskernel.elf
           #esp/EFI/BOOT/BOOTX64.EFI
-        #retention-days: 30
+        retention-days: 30
     
     - name: Build summary
       if: success()
