@@ -18,6 +18,10 @@ jobs:
         name: source-code-v4
         path: .
         overwrite: true
+        
+      　- name: Remove ADS
+  run: |
+    find boot -type f -name "*:Zone.Identifier" -delete
     
     - name: Install dependencies-v4
       run: |
