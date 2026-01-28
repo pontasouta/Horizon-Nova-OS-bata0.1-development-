@@ -63,16 +63,16 @@ jobs:
           #exit 1
         #fi
     
-    - name: Upload build artifacts-v4
-      if: success()
-      uses: actions/upload-artifact@v4
-      with:
-        name: uefi-kernel-artifacts
-        path: |
-          myoskernel.efi
-          myoskernel.elf
-          esp/EFI/BOOT/BOOTX64.EFI
-        retention-days: 30
+    #- name: Upload build artifacts-v4
+     # if: success()
+      #uses: actions/upload-artifact@v4
+      #with:
+       # name: uefi-kernel-artifacts
+        #path: |
+         # myoskernel.efi
+          #myoskernel.elf
+          #esp/EFI/BOOT/BOOTX64.EFI
+        #retention-days: 30
     
     - name: Build summary
       if: success()
