@@ -1,6 +1,6 @@
 
-#include <../includemyos/framebuffer.h>
-#include <../includemyos/print.h>
+#include "../includemyos/framebuffer.h"
+#include "../includemyos/efi.h"
 #include <stdint.h>
 
 
@@ -32,7 +32,11 @@ status = SystemTable->BootServices->LocateProtocol(
   NULL,         // 通常は NULL
   (void **)&gop // 出力先のポインタ（キャストが必要）
 );
-SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"geting GOP test2\n");
+SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"geting GOP test2\n");//この後にバグあり
+if (status != EFI_SUCCESS) {
+    SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"ERROR: Unable to locate GOP\n");
+    return status;
+}
 FramebufferInfo fbinfo;
 fbinfo.framebuffer = (void*)gop->Mode->FrameBufferBase;
 fbinfo.Width = gop->Mode->Info->HorizontalResolution;
@@ -181,7 +185,6 @@ if (EFI_ERROR(status)) {
     return status;
 }
 SystemTable->ConOut->OutputString(SystemTable->ConOut, L"Font size after read: ");
-PrintDecimal(fontSize, SystemTable);
 EFI_PHYSICAL_ADDRESS safeFontAddr = 0x1000000;
  UINTN fontPages = (fontSize + 0xFFF) / 0x1000;
   
