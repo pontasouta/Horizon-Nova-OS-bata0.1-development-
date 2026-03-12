@@ -12,6 +12,7 @@
 typedef int64_t INTN;                // 64bit UEFI の場合
 // EFI SERVICE is created in bootinclude/myos/efi.h
 
+
 // エントリポイント
 EFI_BOOT_SERVICES *BootServices;
 EFI_SYSTEM_TABLE *SystemTable;
@@ -26,27 +27,25 @@ extern __attribute__((ms_abi)) EFI_STATUS efi_main(EFI_HANDLE ImageHandle,
     SystemTable->ConOut->OutputString(
         SystemTable->ConOut,
         (CHAR16 *)L"=== Horizon Nova OS Boot Loader ===\n");
-    SystemTable->ConOut->OutputString(SystemTable->ConOut,
-                                      (CHAR16 *)L"geting GOP\n");
-    EFI_GRAPHICS_OUTPUT_PROTOCOL *gop;
-    EFI_GUID gopGuid = EFI_GRAPHICS_OUTPUT_PROTOCOL_GUID;
-    SystemTable->ConOut->OutputString(SystemTable->ConOut,
-                                      (CHAR16 *)L"geting GOP test\n");
+EFI_GRAPHICS_OUTPUT_PROTOCOL *gop;
+  EFI_GUID gopGuid = EFI_GRAPHICS_OUTPUT_PROTOCOL_GUID;
+    SystemTable->ConOut->OutputString(SystemTable->ConOut,(CHAR16 *)L"geting GOP test\n");
 
     status = SystemTable->BootServices->LocateProtocol(
-        &gopGuid,     // 取得したいプロトコルのGUID
-        NULL,         // 通常は NULL
-        (void **)&gop // 出力先のポインタ（キャストが必要）
-    );
+    &gopGuid,
+    NULL,
+ // 出力先のポインタ（キャストが必要）
+    (void **)&gop);
     SystemTable->ConOut->OutputString(
         SystemTable->ConOut,
         (CHAR16 *)L"geting GOP test2\n"); // この後にバグあり
-    if (status != EFI_SUCCESS) {
-        SystemTable->ConOut->OutputString(
-            SystemTable->ConOut,
-            (CHAR16 *)L"ERROR: Unable to locate GOP\n"); // エラーが出てる
-        return status;
-    }
+ if (status == EFI_SUCCESS) {
+    SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"GOP Locate: OK!\n");
+} else {
+    SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"GOP Locate: FAILED\n");
+    return status;
+}
+
     SystemTable->ConOut->OutputString(SystemTable->ConOut,
                                       (CHAR16 *)L"GOP located successfully\n");
     FramebufferInfo fbinfo;
@@ -105,7 +104,7 @@ extern __attribute__((ms_abi)) EFI_STATUS efi_main(EFI_HANDLE ImageHandle,
     // カーネルファイルを開く
     EFI_FILE_PROTOCOL *kernelFile = NULL;
     status =
-        root->Open(root, &kernelFile, L"myoskernel.bin", EFI_FILE_MODE_READ, 0);
+        root->Open(root, (void **)&kernelFile, L"myoskernel.bin", EFI_FILE_MODE_READ, 0);
 
     if (status != EFI_SUCCESS) {
         SystemTable->ConOut->OutputString(SystemTable->ConOut,
@@ -280,7 +279,7 @@ jump_kernel:
     SystemTable->ConOut->OutputString(SystemTable->ConOut,
                                       L"Jumping to kernel...\n");
 
-    typedef void (*kernelEntry)(/*FramebufferInfo*/);
+    typedef void (*kernelEntry)(FramebufferInfo *);
     kernelEntry entry = (kernelEntry)(KERNEL_LOAD_ADDRESS);
     entry(&fbinfo);
 

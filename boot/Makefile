@@ -15,7 +15,6 @@ BOOTX64.EFI:
   -I ../includemyos/print.h \
   -o BOOTX64.EFI
 
-	objcopy --target efi-app-x86-64 BOOTX64.EFI  BOOTX64.efi
 	cp BOOTX64.efi esp/EFI/BOOT/BOOTX64.EFI
 
 myoskernel.elf:
