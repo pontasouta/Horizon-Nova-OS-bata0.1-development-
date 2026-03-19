@@ -20,6 +20,12 @@ I am looking for contributors! Any help in the following areas is greatly apprec
 - **Documentation:** Organizing specifications or creating a Wiki
 - **Testing:** Bug reporting and verification on QEMU or real hardware
 
+## 🎮 How to Run (Testing)
+You can easily test the OS using QEMU. Run the following command in your terminal:
+bash and zsh(OMZ) and fish 
+cd 
+
+
 ## 📬 Contact
 If you are interested, please feel free to reach out via:
 - **GitHub Issues:** Please open a new issue for any inquiries or participation requests.
