@@ -9,114 +9,69 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    
     steps:
     - uses: actions/checkout@v4
-    - uses: actions/upload-artifact@v4
-      with:
-        
-        name: source-code-v4
-        path: .
-        overwrite: true
 
-
-    
-    - name: Install dependencies-v4
+    - name: Install dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y \
-          clang \
-          llvm \
-          lld \
-          binutils \
-          qemu-system-x86-64
-    
-    - name: Build UEFI kernel-v4
-      run: |
-        cd ${{ github.workspace }}
-        make all
-    
-    #- name: Verify EFI binary-v4
-     # run: |
-      #  if [ -f myoskernel.efi ]; then
-       #   echo "✓ EFI binary created successfully"
-        #  file myoskernel.efi
-         # ls -lh myoskernel.efi
-        #else
-         # echo "✗ EFI binary not found"
-          #exit 1
-        #fi
-    
-    #- name: Verify ELF binary-v4
-     # run: |
-      ####  file myoskernel.elf
-          #ls -lh myoskernel.elf
-        ## echo "✗ ELF binary not found"
-         # exit 1
-          #fi
+        sudo apt-get install -y clang llvm lld binutils
 
-    # - name: Verify bootloader in ESP-v4
-     # run: |
-      #  if [ -f esp/EFI/BOOT/BOOTX64.EFI ]; then
-       #   echo "✓ Bootloader deployed to ESP"
-        #  ls -lh esp/EFI/BOOT/BOOTX64.EFI
-        #else
-         # echo "✗ Bootloader not in ESP"
-          #exit 1
-        #fi
-    
-    - name: Upload build artifacts-v4
-      if: success()
+    - name: Build UEFI kernel
+      run: make all
+
+    - name: Verify binaries
+      run: |
+        if [ -f myoskernel.efi ]; then
+          echo "✓ EFI binary created"
+          file myoskernel.efi
+        else
+          echo "✗ EFI binary NOT found"
+          exit 1
+        fi
+
+    - name: Upload build artifacts
       uses: actions/upload-artifact@v4
       with:
         name: uefi-kernel-artifacts
         path: |
           myoskernel.efi
-          #myoskernel.elf
-          #esp/EFI/BOOT/BOOTX64.EFI
-        retention-days: 30
-    
-    - name: Build summary
-      if: success()
-      run: |
-        echo "## Build Summary" >> $GITHUB_STEP_SUMMARY
-        echo "" >> $GITHUB_STEP_SUMMARY
-        echo "✓ UEFI kernel built successfully" >> $GITHUB_STEP_SUMMARY
-        echo "" >> $GITHUB_STEP_SUMMARY
-        echo "### Artifacts" >> $GITHUB_STEP_SUMMARY
-        echo '```' >> $GITHUB_STEP_SUMMARY
-        ls -lh myoskernel.* >> $GITHUB_STEP_SUMMARY
-        echo '```' >> $GITHUB_STEP_SUMMARY
+          # esp/ がある場合はここに追加
+        retention-days: 7
 
   qemu-test:
     runs-on: ubuntu-latest
     needs: build
-    
     steps:
     - uses: actions/checkout@v4
 
-    - name: Install dependencies-v4
+    - name: Download artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: uefi-kernel-artifacts
+
+    - name: Install QEMU and OVMF
       run: |
         sudo apt-get update
-        sudo apt-get install -y \
-          clang \
-          llvm \
-          lld \
-          binutils \
-          qemu-system-x86-64 \
-          ovmf
-    
-    - name: Build UEFI kernel
+        sudo apt-get install -y qemu-system-x86-64 ovmf
+
+    - name: Test with QEMU
       run: |
-        cd ${{ github.workspace }}
-        make all
-    
-    - name: Test with QEMU (timeout 5 seconds)
-      run: |
-        timeout 5 qemu-system-x86_64 \
+        # 終了コード124(timeout)を許容するように設定
+        timeout 5s qemu-system-x86_64 \
           -bios /usr/share/ovmf/OVMF.fd \
-          -drive file=esp.img,format=raw,if=ide \
-          -serial mon:stdio \
-          -nographic || true
-        echo "✓ QEMU boot test completed"
-      timeout-minutes: 1
+          -net none \
+          -serial stdio \
+          -display none \
+          -device loader,file=myoskernel.efi || [ $? -eq 124 ]
+        echo "✓ QEMU boot test finished"
+
+    - name: Build summary
+      if: success()
+      run: |
+        echo "## Build Summary" >> $GITHUB_STEP_SUMMARY
+        echo "✓ UEFI kernel built and tested in QEMU" >> $GITHUB_STEP_SUMMARY
+        echo "### Binary Info" >> $GITHUB_STEP_SUMMARY
+        echo '```' >> $GITHUB_STEP_SUMMARY
+        ls -lh myoskernel.efi >> $GITHUB_STEP_SUMMARY
+        echo '```' >> $GITHUB_STEP_SUMMARY
