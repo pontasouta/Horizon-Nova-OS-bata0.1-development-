@@ -18,7 +18,11 @@ jobs:
         sudo apt-get install -y clang llvm lld binutils
 
     - name: Build UEFI kernel
-      run: make -B
+      　   
+      run: |
+        cd boot    
+        make -B
+
 
     - name: Verify binaries
       run: |
