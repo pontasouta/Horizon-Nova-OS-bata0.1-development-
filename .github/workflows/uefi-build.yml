@@ -76,7 +76,7 @@ jobs:
           -net none \
           -serial stdio \
           -display none \
-          -device loader,file=myoskernel.efi || [ $? -eq 124 ]
+          -device loader,file=BOOTX64.EFI || [ $? -eq 124 ]
         echo "✓ QEMU boot test finished"
 
     - name: Build summary
@@ -86,5 +86,5 @@ jobs:
         echo "✓ UEFI kernel built and tested in QEMU" >> $GITHUB_STEP_SUMMARY
         echo "### Binary Info" >> $GITHUB_STEP_SUMMARY
         echo '```' >> $GITHUB_STEP_SUMMARY
-        ls -lh myoskernel.efi >> $GITHUB_STEP_SUMMARY
+        ls -lh BOOTX64.EFI >> $GITHUB_STEP_SUMMARY
         echo '```' >> $GITHUB_STEP_SUMMARY
