@@ -16,7 +16,7 @@ GOP bug fix
 
 ## 🤝 Contribution
 I am looking for contributors! Any help in the following areas is greatly appreciated:
-- **Development:** [e.g., Memory management refactoring, Driver development]
+- **Development:** [serial output develop, GOP bug fix]
 - **Documentation:** Organizing specifications or creating a Wiki
 - **Testing:** Bug reporting and verification on QEMU or real hardware
 
