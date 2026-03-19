@@ -24,27 +24,49 @@ extern __attribute__((ms_abi)) EFI_STATUS efi_main(EFI_HANDLE ImageHandle,
     EFI_STATUS status = 0;
     void *fontBuffer = NULL;
     UINTN fontSize = 0;
+    UINTN MemoryMapSize = 0;
+    UINTN DescriptorSize = 0;
+    UINT32 DescriptorVersion = 0;
     SystemTable->ConOut->OutputString(
         SystemTable->ConOut,
         (CHAR16 *)L"=== Horizon Nova OS Boot Loader ===\n");
+    SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"start GOP\n"); 
+    status = BootServices->GetMemoryMap(&MemoryMapSize, NULL, NULL,
+                                        &DescriptorSize, NULL);
+
+    if (MemoryMapSize == 0) {
+        MemoryMapSize = 4096;
+        DescriptorSize = 48;
+    }   
+    extern EFI_GUID gEfiGraphicsOutputProtocolGuid; 
 EFI_GRAPHICS_OUTPUT_PROTOCOL *gop;
+gop = NULL;
+if(gop != NULL){
+  SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"GOP is not NULL at declaration\n");
+}
+else{
+    SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"GOP is NULL at declarationtest\n");
+}
+
   EFI_GUID gopGuid = EFI_GRAPHICS_OUTPUT_PROTOCOL_GUID;
     SystemTable->ConOut->OutputString(SystemTable->ConOut,(CHAR16 *)L"geting GOP test\n");
+   
 
-    status = SystemTable->BootServices->LocateProtocol(
-    &gopGuid,
+    status = SystemTable->BootServices->LocateProtocol(  
+    &gEfiGraphicsOutputProtocolGuid,
     NULL,
- // 出力先のポインタ（キャストが必要）
     (void **)&gop);
+
     SystemTable->ConOut->OutputString(
         SystemTable->ConOut,
         (CHAR16 *)L"geting GOP test2\n"); // この後にバグあり
- if (status == EFI_SUCCESS) {
-    SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"GOP Locate: OK!\n");
+if (status != 0 || gop == NULL) {
+    SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"GOP SUCCESS!\n");
 } else {
-    SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"GOP Locate: FAILED\n");
-    return status;
+    SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"GOP FAILED...\n");
+    
 }
+
 
     SystemTable->ConOut->OutputString(SystemTable->ConOut,
                                       (CHAR16 *)L"GOP located successfully\n");
@@ -60,6 +82,7 @@ EFI_GRAPHICS_OUTPUT_PROTOCOL *gop;
     // LocateHandleBufferで全SimpleFileSystemハンドルを探す
     EFI_HANDLE *handles = NULL;
     UINTN handleCount = 0;
+   
     EFI_SIMPLE_FILE_SYSTEM_PROTOCOL *fs = NULL;
     SystemTable->ConOut->OutputString(
         SystemTable->ConOut,
@@ -88,8 +111,10 @@ EFI_GRAPHICS_OUTPUT_PROTOCOL *gop;
             L"FileSystem not found, assuming kernel in memory\n");
         goto jump_kernel;
     }
-
+    
+    
     // ルートボリュームを開く
+    
     EFI_FILE_PROTOCOL *root = NULL;
     status = fs->OpenVolume(fs, (void **)&root);
     if (status != EFI_SUCCESS) {
@@ -146,7 +171,7 @@ EFI_GRAPHICS_OUTPUT_PROTOCOL *gop;
         return status;
     }
     EFI_FILE_PROTOCOL *fontfile = NULL;
-    status = root->Open(root, &fontfile, L"EFI/BOOT/solarize-12x29-psf",
+    status = root->Open(root, (VOID **)&fontfile, L"EFI/BOOT/solarize-12x29-psf",
                         EFI_FILE_MODE_READ, 0);
     if (EFI_ERROR(status)) {
         SystemTable->ConOut->OutputString(SystemTable->ConOut,
@@ -228,9 +253,7 @@ EFI_GRAPHICS_OUTPUT_PROTOCOL *gop;
                                       L"Kernel loaded to memory\n");
 
     // メモリマップを取得してExitBootServices
-    UINTN MemoryMapSize = 0;
-    UINTN DescriptorSize = 0;
-    UINT32 DescriptorVersion = 0;
+    
 
     status = BootServices->GetMemoryMap(&MemoryMapSize, NULL, NULL,
                                         &DescriptorSize, NULL);
