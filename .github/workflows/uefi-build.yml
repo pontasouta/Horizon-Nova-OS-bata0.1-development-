@@ -23,13 +23,23 @@ jobs:
         make -B
 
 
-    - name: Verify binaries
+
+    - name: Trace and Verify EFI binary
       run: |
-        if [ -f BOOTX64.EFI ]; then
-          echo "✓ EFI binary created"
-          file BOOTX64.EFI
+        echo "Searching for BOOTX64.EFI..."
+        # リポジトリ全体からファイルを探してパスを表示
+        found_path=$(find . -name "BOOTX64.EFI")
+        
+        if [ -n "$found_path" ]; then
+          echo "✓ Found at: $found_path"
+          file "$found_path"
+          ls -lh "$found_path"
+          # あとで使いやすいようにルートにコピーしておく
+          cp "$found_path" ./BOOTX64.EFI
         else
-          echo "✗ EFI binary NOT found"
+          echo "✗ ERROR: BOOTX64.EFI is missing!"
+          echo "Current directory structure:"
+          ls -R
           exit 1
         fi
 
