@@ -71,7 +71,7 @@ jobs:
     - name: Test with QEMU
       run: |
         # 終了コード124(timeout)を許容するように設定
-        timeout 5s qemu-system-x86_64 \
+        timeout 20s qemu-system-x86_64 \
           -bios /usr/share/ovmf/OVMF.fd \
           -net none \
           -serial stdio \
