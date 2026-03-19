@@ -25,9 +25,9 @@ jobs:
 
     - name: Verify binaries
       run: |
-        if [ -f myoskernel.efi ]; then
+        if [ -f BOOTX64.EFI ]; then
           echo "✓ EFI binary created"
-          file myoskernel.efi
+          file BOOTX64.EFI
         else
           echo "✗ EFI binary NOT found"
           exit 1
