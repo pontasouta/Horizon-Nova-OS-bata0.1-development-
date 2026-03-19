@@ -9,9 +9,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
     - uses: actions/checkout@v4
-
+       
     - name: Install dependencies
       run: |
         sudo apt-get update
@@ -88,4 +89,3 @@ jobs:
         echo '```' >> $GITHUB_STEP_SUMMARY
         ls -lh BOOTX64.EFI >> $GITHUB_STEP_SUMMARY
         echo '```' >> $GITHUB_STEP_SUMMARY
-#せけんたいからはんれだしたい
