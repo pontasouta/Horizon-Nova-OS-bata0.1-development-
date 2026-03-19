@@ -3,7 +3,11 @@
 ##Horizon-NOVA-OS(alpha0.1)
 A custom OS compatible with UEFI(under development)
 #overview
-A self-made operating system developed ptimarily for research purposes, with the goal of everydey use
+The ultimate goal of Horizon-NOVA-OS is to achieve native binary compatibility with multiple platforms. I am aiming to build an environment where applications from the following systems can run out-of-the-box:
+Linux Apps (ELF binary compatibility)
+BSD Apps
+macOS Apps (Mach-O binary support)
+This is a research-driven project to explore the boundaries of kernel-level emulation and system call translation.
 
 ## 🚀 Current Status
 GOP bug fix
