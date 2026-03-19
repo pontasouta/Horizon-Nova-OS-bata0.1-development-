@@ -38,7 +38,7 @@ jobs:
       with:
         name: uefi-kernel-artifacts
         path: |
-          myoskernel.efi
+          esp/EFI/BOOT/BOOTX64.EFI
           # esp/ がある場合はここに追加
         retention-days: 7
 
