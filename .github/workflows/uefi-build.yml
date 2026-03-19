@@ -27,21 +27,21 @@ jobs:
     - name: Trace and Verify EFI binary
       run: |
         echo "Searching for BOOTX64.EFI..."
-        # リポジトリ全体からファイルを探してパスを表示
-        found_path=$(find . -name "BOOTX64.EFI")
+        # head -n 1 を追加して、最初に見つかったパス1つだけに絞る
+        found_path=$(find . -name "BOOTX64.EFI" | head -n 1)
         
         if [ -n "$found_path" ]; then
-          echo "✓ Found at: $found_path"
+          echo "✓ Selected path: $found_path"
           file "$found_path"
           ls -lh "$found_path"
-          # あとで使いやすいようにルートにコピーしておく
+          # あとで使いやすいようにルートにコピー（これ重要）
           cp "$found_path" ./BOOTX64.EFI
         else
           echo "✗ ERROR: BOOTX64.EFI is missing!"
-          echo "Current directory structure:"
           ls -R
           exit 1
         fi
+
 
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
