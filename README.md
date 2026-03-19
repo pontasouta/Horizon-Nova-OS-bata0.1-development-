@@ -23,7 +23,13 @@ I am looking for contributors! Any help in the following areas is greatly apprec
 ## 🎮 How to Run (Testing)
 You can easily test the OS using QEMU. Run the following command in your terminal:
 bash and zsh(OMZ) and fish 
-cd 
+cd boot \ 
+ qemu-system-x86_64 \                                                                                                                                                                                                 ─╯
+  -m 1G \
+  -drive if=pflash,format=raw,readonly=on,file=OVMF_CODE.4m.fd \
+  -drive format=raw,file=fat:rw:esp \
+  -display sdl -vga std \
+  -monitor stdio
 
 
 ## 📬 Contact
