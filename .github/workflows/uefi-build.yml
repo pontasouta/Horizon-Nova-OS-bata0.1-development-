@@ -88,3 +88,4 @@ jobs:
         echo '```' >> $GITHUB_STEP_SUMMARY
         ls -lh BOOTX64.EFI >> $GITHUB_STEP_SUMMARY
         echo '```' >> $GITHUB_STEP_SUMMARY
+#せけんたいからはんれだしたい
