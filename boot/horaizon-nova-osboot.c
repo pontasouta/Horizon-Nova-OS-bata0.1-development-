@@ -28,10 +28,8 @@ extern __attribute__((ms_abi)) EFI_STATUS efi_main(EFI_HANDLE ImageHandle,
     UINTN MemoryMapSize = 0;
     UINTN DescriptorSize = 0;
     UINT32 DescriptorVersion = 0;
-     SystemTable->ConOut->OutputString(ST, L"BREAK!!\n"); while(1);
-    SystemTable->ConOut->OutputString(
-        SystemTable->ConOut,
-        (CHAR16 *)L"=== Horizon Nova OS Boot Loader ===\n");
+    
+    SystemTable->ConOut->OutputString( SystemTable->ConOut,CHAR16 *)(L"=== Horizon Nova OS Boot Loader ===\n");
     SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"start GOP\n"); 
     status = BootServices->GetMemoryMap(&MemoryMapSize, NULL, NULL,
                                         &DescriptorSize, NULL);
@@ -59,9 +57,7 @@ else{
  
     
 
-    SystemTable->ConOut->OutputString(
-        SystemTable->ConOut,
-        (CHAR16 *)L"geting GOP test2\n");
+    SystemTable->ConOut->OutputString(    SystemTable->ConOut,(CHAR16 *)L"geting GOP test2\n");
          // この後にバグあり
 if (status == 0 && gop != NULL) { // 成功かつポインタがあるなら
     SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"GOP SUCCESS!\n");
