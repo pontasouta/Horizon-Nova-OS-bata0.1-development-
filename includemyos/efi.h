@@ -414,4 +414,6 @@ extern EFI_GUID gEfiFileInfoGuid;
   { 0x9042a9de, 0x23dc, 0x4a38, { 0x96, 0xfb, 0x7a, 0xde, 0xd0, 0x80, 0x51, 0x6a } }
   extern EFI_GUID gEfiGraphicsOutputProtocolGuid;
 extern __attribute__((ms_abi)) EFI_STATUS efi_main(EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable);
+
+
 #endif /* EFI_H_ */

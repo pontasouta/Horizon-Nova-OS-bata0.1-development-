@@ -101,76 +101,72 @@ if (status == 0 && gop != NULL) { // 成功かつポインタがあるなら
         } else {
             SystemTable->ConOut->OutputString(
                 SystemTable->ConOut, L"ERROR: HandleProtocol failed\n");
-            goto jump_kernel;
+            goto error_to_jump;
         }
     } else {
         SystemTable->ConOut->OutputString(
             SystemTable->ConOut,
             L"FileSystem not found, assuming kernel in memory\n");
-        goto jump_kernel;
+        goto error_to_jump;
     }
-    
+   
     
     // ルートボリュームを開く
     
     EFI_FILE_PROTOCOL *root = NULL;
+    error_to_jump:
     status = fs->OpenVolume(fs, (void **)&root);
     if (status != EFI_SUCCESS) {
         SystemTable->ConOut->OutputString(SystemTable->ConOut,
                                           L"ERROR: OpenVolume failed\n");
         return status;
     }
+// --- 1. まずカーネルファイルを開く ---
+EFI_FILE_PROTOCOL *kernelFile = NULL;
+status = root->Open(root, (void **)&kernelFile, L"myoskernel.bin", EFI_FILE_MODE_READ, 0);
 
-    SystemTable->ConOut->OutputString(SystemTable->ConOut,
-                                      L"Root volume opened\n");
+if (status != EFI_SUCCESS) {
+    SystemTable->ConOut->OutputString(SystemTable->ConOut, L"ERROR: Kernel file not found\r\n");
+    return status;
+}
+SystemTable->ConOut->OutputString(SystemTable->ConOut, L"Kernel file opened\r\n");
 
-    // カーネルファイルを開く
-    EFI_FILE_PROTOCOL *kernelFile = NULL;
-    status =
-        root->Open(root, (void **)&kernelFile, L"myoskernel.bin", EFI_FILE_MODE_READ, 0);
+// --- 2. ファイル情報を取得するためにサイズを調べる ---
+UINTN infosize = 0;
+EFI_FILE_INFO *fileInfo = NULL;
 
-    if (status != EFI_SUCCESS) {
-        SystemTable->ConOut->OutputString(SystemTable->ConOut,
-                                          L"ERROR: Kernel file not found\n");
-        return status;
-    }
+// 1回目のGetInfo（サイズ取得用）
+status = kernelFile->GetInfo(kernelFile, &gEfiFileInfoGuid, &infosize, (void *)0);
 
-    SystemTable->ConOut->OutputString(SystemTable->ConOut,
-                                      L"Kernel file opened\n");
+if (status != EFI_BUFFER_TOO_SMALL) {
+    SystemTable->ConOut->OutputString(SystemTable->ConOut, L"ERROR: GetInfo size failed\r\n");
+    return status;
+}
 
-    // ファイルサイズを取得
-    UINTN infosize = 0;
-    EFI_FILE_INFO *fileInfo = NULL;
-    status = kernelFile->GetInfo(kernelFile, &gEfiFileInfoGuid, &infosize,
-                                 (void *)0);
-    // フォント読み込み（パスはesp/EFI/BOOT/)
+// --- 3. メモリ確保とファイル情報の書き込み ---
+status = BootServices->AllocatePool(EfiLoaderData, infosize, (void **)&fileInfo);
+if (status != EFI_SUCCESS) {
+    SystemTable->ConOut->OutputString(SystemTable->ConOut, L"ERROR: AllocatePool failed\r\n");
+    return status;
+}
 
-    if (status != EFI_BUFFER_TOO_SMALL) {
-        SystemTable->ConOut->OutputString(SystemTable->ConOut,
-                                          L"ERROR: GetInfo size failed\n");
-        return status;
-    }
+// 2回目のGetInfo（実際のデータ書き込み）
+status = kernelFile->GetInfo(kernelFile, &gEfiFileInfoGuid, &infosize, fileInfo);
+if (status != EFI_SUCCESS) {
+    SystemTable->ConOut->OutputString(SystemTable->ConOut, L"ERROR: GetInfo failed\r\n");
+    return status;
+}
 
-    // FileInfo用メモリを確保
-    status =
-        BootServices->AllocatePool(EfiLoaderData, infosize, (void **)&fileInfo);
-    if (status != EFI_SUCCESS) {
-        SystemTable->ConOut->OutputString(
-            SystemTable->ConOut, L"ERROR: AllocatePool for fileinfo failed\n");
-        return status;
-    }
 
-    status =
-        kernelFile->GetInfo(kernelFile, &gEfiFileInfoGuid, &infosize, fileInfo);
+UINTN kernelSize = fileInfo->FileSize; 
 
-    if (status != EFI_SUCCESS) {
-        SystemTable->ConOut->OutputString(SystemTable->ConOut,
-                                          L"ERROR: GetInfo failed\n");
-        return status;
-    }
-    EFI_FILE_PROTOCOL *fontfile = NULL;
-    status = root->Open(root, (VOID **)&fontfile, L"EFI/BOOT/solarize-12x29-psf",
-                        EFI_FILE_MODE_READ, 0);
+// --- 4. フォントファイルを開く（同じ手順） ---
+EFI_FILE_PROTOCOL *fontfile = NULL;
+status = root->Open(root, (void **)&fontfile, L"EFI\\BOOT\\solarize-12x29-psf", EFI_FILE_MODE_READ, 0); // バックスラッシュに注意
+if (status != EFI_SUCCESS) {
+    SystemTable->ConOut->OutputString(SystemTable->ConOut, L"ERROR: Failed to open font file\r\n");
+}
+
     if (EFI_ERROR(status)) {
         SystemTable->ConOut->OutputString(SystemTable->ConOut,
                                           L"ERROR: Failed to open font file\n");
@@ -234,12 +230,30 @@ if (status == 0 && gop != NULL) { // 成功かつポインタがあるなら
 
     SystemTable->ConOut->OutputString(SystemTable->ConOut, L"Font loaded\n");
 
-    UINTN kernelSize = fileInfo->FileSize;
+ 
     SystemTable->ConOut->OutputString(SystemTable->ConOut,
                                       L"Kernel size obtained\n");
+    // Horizon-NOVA-OS (alpha0.1) 16KBページ管理対応版
+    EFI_PHYSICAL_ADDRESS kernelAddr = KERNEL_LOAD_ADDRESS; // 0x100000
+
+    // 16KB（0x4000）単位で計算
+    UINTN units16kb = (kernelSize + 0x3FFF) / 0x4000; 
+    UINTN totalPages = units16kb * 4; // 1ユニットあたり4つのUEFI標準ページ(4KB)
+
+    status = BootServices->AllocatePages(AllocateAddress, EfiLoaderData, totalPages, &kernelAddr);
+
+    if (status != EFI_SUCCESS) {
+     SystemTable->ConOut->OutputString(SystemTable->ConOut, L"ERROR: 16KB aligned block at 1MB busy!\r\n");
+     return status;
+   }
+
+
+
+   
+    
     // カーネルを読み込む
     status =
-        kernelFile->Read(kernelFile, &kernelSize, (void *)KERNEL_LOAD_ADDRESS);
+        kernelFile->Read(kernelFile, &kernelSize, (void *)kernelAddr);
 
     if (status != EFI_SUCCESS) {
         SystemTable->ConOut->OutputString(SystemTable->ConOut,
@@ -296,7 +310,7 @@ if (status == 0 && gop != NULL) { // 成功かつポインタがあるなら
         }
     }
 
-jump_kernel:
+
     SystemTable->ConOut->OutputString(SystemTable->ConOut,
                                       L"Jumping to kernel...\n");
 
