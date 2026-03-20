@@ -23,6 +23,9 @@ I am looking for contributors! Any help in the following areas is greatly apprec
 - **Development:** [serial output develop, GOP bug fix]
 - **Documentation:** Organizing specifications or creating a Wiki
 - **Testing:** Bug reporting and verification on QEMU or real hardware
+  help bug fix!
+  <img width="1274" height="908" alt="image" src="https://github.com/user-attachments/assets/5db28438-b512-4347-a73e-a98ba0f90c63" />
+
 
 ## 🎮 How to Run (Testing)
 You can easily test the OS using QEMU. Run the following command in your terminal:
