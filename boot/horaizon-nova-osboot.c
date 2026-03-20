@@ -29,8 +29,8 @@ extern __attribute__((ms_abi)) EFI_STATUS efi_main(EFI_HANDLE ImageHandle,
     UINTN DescriptorSize = 0;
     UINT32 DescriptorVersion = 0;
     
-    SystemTable->ConOut->OutputString( SystemTable->ConOut,CHAR16 *)(L"=== Horizon Nova OS Boot Loader ===\n");
-    SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"start GOP\n"); 
+    SystemTable->ConOut->OutputString( SystemTable->ConOut,L"=== Horizon Nova OS Boot Loader ===\n");
+    SystemTable->ConOut->OutputString(SystemTable->ConOut,L"start GOP\n"); 
     status = BootServices->GetMemoryMap(&MemoryMapSize, NULL, NULL,
                                         &DescriptorSize, NULL);
 
