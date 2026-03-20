@@ -51,7 +51,7 @@ else{
   EFI_GUID gopGuid = EFI_GRAPHICS_OUTPUT_PROTOCOL_GUID;
     SystemTable->ConOut->OutputString(SystemTable->ConOut,(CHAR16 *)L"geting GOP test\n");
     status = SystemTable->BootServices->LocateProtocol(  
-    &gEfiGraphicsOutputProtocolGuid,
+    &gopGuid,
     NULL,
     (void **)&gop);
  
