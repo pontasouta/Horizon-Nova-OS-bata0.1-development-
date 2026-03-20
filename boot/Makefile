@@ -15,7 +15,7 @@ BOOTX64.EFI:
   -I ../includemyos/print.h \
   -o BOOTX64.EFI
 
-	cp BOOTX64.efi esp/EFI/BOOT/BOOTX64.EFI
+	cp BOOTX64.EFI esp/EFI/BOOT/BOOTX64.EFI
 
 myoskernel.elf:
 	clang \

@@ -19,6 +19,7 @@ EFI_SYSTEM_TABLE *SystemTable;
 
 extern __attribute__((ms_abi)) EFI_STATUS efi_main(EFI_HANDLE ImageHandle,
                                                    EFI_SYSTEM_TABLE *ST) {
+
     SystemTable = ST;
     BootServices = ST->BootServices;
     EFI_STATUS status = 0;
@@ -27,6 +28,7 @@ extern __attribute__((ms_abi)) EFI_STATUS efi_main(EFI_HANDLE ImageHandle,
     UINTN MemoryMapSize = 0;
     UINTN DescriptorSize = 0;
     UINT32 DescriptorVersion = 0;
+     SystemTable->ConOut->OutputString(ST, L"BREAK!!\n"); while(1);
     SystemTable->ConOut->OutputString(
         SystemTable->ConOut,
         (CHAR16 *)L"=== Horizon Nova OS Boot Loader ===\n");
@@ -50,22 +52,23 @@ else{
 
   EFI_GUID gopGuid = EFI_GRAPHICS_OUTPUT_PROTOCOL_GUID;
     SystemTable->ConOut->OutputString(SystemTable->ConOut,(CHAR16 *)L"geting GOP test\n");
-    SystemTable->ConOut->Reset(SystemTable->ConOut, 0);
     status = SystemTable->BootServices->LocateProtocol(  
     &gEfiGraphicsOutputProtocolGuid,
     NULL,
     (void **)&gop);
+ 
+    
 
     SystemTable->ConOut->OutputString(
         SystemTable->ConOut,
-        (CHAR16 *)L"geting GOP test2\n"); // この後にバグあり
-if (status != 0 || gop == NULL) {
+        (CHAR16 *)L"geting GOP test2\n");
+         // この後にバグあり
+if (status == 0 && gop != NULL) { // 成功かつポインタがあるなら
     SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"GOP SUCCESS!\n");
 } else {
     SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"GOP FAILED...\n");
     
 }
-
 
     SystemTable->ConOut->OutputString(SystemTable->ConOut,
                                       (CHAR16 *)L"GOP located successfully\n");
@@ -307,3 +310,4 @@ jump_kernel:
 
     return EFI_SUCCESS;
 }
+                                                   
