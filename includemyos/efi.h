@@ -261,11 +261,7 @@ typedef struct {
 } EFI_SIMPLE_FILE_SYSTEM_PROTOCOL;
 
 // ConOut create
-struct _EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL;
-typedef __attribute__((ms_abi)) EFI_STATUS (*EFI_TEXT_STRING)(
-    struct _EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL *This, 
-    CHAR16 *String
-);
+
 struct _EFI_SIMPLE_TEXT_INPUT_PROTOCOL;
 typedef __attribute__((ms_abi)) EFI_STATUS (*EFI_INPUT_READ_KEY)(
     struct _EFI_SIMPLE_TEXT_INPUT_PROTOCOL *This,
@@ -276,9 +272,20 @@ typedef struct _EFI_SIMPLE_TEXT_INPUT_PROTOCOL {
 } EFI_SIMPLE_TEXT_INPUT_PROTOCOL;
 
 typedef struct _EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL {
-    void*           _unused;
-    EFI_TEXT_STRING OutputString; // print string
+    unsigned long long (*Reset)(struct _EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL *This, unsigned char ExtendedVerification);
+    // 引数を unsigned short * に変更
+    unsigned long long (*OutputString)(struct _EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL *This, unsigned short *String);
+    unsigned long long (*TestString)(struct _EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL *This, unsigned short *String);
+    unsigned long long (*QueryMode)(struct _EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL *This, unsigned long long ModeNumber, unsigned long long *Columns, unsigned long long *Rows);
+    unsigned long long (*SetMode)(struct _EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL *This, unsigned long long ModeNumber);
+    unsigned long long (*SetAttribute)(struct _EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL *This, unsigned long long Attribute);
+    unsigned long long (*ClearScreen)(struct _EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL *This);
 } EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL;
+
+
+
+
+
 
 // SystemTable create
 typedef struct {
