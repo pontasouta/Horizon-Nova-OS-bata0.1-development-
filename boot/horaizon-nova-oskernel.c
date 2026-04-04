@@ -38,7 +38,7 @@ __attribute__((interrupt))
 void dummy_handler(struct InterruptFrame* frame) {
     // 何もしない
 }
-
+/*
 typedef struct {
     uint8_t magic[2];   // 0x36, 0x04 が PSF1 のマジックナンバー
     uint8_t mode;       // ビット0: 512文字なら1、256文字なら0
@@ -66,7 +66,7 @@ void draw_char(uint32_t* fb, int x, int y, char c, uint32_t color,
         }
     }
 }
-
+*/
 
 
 
@@ -79,23 +79,23 @@ void mainkernel(FramebufferInfo* fbinfo) {
     for (int i = 0; i < 256; i++) {
         set_idt_entry(i, dummy_handler);
     }
-    load_idt();
-     uint8_t* font_base = (uint8_t*)fbinfo->font;
-    uint32_t* fb_ptr = (uint32_t*)fbinfo->framebuffer;
-    PSF1Header* font = (PSF1Header*)fbinfo->font;
+    //load_idt();
+     //uint8_t* font_base = (uint8_t*)fbinfo->font;
+    //uint32_t* fb_ptr = (uint32_t*)fbinfo->framebuffer;
+    //PSF1Header* font = (PSF1Header*)fbinfo->font;
     __asm__ __volatile__("sti");
    
-    uint8_t* glyphs = (uint8_t*)fbinfo->font + sizeof(PSF1Header);
-if (font->magic[0] != 0x36 || font->magic[1] != 0x04) { 
+    //uint8_t* glyphs = (uint8_t*)fbinfo->font + sizeof(PSF1Header);
+//if (font->magic[0] != 0x36 || font->magic[1] != 0x04) { 
     //　フォントが壊れてる　または未対応のフォーマット
-    return; }
-    draw_char(fb_ptr, 0, 0, '1', 0x00FF00, fbinfo, font, glyphs);
-    draw_char((uint32_t*)fbinfo->framebuffer, 8, 8, 'A', 0x00FFFFFF, fbinfo, font, glyphs);
+  //  return; }
+    //draw_char(fb_ptr, 0, 0, '1', 0x00FF00, fbinfo, font, glyphs);
+    //draw_char((uint32_t*)fbinfo->framebuffer, 8, 8, 'A', 0x00FFFFFF, fbinfo, font, glyphs);
     
 
- ((uint32_t*)fbinfo->framebuffer)[0] = 0x00FF0000; // 画面の最初のピクセルを赤に設定（例）
-    while (1) {
-        __asm__("hlt");
-        // 無限ループで停止
-    }
+ //((uint32_t*)fbinfo->framebuffer)[0] = 0x00FF0000; // 画面の最初のピクセルを赤に設定（例）
+   // while (1) {
+    //    __asm__("hlt");
+    //   // 無限ループで停止
+    //}
 }

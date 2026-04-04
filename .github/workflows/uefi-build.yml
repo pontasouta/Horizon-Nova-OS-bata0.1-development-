@@ -16,7 +16,7 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y clang llvm lld binutils
+        sudo apt-get install -y clang llvm lld binutils nasm
 
     - name: Build UEFI kernel
       run: |

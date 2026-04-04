@@ -2,6 +2,7 @@
 #include "../includemyos/efi.h"
 #include "../includemyos/framebuffer.h"
 #include "../includemyos/kernel/guid.h"
+#include "../includemyos/elf.h"
 
 #include <stdint.h>
 
@@ -11,6 +12,7 @@
 #define KERNEL_LOAD_ADDRESS 0x100000 // カーネルのロードアドレス
 typedef int64_t INTN;                // 64bit UEFI の場合
 // EFI SERVICE is created in bootinclude/myos/efi.h
+extern EFI_GUID gEfiGraphicsOutputProtocolGuid; 
 
 
 // エントリポイント
@@ -38,7 +40,7 @@ extern __attribute__((ms_abi)) EFI_STATUS efi_main(EFI_HANDLE ImageHandle,
         MemoryMapSize = 4096;
         DescriptorSize = 48;
     }   
-    extern EFI_GUID gEfiGraphicsOutputProtocolGuid; 
+    
 EFI_GRAPHICS_OUTPUT_PROTOCOL *gop;
 gop = NULL;
 if(gop != NULL){
@@ -46,15 +48,23 @@ if(gop != NULL){
 }
 else{
     SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"GOP is NULL at declarationtest\n");
-}
+}// extern宣言が上の方にあることを確認してね
+extern EFI_GUID gEfiGraphicsOutputProtocolGuid;
 
-  EFI_GUID gopGuid = EFI_GRAPHICS_OUTPUT_PROTOCOL_GUID;
-    SystemTable->ConOut->OutputString(SystemTable->ConOut,(CHAR16 *)L"geting GOP test\n");
-    status = SystemTable->BootServices->LocateProtocol(  
-    &gopGuid,
-    NULL,
-    (void **)&gop);
- 
+SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"getting GOP test\n");
+
+// 直接 gEfiGraphicsOutputProtocolGuid を使う
+status = SystemTable->BootServices->LocateProtocol(  
+    &gEfiGraphicsOutputProtocolGuid, 
+    NULL, 
+    (void **)&gop
+);
+
+// status の中身が 0 (EFI_SUCCESS) 以外ならエラー
+if (status != 0) {
+    
+    SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"GOP Locate failed\n");
+}
     
 
     SystemTable->ConOut->OutputString(    SystemTable->ConOut,(CHAR16 *)L"geting GOP test2\n");
@@ -63,7 +73,7 @@ if (status == 0 && gop != NULL) { // 成功かつポインタがあるなら
     SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"GOP SUCCESS!\n");
 } else {
     SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"GOP FAILED...\n");
-    
+    return status;
 }
 
     SystemTable->ConOut->OutputString(SystemTable->ConOut,
@@ -251,73 +261,62 @@ if (status != EFI_SUCCESS) {
 
    
     
-    // カーネルを読み込む
-    status =
-        kernelFile->Read(kernelFile, &kernelSize, (void *)kernelAddr);
-
+  // --- 1. ファイルを一時バッファに読み込む ---
+    // 解析中に上書きされないよう、一旦 kernelAddr にそのまま読み込みます
+    status = kernelFile->Read(kernelFile, &kernelSize, (void *)kernelAddr);
     if (status != EFI_SUCCESS) {
-        SystemTable->ConOut->OutputString(SystemTable->ConOut,
-                                          L"ERROR: Read kernel failed\n");
+        SystemTable->ConOut->OutputString(SystemTable->ConOut, L"ERROR: Read kernel failed\n");
         return status;
     }
+    SystemTable->ConOut->OutputString(SystemTable->ConOut, L"Kernel loaded to temporary buffer\n");
 
-    SystemTable->ConOut->OutputString(SystemTable->ConOut,
-                                      L"Kernel loaded to memory\n");
+    // --- 2. ELF解析・展開処理 ---
+    Elf64_Ehdr *ehdr = (Elf64_Ehdr *)kernelAddr;
 
-    // メモリマップを取得してExitBootServices
-    
-
-    status = BootServices->GetMemoryMap(&MemoryMapSize, NULL, NULL,
-                                        &DescriptorSize, NULL);
-
-    if (MemoryMapSize == 0) {
-        MemoryMapSize = 4096;
-        DescriptorSize = 48;
+    // マジックナンバーのチェック
+    if (ehdr->e_ident[0] != 0x7f || ehdr->e_ident[1] != 'E' ||
+        ehdr->e_ident[2] != 'L' || ehdr->e_ident[3] != 'F') {
+        SystemTable->ConOut->OutputString(SystemTable->ConOut, L"ERROR: Invalid ELF Magic\r\n");
+        return EFI_LOAD_ERROR;
     }
 
+    // 各セグメントを「正しい住所」へ配置
+    for (int i = 0; i < ehdr->e_phnum; i++) {
+        Elf64_Phdr *phdr = (Elf64_Phdr *)(kernelAddr + ehdr->e_phoff + (i * ehdr->e_phentsize));
+        if (phdr->p_type == 1) { // PT_LOAD
+            // ここで本当の住所（p_vaddr）へコピー！
+            BootServices->CopyMem((void *)phdr->p_vaddr, (void *)(kernelAddr + phdr->p_offset), phdr->p_filesz);
+            if (phdr->p_memsz > phdr->p_filesz) {
+                BootServices->SetMem((void *)(phdr->p_vaddr + phdr->p_filesz), phdr->p_memsz - phdr->p_filesz, 0);
+            }
+        }
+    }
+
+    // --- 3. メモリマップ取得とブートサービス終了 ---
+    // (ここは元の while ループのままでOKですが、整理して書きます)
     int retry = 0;
     while (retry < 5) {
         retry++;
-
         EFI_MEMORY_DESCRIPTOR *MemoryMap = NULL;
         UINTN MapKey = 0;
-
         UINTN AllocSize = MemoryMapSize + (DescriptorSize * 20);
-        status = BootServices->AllocatePool(EfiLoaderData, AllocSize,
-                                            (void **)&MemoryMap);
-
-        if (status != EFI_SUCCESS) {
-            SystemTable->ConOut->OutputString(
-                SystemTable->ConOut, L"AllocatePool for memorymap failed\n");
-            continue;
-        }
-
-        status =
-            BootServices->GetMemoryMap(&MemoryMapSize, MemoryMap, &MapKey,
-                                       &DescriptorSize, &DescriptorVersion);
-
-        if (status != EFI_SUCCESS) {
-            SystemTable->ConOut->OutputString(SystemTable->ConOut,
-                                              L"GetMemoryMap failed\n");
-            continue;
-        }
-
-        status = BootServices->ExitBootServices(ImageHandle, MapKey);
+        BootServices->AllocatePool(EfiLoaderData, AllocSize, (void **)&MemoryMap);
+        status = BootServices->GetMemoryMap(&MemoryMapSize, MemoryMap, &MapKey, &DescriptorSize, &DescriptorVersion);
+        
         if (status == EFI_SUCCESS) {
-            SystemTable->ConOut->OutputString(SystemTable->ConOut,
-                                              L"ExitBootServices succeeded\n");
-            break;
+            status = BootServices->ExitBootServices(ImageHandle, MapKey);
+            if (status == EFI_SUCCESS) break;
         }
     }
 
-
-    SystemTable->ConOut->OutputString(SystemTable->ConOut,
-                                      L"Jumping to kernel...\n");
+    // --- 4. ジャンプ！ ---
+    SystemTable->ConOut->OutputString(SystemTable->ConOut, L"Jumping to kernel...\n");
 
     typedef void (*kernelEntry)(FramebufferInfo *);
-    kernelEntry entry = (kernelEntry)(KERNEL_LOAD_ADDRESS);
+    // ★ここが大事：ELFヘッダが教える「真の入り口」へ飛ぶ
+    kernelEntry entry = (kernelEntry)(ehdr->e_entry); 
     entry(&fbinfo);
 
     return EFI_SUCCESS;
+
 }
-                                                   

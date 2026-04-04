@@ -147,6 +147,7 @@ typedef struct EFI_BOOT_SERVICES {
     EFI_LOCATE_PROTOCOL  LocateProtocol;         // EFI 1.1+
 void (*CopyMem)(void* Destination, const void* Source, UINTN Length);
     //  Remaining members are omitted for brevity
+    EFI_STATUS (EFIAPI *SetMem)(void *Buffer, UINTN Size, UINT8 Value);
 } EFI_BOOT_SERVICES;
 //file protocol create
 typedef __attribute__((ms_abi)) EFI_STATUS (*EFI_FILE_CLOSE)(
@@ -408,6 +409,7 @@ extern EFI_GUID gEfiFileInfoGuid;
 
 // Status codes
 #define EFI_SUCCESS 0
+#define EFI_LOAD_ERROR       0x8000000000000001ULL
 #define EFI_BUFFER_TOO_SMALL 5
 //GOP protocol GUID
 #define EFI_GRAPHICS_OUTPUT_PROTOCOL_GUID \
