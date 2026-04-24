@@ -12,7 +12,13 @@
 #define KERNEL_LOAD_ADDRESS 0x100000 // カーネルのロードアドレス
 typedef int64_t INTN;                // 64bit UEFI の場合
 // EFI SERVICE is created in bootinclude/myos/efi.h
-extern EFI_GUID gEfiGraphicsOutputProtocolGuid; 
+extern EFI_GUID gEfiFileInfoGuid;
+VOID *elfBuffer;
+static EFI_GUID local_FileInfoGuid = {
+    0x0ef52d32, 0x481c, 0x4c14, 
+    {0xbf, 0x70, 0x1e, 0x8e, 0x74, 0x6e, 0x93, 0x63}
+};
+
 
 
 // エントリポイント
@@ -21,7 +27,7 @@ EFI_SYSTEM_TABLE *SystemTable;
 
 extern __attribute__((ms_abi)) EFI_STATUS efi_main(EFI_HANDLE ImageHandle,
                                                    EFI_SYSTEM_TABLE *ST) {
-
+    //
     SystemTable = ST;
     BootServices = ST->BootServices;
     EFI_STATUS status = 0;
@@ -30,6 +36,7 @@ extern __attribute__((ms_abi)) EFI_STATUS efi_main(EFI_HANDLE ImageHandle,
     UINTN MemoryMapSize = 0;
     UINTN DescriptorSize = 0;
     UINT32 DescriptorVersion = 0;
+    //基本UEFI
     
     SystemTable->ConOut->OutputString( SystemTable->ConOut,L"=== Horizon Nova OS Boot Loader ===\n");
     SystemTable->ConOut->OutputString(SystemTable->ConOut,L"start GOP\n"); 
@@ -39,7 +46,11 @@ extern __attribute__((ms_abi)) EFI_STATUS efi_main(EFI_HANDLE ImageHandle,
     if (MemoryMapSize == 0) {
         MemoryMapSize = 4096;
         DescriptorSize = 48;
-    }   
+    } 
+    // UEFIのリビジョンを表示
+
+SystemTable->ConOut->OutputString(SystemTable->ConOut, L".");
+ 
     
 EFI_GRAPHICS_OUTPUT_PROTOCOL *gop;
 gop = NULL;
@@ -48,12 +59,12 @@ if(gop != NULL){
 }
 else{
     SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"GOP is NULL at declarationtest\n");
-}// extern宣言が上の方にあることを確認してね
+}
 extern EFI_GUID gEfiGraphicsOutputProtocolGuid;
 
 SystemTable->ConOut->OutputString(SystemTable->ConOut, (CHAR16 *)L"getting GOP test\n");
 
-// 直接 gEfiGraphicsOutputProtocolGuid を使う
+
 status = SystemTable->BootServices->LocateProtocol(  
     &gEfiGraphicsOutputProtocolGuid, 
     NULL, 
@@ -125,7 +136,7 @@ if (status == 0 && gop != NULL) { // 成功かつポインタがあるなら
     
     EFI_FILE_PROTOCOL *root = NULL;
     error_to_jump:
-    status = fs->OpenVolume(fs, (void **)&root);
+    status = fs->OpenVolume(fs, &root);
     if (status != EFI_SUCCESS) {
         SystemTable->ConOut->OutputString(SystemTable->ConOut,
                                           L"ERROR: OpenVolume failed\n");
@@ -133,7 +144,7 @@ if (status == 0 && gop != NULL) { // 成功かつポインタがあるなら
     }
 // --- 1. まずカーネルファイルを開く ---
 EFI_FILE_PROTOCOL *kernelFile = NULL;
-status = root->Open(root, (void **)&kernelFile, L"myoskernel.bin", EFI_FILE_MODE_READ, 0);
+status = root->Open(root, (void **)&kernelFile, L"myoskernel.elf", EFI_FILE_MODE_READ, 0);
 
 if (status != EFI_SUCCESS) {
     SystemTable->ConOut->OutputString(SystemTable->ConOut, L"ERROR: Kernel file not found\r\n");
@@ -146,7 +157,8 @@ UINTN infosize = 0;
 EFI_FILE_INFO *fileInfo = NULL;
 
 // 1回目のGetInfo（サイズ取得用）
-status = kernelFile->GetInfo(kernelFile, &gEfiFileInfoGuid, &infosize, (void *)0);
+infosize = 0; 
+status = kernelFile->GetInfo(kernelFile, &gEfiFileInfoGuid, &infosize, NULL);
 
 if (status != EFI_BUFFER_TOO_SMALL) {
     SystemTable->ConOut->OutputString(SystemTable->ConOut, L"ERROR: GetInfo size failed\r\n");
@@ -283,17 +295,20 @@ if (status != EFI_SUCCESS) {
     // 各セグメントを「正しい住所」へ配置
     for (int i = 0; i < ehdr->e_phnum; i++) {
         Elf64_Phdr *phdr = (Elf64_Phdr *)(kernelAddr + ehdr->e_phoff + (i * ehdr->e_phentsize));
+
         if (phdr->p_type == 1) { // PT_LOAD
             // ここで本当の住所（p_vaddr）へコピー！
-            BootServices->CopyMem((void *)phdr->p_vaddr, (void *)(kernelAddr + phdr->p_offset), phdr->p_filesz);
+            void *src = (void *)((uint8_t *)kernelAddr + phdr->p_offset);
+            void *dest = (void *)phdr->p_vaddr;
+            BootServices->CopyMem(dest, src, phdr->p_filesz);
+
             if (phdr->p_memsz > phdr->p_filesz) {
-                BootServices->SetMem((void *)(phdr->p_vaddr + phdr->p_filesz), phdr->p_memsz - phdr->p_filesz, 0);
+                BootServices->SetMem((void *)((uint8_t *)dest + phdr->p_filesz), phdr->p_memsz - phdr->p_filesz, 0);
             }
         }
     }
 
     // --- 3. メモリマップ取得とブートサービス終了 ---
-    // (ここは元の while ループのままでOKですが、整理して書きます)
     int retry = 0;
     while (retry < 5) {
         retry++;
@@ -309,11 +324,9 @@ if (status != EFI_SUCCESS) {
         }
     }
 
-    // --- 4. ジャンプ！ ---
-    SystemTable->ConOut->OutputString(SystemTable->ConOut, L"Jumping to kernel...\n");
+    
 
     typedef void (*kernelEntry)(FramebufferInfo *);
-    // ★ここが大事：ELFヘッダが教える「真の入り口」へ飛ぶ
     kernelEntry entry = (kernelEntry)(ehdr->e_entry); 
     entry(&fbinfo);
 
