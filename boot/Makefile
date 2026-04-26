@@ -1,4 +1,4 @@
-all: BOOTX64.EFI myoskernel.bin
+all: BOOTX64.EFI myoskernel.elf
 
 BOOTX64.EFI:
 	clang \
@@ -10,9 +10,7 @@ BOOTX64.EFI:
   -Wl,-subsystem:efi_application \
   -nostdlib \
   horaizon-nova-osboot.c efi_guid.c \
-  -I ../includemyos/efi.h \
-  -I ../includemyos/framebuffer.h \
-  -I ../includemyos/print.h \
+  -I ../includemyos \
   -o BOOTX64.EFI
 
 	cp BOOTX64.EFI esp/EFI/BOOT/BOOTX64.EFI
@@ -27,5 +25,4 @@ myoskernel.elf:
   horaizon-nova-oskernel.c \
   -o myoskernel.elf
 
-myoskernel.bin: myoskernel.elf
-	objcopy -O binary myoskernel.elf myoskernel.bin
+	cp myoskernel.elf esp/myoskernel.elf

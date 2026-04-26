@@ -125,70 +125,120 @@ typedef struct _EFI_RUNTIME_SERVICES {
     EFI_TABLE_HEADER Hdr;
     //  Remaining members are omitted for brevity
 } EFI_RUNTIME_SERVICES;
-typedef struct EFI_BOOT_SERVICES {
+typedef struct {
     EFI_TABLE_HEADER Hdr;
-    void *RaiseTPL;
-    void *RestoreTPL; 
-    EFI_STATUS (*AllocatePages)(
-        UINTN Type,
-        EFI_MEMORY_TYPE MemoryType,
-        UINTN Pages,
-        EFI_PHYSICAL_ADDRESS *Memory
-    );
-    void *FreePages;
+
+    // Task Priority Services
+    VOID *RaiseTPL;    // EFI_RAISE_TPL
+    VOID *RestoreTPL;  // EFI_RESTORE_TPL
+
+    // Memory Services
+    EFI_STATUS (EFIAPI *AllocatePages)(UINT32 Type, EFI_MEMORY_TYPE MemoryType, UINTN Pages, EFI_PHYSICAL_ADDRESS *Memory);
+    EFI_STATUS (EFIAPI *FreePages)(EFI_PHYSICAL_ADDRESS Memory, UINTN Pages);
     EFI_GET_MEMORY_MAP GetMemoryMap;
-    EFI_LOCATE_HANDLE_BUFFER LocateHandleBuffer;
-    EFI_STATUS (*ExitBootServices)(
-        EFI_HANDLE ImageHandle,
-        UINTN MapKey
-    );
-    EFI_ALLOCATE_POOL AllocatePool;
+    EFI_ALLOCATE_POOL  AllocatePool;
+    EFI_STATUS (EFIAPI *FreePool)(VOID *Buffer);
+
+    // Event & Timer Services
+    VOID *CreateEvent;  // EFI_CREATE_EVENT
+    VOID *SetTimer;     // EFI_SET_TIMER
+    VOID *WaitForEvent; // EFI_WAIT_FOR_EVENT
+    VOID *SignalEvent;  // EFI_SIGNAL_EVENT
+    VOID *CloseEvent;   // EFI_CLOSE_EVENT
+    VOID *CheckEvent;   // EFI_CHECK_EVENT
+
+    // Protocol Handler Services
+    VOID *InstallProtocolInterface;   // EFI_INSTALL_PROTOCOL_INTERFACE
+    VOID *ReinstallProtocolInterface; // EFI_REINSTALL_PROTOCOL_INTERFACE
+    VOID *UninstallProtocolInterface; // EFI_UNINSTALL_PROTOCOL_INTERFACE
     EFI_HANDLE_PROTOCOL HandleProtocol;
-    EFI_LOCATE_PROTOCOL  LocateProtocol;         // EFI 1.1+
-void (*CopyMem)(void* Destination, const void* Source, UINTN Length);
-    //  Remaining members are omitted for brevity
+    VOID *Reserved;                   // 予約済み
+    VOID *RegisterProtocolNotify;     // EFI_REGISTER_PROTOCOL_NOTIFY
+    VOID *LocateHandle;               // EFI_LOCATE_HANDLE
+    VOID *LocateDevicePath;           // EFI_LOCATE_DEVICE_PATH
+    VOID *InstallConfigurationTable;  // EFI_INSTALL_CONFIGURATION_TABLE
+
+    // Image Services
+    VOID *LoadImage;                  // EFI_IMAGE_LOAD
+    VOID *StartImage;                 // EFI_IMAGE_START
+    VOID *Exit;                       // EFI_EXIT
+    VOID *UnloadImage;                // EFI_IMAGE_UNLOAD
+    EFI_STATUS (EFIAPI *ExitBootServices)(EFI_HANDLE ImageHandle, UINTN MapKey);
+
+    // Miscellaneous Services
+    VOID *GetNextMonotonicCount;      // EFI_GET_NEXT_MONOTONIC_COUNT
+    VOID *Stall;                      // EFI_STALL
+    VOID *SetWatchdogTimer;           // EFI_SET_WATCHDOG_TIMER
+
+    // Driver Support Services
+    VOID *ConnectController;          // EFI_CONNECT_CONTROLLER
+    VOID *DisconnectController;       // EFI_DISCONNECT_CONTROLLER
+
+    // Open and Close Protocol Services
+    VOID *OpenProtocol;               // EFI_OPEN_PROTOCOL
+    VOID *CloseProtocol;              // EFI_CLOSE_PROTOCOL
+    VOID *OpenProtocolInformation;    // EFI_OPEN_PROTOCOL_INFORMATION
+
+    // Library Services
+    VOID *ProtocolsPerHandle;         // EFI_PROTOCOLS_PER_HANDLE
+    EFI_LOCATE_HANDLE_BUFFER LocateHandleBuffer;
+    EFI_LOCATE_PROTOCOL      LocateProtocol;
+    VOID *InstallMultipleProtocolInterfaces;   // EFI_INSTALL_MULTIPLE_PROTOCOL_INTERFACES
+    VOID *UninstallMultipleProtocolInterfaces; // EFI_UNINSTALL_MULTIPLE_PROTOCOL_INTERFACES
+
+    // 32-bit CRC Services
+    VOID *CalculateCrc32;             // EFI_CALCULATE_CRC32
+
+    // Miscellaneous Services (Cont'd)
+    VOID (EFIAPI *CopyMem)(VOID *Destination, const VOID *Source, UINTN Length);
+    VOID (EFIAPI *SetMem)(VOID *Buffer, UINTN Size, UINT8 Value);
+    VOID *CreateEventEx;              // EFI_CREATE_EVENT_EX
 } EFI_BOOT_SERVICES;
+
 //file protocol create
-typedef __attribute__((ms_abi)) EFI_STATUS (*EFI_FILE_CLOSE)(
+typedef __attribute__((ms_abi)) EFI_STATUS (EFIAPI *EFI_FILE_CLOSE)(
     void* File
 );
-typedef __attribute__((ms_abi)) EFI_STATUS (*EFI_FILE_DELETE)(
+typedef __attribute__((ms_abi)) EFI_STATUS (EFIAPI *EFI_FILE_DELETE)(
     void* File
 );
-typedef __attribute__((ms_abi)) EFI_STATUS (*EFI_FILE_READ)(
+typedef __attribute__((ms_abi)) EFI_STATUS (EFIAPI *EFI_FILE_READ)(
     void* File,
     UINTN *BufferSize,
     void* Buffer
 );
-typedef __attribute__((ms_abi)) EFI_STATUS (*EFI_FILE_WRITE)(
+typedef __attribute__((ms_abi)) EFI_STATUS (EFIAPI *EFI_FILE_WRITE)(
     void* File,
     UINTN *BufferSize,
     void* Buffer
 );
-typedef __attribute__((ms_abi)) EFI_STATUS (*EFI_FILE_GET_POSITION)(
+typedef __attribute__((ms_abi)) EFI_STATUS (EFIAPI *EFI_FILE_GET_POSITION)(
     void* File,
     UINT64 *Position
 );
-typedef __attribute__((ms_abi)) EFI_STATUS (*EFI_FILE_SET_POSITION)(
+typedef __attribute__((ms_abi)) EFI_STATUS (EFIAPI *EFI_FILE_SET_POSITION)(
     void* File,
     UINT64 Position
 );
-typedef __attribute__((ms_abi)) EFI_STATUS (*EFI_FILE_GET_INFO)(
-    void* File,
-    void* InformationType,
-    UINTN *BufferSize,
-    void* Buffer
+typedef __attribute__((ms_abi)) EFI_STATUS (EFIAPI *EFI_FILE_GET_INFO)(
+ 
+  VOID     *This,            // RCX
+  EFI_GUID *InformationType, // RDX (ここが 0 にならないように！)
+  UINTN    *BufferSize,      // R8
+  VOID     *Buffer           // R9
 );
-typedef __attribute__((ms_abi)) EFI_STATUS (*EFI_FILE_SET_INFO)(
+
+
+typedef __attribute__((ms_abi)) EFI_STATUS (EFIAPI *EFI_FILE_SET_INFO)(
     void* File,
     void* InformationType,
     UINTN BufferSize,
     void* Buffer
 );
-typedef __attribute__((ms_abi)) EFI_STATUS (*EFI_FILE_FLUSH)(
+typedef __attribute__((ms_abi)) EFI_STATUS (EFIAPI *EFI_FILE_FLUSH)(
     void* File
 );
-typedef __attribute__((ms_abi)) EFI_STATUS (*EFI_FILE_OPEN_EX)(
+typedef __attribute__((ms_abi)) EFI_STATUS (EFIAPI *EFI_FILE_OPEN_EX)(
     void* File,
     void** NewHandle,
     CHAR16 *FileName,
@@ -196,20 +246,20 @@ typedef __attribute__((ms_abi)) EFI_STATUS (*EFI_FILE_OPEN_EX)(
     UINT64 Attributes,
     void* Token
 );
-typedef __attribute__((ms_abi)) EFI_STATUS (*EFI_FILE_READ_EX)(
+typedef __attribute__((ms_abi)) EFI_STATUS (EFIAPI *EFI_FILE_READ_EX)(
     void* File,
     void* Token
 );
-typedef __attribute__((ms_abi)) EFI_STATUS (*EFI_FILE_WRITE_EX)(
+typedef __attribute__((ms_abi)) EFI_STATUS (EFIAPI *EFI_FILE_WRITE_EX)(
     void* File,
     void* Token
 );
-typedef __attribute__((ms_abi)) EFI_STATUS (*EFI_FILE_FLUSH_EX)(
+typedef __attribute__((ms_abi)) EFI_STATUS (EFIAPI *EFI_FILE_FLUSH_EX)(
     void* File,
     void* Token
 );
 
-typedef __attribute__((ms_abi)) EFI_STATUS (*EFI_FILE_OPEN)(
+typedef __attribute__((ms_abi)) EFI_STATUS (EFIAPI *EFI_FILE_OPEN)(
     void* File,
     void** NewHandle,
     CHAR16 *FileName,
@@ -217,7 +267,7 @@ typedef __attribute__((ms_abi)) EFI_STATUS (*EFI_FILE_OPEN)(
     UINT64 Attributes
 );
 
-typedef __attribute__((ms_abi)) EFI_STATUS (*EFI_OPEN_VOLUME)(
+typedef __attribute__((ms_abi)) EFI_STATUS (EFIAPI *EFI_OPEN_VOLUME)(
     void* This,
     void** Root
 );
@@ -256,9 +306,19 @@ typedef struct {
     CHAR16 FileName[256];
 } EFI_FILE_INFO;
 
-typedef struct {
-    EFI_OPEN_VOLUME OpenVolume;
-} EFI_SIMPLE_FILE_SYSTEM_PROTOCOL;
+typedef struct EFI_SIMPLE_FILE_SYSTEM_PROTOCOL EFI_SIMPLE_FILE_SYSTEM_PROTOCOL;
+
+// 関数の型定義（EFIAPI/ms_abi を忘れずに！）
+typedef EFI_STATUS (EFIAPI *EFI_SIMPLE_FILE_SYSTEM_PROTOCOL_OPEN_VOLUME)(
+    EFI_SIMPLE_FILE_SYSTEM_PROTOCOL *This,
+    EFI_FILE_PROTOCOL              **Root
+);
+
+// 構造体の完全な定義
+struct EFI_SIMPLE_FILE_SYSTEM_PROTOCOL {
+    UINT64                                     Revision;    // 0x00
+    EFI_SIMPLE_FILE_SYSTEM_PROTOCOL_OPEN_VOLUME OpenVolume;  // 0x08
+};
 
 // ConOut create
 
@@ -312,11 +372,13 @@ typedef enum {
   PixelBltOnly,
   PixelFormatMax
 } EFI_GRAPHICS_PIXEL_FORMAT;
+
 typedef struct { UINT32 RedMask;
     UINT32 GreenMask;
     UINT32 BlueMask;
     UINT32 ReservedMask;
     } EFI_PIXEL_BITMASK;
+
     typedef struct {
   UINT32 Version;
   UINT32 HorizontalResolution;
@@ -325,6 +387,7 @@ typedef struct { UINT32 RedMask;
   EFI_PIXEL_BITMASK PixelInformation;
   UINT32 PixelsPerScanLine;
 } EFI_GRAPHICS_OUTPUT_MODE_INFORMATION;
+
 typedef struct {
   UINT32 MaxMode;
   UINT32 Mode;
@@ -333,6 +396,7 @@ typedef struct {
   EFI_PHYSICAL_ADDRESS FrameBufferBase;
   UINTN FrameBufferSize;
 } EFI_GRAPHICS_OUTPUT_PROTOCOL_MODE;
+
 typedef struct _EFI_GRAPHICS_OUTPUT_PROTOCOL EFI_GRAPHICS_OUTPUT_PROTOCOL;
 struct _EFI_GRAPHICS_OUTPUT_PROTOCOL {
   EFI_STATUS (*QueryMode)(
@@ -359,14 +423,6 @@ struct _EFI_GRAPHICS_OUTPUT_PROTOCOL {
     );
   EFI_GRAPHICS_OUTPUT_PROTOCOL_MODE *Mode;
 };
-
-
-
-
-
-
-
-
 
 //efi service created end
 
@@ -408,10 +464,13 @@ extern EFI_GUID gEfiFileInfoGuid;
 
 // Status codes
 #define EFI_SUCCESS 0
+#define EFI_LOAD_ERROR       0x8000000000000001ULL
 #define EFI_BUFFER_TOO_SMALL 5
 //GOP protocol GUID
 #define EFI_GRAPHICS_OUTPUT_PROTOCOL_GUID \
   { 0x9042a9de, 0x23dc, 0x4a38, { 0x96, 0xfb, 0x7a, 0xde, 0xd0, 0x80, 0x51, 0x6a } }
   extern EFI_GUID gEfiGraphicsOutputProtocolGuid;
 extern __attribute__((ms_abi)) EFI_STATUS efi_main(EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable);
+
+
 #endif /* EFI_H_ */

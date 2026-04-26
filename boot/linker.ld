@@ -21,7 +21,7 @@ SECTIONS {
 
     .bss : {
         *(.bss*)
-        :(COMMON)
+        *(COMMON)
     }
 
     
