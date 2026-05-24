@@ -1,7 +1,8 @@
 #include "../includemyos/efi.h"
 #include "../includemyos/framebuffer.h"
-#include "../includemyos/kernel/guid.h"
+#include "../includemyos/guid.h"
 #include "../includemyos/elf.h"
+#include "../includemyos/printhexstatus.h"
 
 #include <stdint.h>
 
@@ -13,40 +14,19 @@
 typedef int64_t INTN;
 
 extern EFI_GUID gEfiFileInfoGuid;
+EFI_BOOT_SERVICES *gBS; 
 
 EFI_BOOT_SERVICES *BootServices;
 EFI_SYSTEM_TABLE *SystemTable;
+static EFI_STATUS GetFileInfo(EFI_FILE_PROTOCOL *file, EFI_FILE_INFO **outInfo);
+  
 
-static EFI_STATUS GetFileInfo(EFI_FILE_PROTOCOL *file, EFI_FILE_INFO **outInfo) {
-    EFI_STATUS status;
-    UINTN infoSize = sizeof(EFI_FILE_INFO) + 256;
-    EFI_FILE_INFO *info = NULL;
-
-    status = BootServices->AllocatePool(EfiLoaderData, infoSize, (void **)&info);
-    if (status != EFI_SUCCESS) return status;
-
-    status = file->GetInfo(file, &gEfiFileInfoGuid, &infoSize, info);
-
-    if (status == EFI_BUFFER_TOO_SMALL) {
-        BootServices->FreePool(info);
-        status = BootServices->AllocatePool(EfiLoaderData, infoSize, (void **)&info);
-        if (status != EFI_SUCCESS) return status;
-        status = file->GetInfo(file, &gEfiFileInfoGuid, &infoSize, info);
-    }
-
-    if (status != EFI_SUCCESS) {
-        BootServices->FreePool(info);
-        return status;
-    }
-
-    *outInfo = info;
-    return EFI_SUCCESS;
-}
 
 extern __attribute__((ms_abi)) EFI_STATUS efi_main(EFI_HANDLE ImageHandle,
                                                    EFI_SYSTEM_TABLE *ST) {
     SystemTable = ST;
     BootServices = ST->BootServices;
+    gBS = SystemTable->BootServices;
     EFI_STATUS status = 0;
     void *fontBuffer = NULL;
     UINTN fontSize = 0;
@@ -123,25 +103,29 @@ extern __attribute__((ms_abi)) EFI_STATUS efi_main(EFI_HANDLE ImageHandle,
 
     // ========== カーネルファイルを開く ==========
     EFI_FILE_PROTOCOL *kernelFile = NULL;
-    status = root->Open(root, (void **)&kernelFile, L"myoskernel.elf",
-                        EFI_FILE_MODE_READ, 0);
+    status = root->Open(root, (void **)&kernelFile, L"myoskernel.elf",EFI_FILE_MODE_READ, 0);
     if (status != EFI_SUCCESS) {
-        SystemTable->ConOut->OutputString(SystemTable->ConOut,
-            L"ERROR: Kernel file not found\n");
+        SystemTable->ConOut->OutputString(SystemTable->ConOut,L"ERROR: Kernel file not found\n");
         return status;
     }
     SystemTable->ConOut->OutputString(SystemTable->ConOut, L"Kernel file opened\n");
 
     // ========== カーネルファイル情報を取得 ==========
+    
     EFI_FILE_INFO *fileInfo = NULL;
     status = GetFileInfo(kernelFile, &fileInfo);
+    SystemTable->ConOut->OutputString(SystemTable->ConOut, L"testpoint1\n");
+
     if (status != EFI_SUCCESS) {
-        SystemTable->ConOut->OutputString(SystemTable->ConOut,
-            L"ERROR: GetInfo for kernel failed\n");
+        SystemTable->ConOut->OutputString(SystemTable->ConOut, L"testpoint1\n");
+        SystemTable->ConOut->OutputString(SystemTable->ConOut, L"ERROR: GetInfo for kernel failed\n");
         return status;
     }
     UINTN kernelSize = fileInfo->FileSize;
     BootServices->FreePool(fileInfo);
+
+
+
 
     SystemTable->ConOut->OutputString(SystemTable->ConOut, L"Kernel size obtained\n");
 
@@ -263,5 +247,29 @@ extern __attribute__((ms_abi)) EFI_STATUS efi_main(EFI_HANDLE ImageHandle,
     kernelEntry entry = (kernelEntry)(ehdr->e_entry);
     entry(&fbinfo);
 
+    return EFI_SUCCESS;
+}
+static EFI_STATUS GetFileInfo(EFI_FILE_PROTOCOL *file, EFI_FILE_INFO **outInfo) {
+    EFI_STATUS status;
+    UINTN infoSize = 0;
+
+    status = file->GetInfo(file, &gEfiFileInfoGuid, &infoSize, NULL);
+    if (status != EFI_BUFFER_TOO_SMALL) {
+        return status;
+    }
+
+    EFI_FILE_INFO *info;
+    status = gBS->AllocatePool(EfiLoaderData, infoSize, (void**)&info);
+    if (status != EFI_SUCCESS) {
+        return status;
+    }
+
+    status = file->GetInfo(file, &gEfiFileInfoGuid, &infoSize, info);
+    if (status != EFI_SUCCESS) {
+        gBS->FreePool(info);
+        return status;
+    }
+
+    *outInfo = info;
     return EFI_SUCCESS;
 }

@@ -363,6 +363,8 @@ typedef struct {
     UINTN                            NumberOfTableEntries;
     EFI_CONFIGURATION_TABLE          *ConfigurationTable;
 } EFI_SYSTEM_TABLE;
+    extern EFI_BOOT_SERVICES *gBS;
+
 
 
 typedef enum {
@@ -471,6 +473,15 @@ extern EFI_GUID gEfiFileInfoGuid;
   { 0x9042a9de, 0x23dc, 0x4a38, { 0x96, 0xfb, 0x7a, 0xde, 0xd0, 0x80, 0x51, 0x6a } }
   extern EFI_GUID gEfiGraphicsOutputProtocolGuid;
 extern __attribute__((ms_abi)) EFI_STATUS efi_main(EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable);
+
+
+
+extern EFI_GUID gEfiLoadedImageProtocolGuid;
+extern EFI_GUID gEfiSimpleFileSystemProtocolGuid;
+extern EFI_GUID gEfiFileInfoGuid;
+extern EFI_GUID gEfiGraphicsOutputProtocolGuid;
+extern EFI_GUID gopGuid;
+
 
 
 #endif /* EFI_H_ */
