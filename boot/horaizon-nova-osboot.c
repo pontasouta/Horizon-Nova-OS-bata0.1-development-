@@ -366,6 +366,12 @@ if (status != EFI_SUCCESS) {
 
 // 確保した場所にファイルを読み込む
 kernelFile->SetPosition(kernelFile, 0);
+
+// 【デバッグ追加】現状のサイズが本当に正しいか、一度「巨大なサイズ（例: 1MB = 1024*1024）」で
+// 強制的に上書きして、ファイル全体を確実に読み込ませてみる
+// (実際のファイルサイズより大きくても、ファイル終端まで読んだ時点でReadが実サイズに書き換えてくれます)
+kernelSize = 1024 * 1024; 
+
 status = kernelFile->Read(kernelFile, &kernelSize, kernelBuffer);
 if (status != EFI_SUCCESS) {
     SystemTable->ConOut->OutputString(SystemTable->ConOut,
@@ -390,7 +396,7 @@ if (ehdr->e_ident[0] != 0x7f ||
     SystemTable->ConOut->OutputString(SystemTable->ConOut, L"ERROR: Invalid ELF magic\n");
     BootServices->FreePool(kernelBuffer);
     return EFI_LOAD_ERROR;
-}00000000
+}
 SystemTable->ConOut->OutputString(SystemTable->ConOut, L"ELF OK\n");
 
 for (int i = 0; i < ehdr->e_phnum; i++) {
