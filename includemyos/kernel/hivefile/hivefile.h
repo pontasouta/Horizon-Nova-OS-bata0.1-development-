@@ -61,6 +61,19 @@ typedef struct {
     char     name[1];               // キー名文字列実体（可変長）
 } HiveKeyNode;
 
+// ⑤ vk (Value) Cell - 設定の値（ファイルの実体）
+typedef struct {
+    char     signature[2];          // "vk"
+    uint16_t name_len;              // 値の名前の長さ（0の場合は「(既定)」を表す）
+    uint32_t data_len;              // データの長さ（最上位ビットが1の場合は特殊な格納方法）
+    uint32_t data_offset;           // データが保存されている場所のオフセット
+    uint32_t data_type;             // データ型（1=文字列、4=32bit数値 など）
+    uint16_t flags;                 // 0x0001 = 名前がASCII（通常はこれ）
+    uint16_t spare;
+    char     name;               // 値の名前（可変長、name_lenバイト分）
+} HiveValueNode;
+
+
 #pragma pack(pop)
 
 // 関数プロトタイプ宣言
