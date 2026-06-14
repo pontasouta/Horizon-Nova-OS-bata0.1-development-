@@ -3,7 +3,7 @@ OUTPUT_ARCH(i386:x86-64)
 ENTRY(mainkernel)
 
 SECTIONS {
-    . = 0x100000; 
+    . = 0x200000; 
     .text : {
         *(.text*)
     }

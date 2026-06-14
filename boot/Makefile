@@ -4,7 +4,8 @@ BOOTX64.EFI:
 	clang \
   -target x86_64-unknown-windows \
   -ffreestanding -fno-stack-protector -mno-red-zone \
-  -fshort-wchar -fno-pic -fno-pie \
+  -O0 \
+  -fshort-wchar -fno-pic -fno-pie -fno-builtin \
   -fuse-ld=lld \
   -Wl,-entry:efi_main \
   -Wl,-subsystem:efi_application \
@@ -17,12 +18,16 @@ BOOTX64.EFI:
 
 myoskernel.elf:
 	clang \
-  -target x86_64-unknown-elf \
-  -ffreestanding -fno-stack-protector -mno-red-zone \
-  -nostdlib \
-  -Wl,-T,linker.ld \
-  -Wl,-entry=mainkernel \
-  horaizon-nova-oskernel.c \
-  -o myoskernel.elf
+	-target x86_64-unknown-elf \
+	-ffreestanding -fno-stack-protector -mno-red-zone \
+	-nostdlib \
+	-static \
+	-Wl,-T,linker.ld \
+	-Wl,-entry=mainkernel \
+	horaizon-nova-oskernel.c \
+	-o myoskernel.elf
+	
+	
+	llvm-objcopy --strip-all myoskernel.elf
 
 	cp myoskernel.elf esp/myoskernel.elf

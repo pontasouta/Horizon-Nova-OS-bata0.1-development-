@@ -21,6 +21,9 @@ typedef void VOID;
 #define AllocateAnyPages 0 
 #define AllocateMaxAddress 1 
 #define AllocateAddress 2
+typedef struct EFI_FILE_PROTOCOL EFI_FILE_PROTOCOL;
+typedef struct EFI_SIMPLE_FILE_SYSTEM_PROTOCOL EFI_SIMPLE_FILE_SYSTEM_PROTOCOL;
+
 
 typedef struct {
     UINT32 Data1;
@@ -220,12 +223,13 @@ typedef __attribute__((ms_abi)) EFI_STATUS (EFIAPI *EFI_FILE_SET_POSITION)(
     void* File,
     UINT64 Position
 );
-typedef __attribute__((ms_abi)) EFI_STATUS (EFIAPI *EFI_FILE_GET_INFO)(
- 
-  VOID     *This,            // RCX
-  EFI_GUID *InformationType, // RDX (ここが 0 にならないように！)
-  UINTN    *BufferSize,      // R8
-  VOID     *Buffer           // R9
+typedef
+EFI_STATUS
+(EFIAPI *EFI_FILE_GET_INFO)(
+    EFI_FILE_PROTOCOL *This,
+    EFI_GUID *InformationType,
+    UINTN *BufferSize,
+    VOID *Buffer
 );
 
 
@@ -259,18 +263,22 @@ typedef __attribute__((ms_abi)) EFI_STATUS (EFIAPI *EFI_FILE_FLUSH_EX)(
     void* Token
 );
 
-typedef __attribute__((ms_abi)) EFI_STATUS (EFIAPI *EFI_FILE_OPEN)(
-    void* File,
-    void** NewHandle,
-    CHAR16 *FileName,
-    UINT64 OpenMode,
-    UINT64 Attributes
-);
+
+
 
 typedef __attribute__((ms_abi)) EFI_STATUS (EFIAPI *EFI_OPEN_VOLUME)(
     void* This,
     void** Root
 );
+typedef EFI_STATUS (EFIAPI *EFI_FILE_OPEN)(
+    EFI_FILE_PROTOCOL *This,
+    EFI_FILE_PROTOCOL **NewHandle,
+    CHAR16 *FileName,
+    UINT64 OpenMode,
+    UINT64 Attributes
+);
+
+
 
 typedef struct EFI_FILE_PROTOCOL {
   UINT64                          Revision;
@@ -289,6 +297,7 @@ typedef struct EFI_FILE_PROTOCOL {
   EFI_FILE_WRITE_EX               WriteEx; // Added for revision 2
   EFI_FILE_FLUSH_EX               FlushEx; // Added for revision 2
 } EFI_FILE_PROTOCOL;
+
 //file protocol create s end
 typedef struct {
     UINT64 VendorGuid[2];
@@ -303,7 +312,7 @@ typedef struct {
     EFI_TIME LastAccessTime;
     EFI_TIME ModificationTime;
     UINT64 Attribute;
-    CHAR16 FileName[256];
+    CHAR16 FileName[1];
 } EFI_FILE_INFO;
 
 typedef struct EFI_SIMPLE_FILE_SYSTEM_PROTOCOL EFI_SIMPLE_FILE_SYSTEM_PROTOCOL;
@@ -363,6 +372,8 @@ typedef struct {
     UINTN                            NumberOfTableEntries;
     EFI_CONFIGURATION_TABLE          *ConfigurationTable;
 } EFI_SYSTEM_TABLE;
+    extern EFI_BOOT_SERVICES *gBS;
+
 
 
 typedef enum {
@@ -471,6 +482,15 @@ extern EFI_GUID gEfiFileInfoGuid;
   { 0x9042a9de, 0x23dc, 0x4a38, { 0x96, 0xfb, 0x7a, 0xde, 0xd0, 0x80, 0x51, 0x6a } }
   extern EFI_GUID gEfiGraphicsOutputProtocolGuid;
 extern __attribute__((ms_abi)) EFI_STATUS efi_main(EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable);
+
+
+
+extern EFI_GUID gEfiLoadedImageProtocolGuid;
+extern EFI_GUID gEfiSimpleFileSystemProtocolGuid;
+extern EFI_GUID gEfiFileInfoGuid;
+extern EFI_GUID gEfiGraphicsOutputProtocolGuid;
+extern EFI_GUID gopGuid;
+
 
 
 #endif /* EFI_H_ */

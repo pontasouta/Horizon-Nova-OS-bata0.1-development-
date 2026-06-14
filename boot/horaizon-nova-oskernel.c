@@ -1,7 +1,8 @@
 
 #include "../includemyos/framebuffer.h"
 #include "../includemyos/kernel/idt.h"
-// IDTエントリの構造体定義
+/*
+/ IDTエントリの構造体定義
 struct IDTEntry {
     uint16_t offset_low;
     uint16_t selector;
@@ -99,4 +100,20 @@ if (font->magic[0] != 0x36 || font->magic[1] != 0x04) {
        // 無限ループで停止
     
 }
+}
+*/
+__attribute__((section(".text.entry")))
+void mainkernel(FramebufferInfo* fbinfo) {
+    __asm__ __volatile__("cli"); // 割り込みは絶対に禁止のままにする
+    
+    // 画面の先頭100ピクセルを「真っ赤」に染める（フォントもIDTも無視して最速で実行）
+    uint32_t* fb_ptr = (uint32_t*)fbinfo->framebuffer;
+    for (int i = 0; i < 100; i++) {
+        fb_ptr[i] = 0x00FF0000;
+    }
+
+    // ここで完全にCPUを止める
+    while (1) {
+        __asm__("hlt");
+    }
 }
