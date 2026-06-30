@@ -72,11 +72,50 @@ typedef struct {
     uint16_t spare;
     char     name;               // 値の名前（可変長、name_lenバイト分）
 } HiveValueNode;
+// 4096バイトのベースブロック + データ領域 の模擬ハイブデータを
+// 最初から書き換え不要の「固定値（const）」として定義します。
+// これにより、起動直後のメモリ書き込み違反（#PF）を完全に回避します！
+__attribute__((aligned(4096)))
+static const uint8_t mock_hive_data[4096 + 512] = {
+    // --- [0〜4095バイト目] ベースブロック (ヘッダー) ---
+    'r', 'e', 'g', 'f',          // 0x00: マジックナンバー
+    0x01, 0x00, 0x00, 0x00,      // 0x04: シーケンス1
+    0x01, 0x00, 0x00, 0x00,      // 0x08: シーケンス2
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, // 0x0c: タイムスタンプ
+    0x01, 0x00, 0x00, 0x00,      // 0x14: Major Version (1)
+    0x03, 0x00, 0x00, 0x00,      // 0x18: Minor Version (3)
+    0x00, 0x00, 0x00, 0x00,      // 0x1c: File Type (0)
+    0x01, 0x00, 0x00, 0x00,      // 0x20: File Format (1)
+    0x00, 0x00, 0x00, 0x00,      // 0x24: ★ルートセル(nk)への相対オフセット (0x00000000 = Hbin直後)
+    
+    // 4096バイト目（Hbin領域の開始）まで0で埋める
+    [4096 + 0]  = 0xB0, 0xFF, 0xFF, 0xFF, // Hbin直後のセルサイズ: -80 (0xFFFFFFB0)
+    [4096 + 4]  = 'n', 'k',              // nkシグネチャ
+    [4096 + 6]  = 0x20, 0x00,            // flags: 0x0020 (Root)
+    
+    // サブキーや値のリストへのオフセット（必要に応じて足していきます）
+    [4096 + 24] = 0x01, 0x00, 0x00, 0x00, // num_values = 1
+    [4096 + 28] = 0x80, 0x00, 0x00, 0x00, // values_list_offset = 128 (0x80)
+
+    // 128バイト目（0x80）：vl (Value List) セル
+    [4096 + 128] = 0xF0, 0xFF, 0xFF, 0xFF, // セルサイズ: -16 (0xFFFFFFF0)
+    [4096 + 132] = 0x00, 0x01, 0x00, 0x00, // vkへのオフセット配列 [0] = 256 (0x0100)
+
+    // 256バイト目（0x0100）：vk (Value) セル
+    [4096 + 256] = 0xD8, 0xFF, 0xFF, 0xFF, // セルサイズ: -40 (0xFFFFFFD8)
+    [4096 + 260] = 'v', 'k',              // vkシグネチャ
+    [4096 + 262] = 0x06, 0x00,            // name_len = 6
+    [4096 + 264] = 0x04, 0x00, 0x00, 0x00, // data_len = 4
+    [4096 + 268] = 0x06, 0x00, 0x01, 0x00, // data_offset（パース結果 0x00010006）
+    [4096 + 272] = 0x04, 0x00, 0x00, 0x00, // data_type = 4 (REG_DWORD)
+};
+
 
 
 #pragma pack(pop)
 
 // 関数プロトタイプ宣言
 int verify_hive_header(HiveBaseBlock* base);
+int parse_and_verify_hive(void* hive_base_ptr);
 
 #endif // HIVEFILE_H
