@@ -419,36 +419,44 @@ for (int i = 0; i < ehdr->e_phnum; i++) {
     }
 }
 
-// 使い終わった一時メモリを解放
-BootServices->FreePool(kernelBuffer);
+// 【修正】ここではまだ解放しない（コメントアウトするか削除）
+// BootServices->FreePool(kernelBuffer);
 
 SystemTable->ConOut->OutputString(SystemTable->ConOut, L"ELF loaded\n");
-    // ========== ExitBootServices & カーネルジャンプ ==========
-    int retry = 0;
-    while (retry < 5) {
-        retry++;
-        EFI_MEMORY_DESCRIPTOR *MemoryMap = NULL;
-        UINTN MapKey = 0;
-        UINTN AllocSize = MemoryMapSize + (DescriptorSize * 20);
 
-        status = BootServices->AllocatePool(EfiLoaderData, AllocSize,
-                                            (void **)&MemoryMap);
-        if (status != EFI_SUCCESS) continue;
+// ========== ExitBootServices & カーネルジャンプ ==========
+int retry = 0;
+while (retry < 5) {
+    retry++;
+    EFI_MEMORY_DESCRIPTOR *MemoryMap = NULL;
+    UINTN MapKey = 0;
+    UINTN AllocSize = MemoryMapSize + (DescriptorSize * 20);
 
-        status = BootServices->GetMemoryMap(&MemoryMapSize, MemoryMap, &MapKey,
-                                            &DescriptorSize, &DescriptorVersion);
-        if (status != EFI_SUCCESS) continue;
+    status = BootServices->AllocatePool(EfiLoaderData, AllocSize,
+                                        (void **)&MemoryMap);
+    if (status != EFI_SUCCESS) continue;
 
-        status = BootServices->ExitBootServices(ImageHandle, MapKey);
-        if (status == EFI_SUCCESS) break;
+    status = BootServices->GetMemoryMap(&MemoryMapSize, MemoryMap, &MapKey,
+                                        &DescriptorSize, &DescriptorVersion);
+    if (status != EFI_SUCCESS) continue;
+
+    // 【追加】ExitBootServicesを呼ぶ直前、もうカーネルのヘッダを読み終わったこのタイミングで解放する
+    // もしくは、原因特定のために一旦このFreePool自体を完全に消し去ってみてください！
+    BootServices->FreePool(kernelBuffer);
+
+    status = BootServices->ExitBootServices(ImageHandle, MapKey);
+    if (status == EFI_SUCCESS) break;
+}
+
+// ExitBootServices後はConOut使用不可
+typedef void (*kernelEntry)(FramebufferInfo *);
+kernelEntry entry = (kernelEntry)(ehdr->e_entry);
+   if (status != EFI_SUCCESS) {
+        return status;
     }
+    
+entry(&fbinfo);
 
-    // ExitBootServices後はConOut使用不可
-    typedef void (*kernelEntry)(FramebufferInfo *);
-    kernelEntry entry = (kernelEntry)(ehdr->e_entry);
-    entry(&fbinfo);
-
-    return EFI_SUCCESS;
 }
 
 // どんなファイル（file）でも、その情報を outInfo に入れて返してくれる関数
