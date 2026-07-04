@@ -57,18 +57,24 @@ uint64_t v_pd_phys   = 0x404000;
     uint64_t v_pml4_idx = (vram_base >> 39) & 0x1FF;
     uint64_t v_pdpt_idx = (vram_base >> 30) & 0x1FF;
     uint64_t v_pd_idx   = (vram_base >> 21) & 0x1FF;
+    uint64_t vram_aligned = vram_base & 0xFFFFFFFFFFE00000;
 
     if (v_pml4_idx == 0 && v_pdpt_idx == 0) {
-        // 【修正】VRAMが最初の1GB内にある場合は、すでに上のループで
-        // 丸ごとマップされているため、既存のマッピングを壊さないよう何もしない。
+        // VRAMが最初の1GB内にある場合は、既存の1GBマップの範囲内なので何もしない
+    } else if (v_pml4_idx == 0) {
+        // VRAMが同じPML4エントリ内（最初の512GB）にある場合は、同じPDPTに追加マッピング
+        kernel_pdpt->entries[v_pdpt_idx] = v_pd_phys | PAGE_PRESENT | PAGE_RW;
+        vram_pd->entries[v_pd_idx] = vram_aligned | PAGE_PRESENT | PAGE_RW | PAGE_HUGE;
+        if (v_pd_idx + 1 < 512) {
+            vram_pd->entries[v_pd_idx + 1] = (vram_aligned + 0x200000) | PAGE_PRESENT | PAGE_RW | PAGE_HUGE;
+        }
     } else {
-        // VRAMが1GBより後ろにある場合は、独立した専用テーブルへ安全に流す
         pml4_table->entries[v_pml4_idx] = v_pdpt_phys | PAGE_PRESENT | PAGE_RW;
         vram_pdpt->entries[v_pdpt_idx] = v_pd_phys   | PAGE_PRESENT | PAGE_RW;
-
-        uint64_t vram_aligned = vram_base & 0xFFFFFFFFFFE00000;
         vram_pd->entries[v_pd_idx]     = vram_aligned | PAGE_PRESENT | PAGE_RW | PAGE_HUGE;
-        vram_pd->entries[v_pd_idx + 1] = (vram_aligned + 0x200000) | PAGE_PRESENT | PAGE_RW | PAGE_HUGE;
+        if (v_pd_idx + 1 < 512) {
+            vram_pd->entries[v_pd_idx + 1] = (vram_aligned + 0x200000) | PAGE_PRESENT | PAGE_RW | PAGE_HUGE;
+        }
     }
 
     // 3. CR4のPAE/PSE強制有効化 ＆ CR3へロード

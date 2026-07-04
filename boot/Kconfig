@@ -1,0 +1,9 @@
+config MYOS_ENABLE_HIVEFILE
+    bool "Enable hivefile support"
+    default n
+
+config MYOS_ENABLE_GOP
+    bool "Enable GOP framebuffer support"
+    default y
+    help
+      Use the UEFI Graphics Output Protocol to pass a framebuffer to the kernel.

@@ -1,0 +1,18 @@
+/home/sota/myos/boot/glibc-build/resolv/compat-gethnamaddr.o: \
+ compat-gethnamaddr.c ../include/stdc-predef.h \
+ /home/sota/myos/boot/glibc-build/libc-modules.h \
+ ../include/libc-symbols.h ../include/libc-misc.h \
+ /home/sota/myos/boot/glibc-build/config.h \
+ ../sysdeps/generic/libc-symver.h ../include/libc-diag.h \
+ ../sysdeps/generic/symbol-hacks.h ../include/shlib-compat.h \
+ /home/sota/myos/boot/glibc-build/abi-versions.h
+../include/stdc-predef.h:
+/home/sota/myos/boot/glibc-build/libc-modules.h:
+../include/libc-symbols.h:
+../include/libc-misc.h:
+/home/sota/myos/boot/glibc-build/config.h:
+../sysdeps/generic/libc-symver.h:
+../include/libc-diag.h:
+../sysdeps/generic/symbol-hacks.h:
+../include/shlib-compat.h:
+/home/sota/myos/boot/glibc-build/abi-versions.h:

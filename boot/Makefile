@@ -26,7 +26,6 @@ myoskernel.elf:
 	-Wl,-entry=mainkernel \
 	-Wl,-z,notext -Wl,-z,execstack \
 	horaizon-nova-oskernel.c \
-	../includemyos/kernel/hivefile/hivefile.c \
 	-o myoskernel.elf
 
 	

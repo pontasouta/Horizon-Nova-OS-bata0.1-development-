@@ -115,6 +115,7 @@ extern __attribute__((ms_abi)) EFI_STATUS efi_main(EFI_HANDLE ImageHandle,
     fbinfo.Width = gop->Mode->Info->HorizontalResolution;
     fbinfo.Height = gop->Mode->Info->VerticalResolution;
     fbinfo.Pixels_Per_ScanLine = gop->Mode->Info->PixelsPerScanLine;
+    fbinfo.PixelFormat = gop->Mode->Info->PixelFormat;
     fbinfo.font = NULL;
     fbinfo.font_size = 0;
 
@@ -176,59 +177,89 @@ extern __attribute__((ms_abi)) EFI_STATUS efi_main(EFI_HANDLE ImageHandle,
     //BootServices->FreePool(fileInfo);
 EFI_FILE_INFO *fileInfo = NULL;
 status = GetFileInfo(kernelFile, &fileInfo);
-/*
-if (status != EFI_SUCCESS) {
-    SystemTable->ConOut->OutputString(SystemTable->ConOut,L"ERROR: GetInfo for kernel failed\n");
+if (status != EFI_SUCCESS || fileInfo == NULL) {
+    SystemTable->ConOut->OutputString(SystemTable->ConOut,
+        L"ERROR: GetInfo for kernel failed\n");
+    if (fileInfo != NULL) {
+        BootServices->FreePool(fileInfo);
+    }
+    kernelFile->Close(kernelFile);
     return status;
 }
-*/
 
 UINTN kernelSize = fileInfo->FileSize;
+BootServices->FreePool(fileInfo);
 
-    SystemTable->ConOut->OutputString(SystemTable->ConOut, L"Kernel size obtained\n");
+SystemTable->ConOut->OutputString(SystemTable->ConOut, L"Kernel size obtained\n");
 
     // ========== フォントファイルを開く ==========
     EFI_FILE_PROTOCOL *fontfile = NULL;
-    status = root->Open(root, &fontfile,
-                        L"\\EFI\\BOOT\\solarize-12x29-psf\\Solarize.12x29.psf",
-                        EFI_FILE_MODE_READ, 0);
+    CHAR16 *fontPaths[] = {
+        L"\\EFI\\BOOT\\solarize-12x29-psf\\Solarize.12x29.psf",
+        L"\\EFI\\BOOT\\solarize-12x29-psf\\solarize-12x29-psf\\Solarize.12x29.psf",
+        L"\\EFI\\BOOT\\Solarize.12x29.psf",
+        NULL
+    };
+
+    status = EFI_LOAD_ERROR;
+    for (int i = 0; fontPaths[i] != NULL; i++) {
+        status = root->Open(root, &fontfile, fontPaths[i], EFI_FILE_MODE_READ, 0);
+        if (status == EFI_SUCCESS) {
+            break;
+        }
+        if (fontfile != NULL) {
+            fontfile->Close(fontfile);
+            fontfile = NULL;
+        }
+    }
+
     if (status != EFI_SUCCESS) {
         SystemTable->ConOut->OutputString(SystemTable->ConOut,
             L"WARNING: Font file not found, continuing without font\n");
     } else {
         EFI_FILE_INFO *fontFileInfo = NULL;
         status = GetFileInfo(fontfile, &fontFileInfo);
-
-
-        fontSize = fontFileInfo->FileSize;
-        BootServices->FreePool(fontFileInfo);
-        UINTN readSize = fontSize + 10;
-
-
-        status = BootServices->AllocatePool(EfiLoaderData, readSize, &fontBuffer);
-        if (EFI_ERROR(status)) {
+        if (status != EFI_SUCCESS) {
             SystemTable->ConOut->OutputString(SystemTable->ConOut,
-                L"ERROR: AllocatePool for font failed\n");
-            return status;
-        }
+                L"ERROR: GetInfo for font failed\n");
+            fontfile->Close(fontfile);
+            fontfile = NULL;
+        } else {
+            fontSize = fontFileInfo->FileSize;
+            BootServices->FreePool(fontFileInfo);
+            UINTN readSize = fontSize + 10;
 
-        status = fontfile->Read(fontfile, &readSize, fontBuffer);
-        if (EFI_ERROR(status)) {
-            SystemTable->ConOut->OutputString(SystemTable->ConOut,
-                L"ERROR: Read font failed\n");
-            return status;
-        }
+            status = BootServices->AllocatePool(EfiLoaderData, readSize, &fontBuffer);
+            if (EFI_ERROR(status)) {
+                SystemTable->ConOut->OutputString(SystemTable->ConOut,
+                    L"ERROR: AllocatePool for font failed\n");
+                fontfile->Close(fontfile);
+                fontfile = NULL;
+                return status;
+            }
 
-        EFI_PHYSICAL_ADDRESS safeFontAddr = 0x1000000;
-        UINTN fontPages = (fontSize + 0xFFF) / 0x1000;
-        status = BootServices->AllocatePages(AllocateAnyPages, EfiLoaderData,
-                                             fontPages, &safeFontAddr);
-        if (status == EFI_SUCCESS) {
-            BootServices->CopyMem((void *)safeFontAddr, fontBuffer, fontSize);
-            fbinfo.font = (void *)safeFontAddr;
-            fbinfo.font_size = fontSize;
+            status = fontfile->Read(fontfile, &readSize, fontBuffer);
+            if (EFI_ERROR(status)) {
+                SystemTable->ConOut->OutputString(SystemTable->ConOut,
+                    L"ERROR: Read font failed\n");
+                fontfile->Close(fontfile);
+                fontfile = NULL;
+                return status;
+            }
+
+            EFI_PHYSICAL_ADDRESS safeFontAddr = 0x1000000;
+            UINTN fontPages = (fontSize + 0xFFF) / 0x1000;
+            status = BootServices->AllocatePages(AllocateAnyPages, EfiLoaderData,
+                                                 fontPages, &safeFontAddr);
+            if (status == EFI_SUCCESS) {
+                BootServices->CopyMem((void *)safeFontAddr, fontBuffer, fontSize);
+                fbinfo.font = (void *)safeFontAddr;
+                fbinfo.font_size = fontSize;
+            }
+            fontfile->Close(fontfile);
+            fontfile = NULL;
+            SystemTable->ConOut->OutputString(SystemTable->ConOut, L"Font loaded\n");
         }
-        SystemTable->ConOut->OutputString(SystemTable->ConOut, L"Font loaded\n");
     }
 /*
 
@@ -399,28 +430,34 @@ if (ehdr->e_ident[0] != 0x7f ||
 }
 SystemTable->ConOut->OutputString(SystemTable->ConOut, L"ELF OK\n");
 
+uint64_t kernel_entry = ehdr->e_entry;
+
 for (int i = 0; i < ehdr->e_phnum; i++) {
-    // 【修正】バイト単位のポインタを使って、ズレがないように計算します
     Elf64_Phdr *phdr = (Elf64_Phdr *)(kernelBytePtr + ehdr->e_phoff +
                                        (i * ehdr->e_phentsize));
     
     if (phdr->p_type == 1) { // PT_LOAD
-        // 【修正】データ元（src）もバイト単位で正しく計算します
         void *src  = (void *)(kernelBytePtr + phdr->p_offset);
-        void *dest = (void *)phdr->p_vaddr;
+        UINTN loadPages = (phdr->p_memsz + 0xFFF) / 0x1000;
+        EFI_PHYSICAL_ADDRESS loadAddress = (EFI_PHYSICAL_ADDRESS)phdr->p_vaddr;
 
-        // 本来の宛先（0x1000000 など）へコピー
-        BootServices->CopyMem(dest, src, phdr->p_filesz);
+        status = BootServices->AllocatePages(AllocateAddress, EfiLoaderData,
+                                             loadPages, &loadAddress);
+        if (status != EFI_SUCCESS) {
+            SystemTable->ConOut->OutputString(SystemTable->ConOut,
+                L"ERROR: AllocatePages for ELF segment failed\n");
+            BootServices->FreePool(kernelBuffer);
+            return status;
+        }
+
+        BootServices->CopyMem((void *)loadAddress, src, phdr->p_filesz);
         if (phdr->p_memsz > phdr->p_filesz) {
             BootServices->SetMem(
-                (void *)((uint8_t *)dest + phdr->p_filesz),
+                (void *)((uint8_t *)loadAddress + phdr->p_filesz),
                 phdr->p_memsz - phdr->p_filesz, 0);
         }
     }
 }
-
-// 【修正】ここではまだ解放しない（コメントアウトするか削除）
-// BootServices->FreePool(kernelBuffer);
 
 SystemTable->ConOut->OutputString(SystemTable->ConOut, L"ELF loaded\n");
 
@@ -440,22 +477,19 @@ while (retry < 5) {
                                         &DescriptorSize, &DescriptorVersion);
     if (status != EFI_SUCCESS) continue;
 
-    // 【追加】ExitBootServicesを呼ぶ直前、もうカーネルのヘッダを読み終わったこのタイミングで解放する
-    // もしくは、原因特定のために一旦このFreePool自体を完全に消し去ってみてください！
-    BootServices->FreePool(kernelBuffer);
-
     status = BootServices->ExitBootServices(ImageHandle, MapKey);
     if (status == EFI_SUCCESS) break;
 }
 
 // ExitBootServices後はConOut使用不可
-typedef void (*kernelEntry)(FramebufferInfo *);
-kernelEntry entry = (kernelEntry)(ehdr->e_entry);
-   if (status != EFI_SUCCESS) {
-        return status;
-    }
-    
+typedef void (__attribute__((sysv_abi)) *kernelEntry)(void *);
+kernelEntry entry = (kernelEntry)kernel_entry;
+if (status != EFI_SUCCESS) {
+    return status;
+}
+
 entry(&fbinfo);
+return EFI_SUCCESS;
 
 }
 

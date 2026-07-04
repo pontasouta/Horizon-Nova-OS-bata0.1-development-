@@ -1,0 +1,175 @@
+tunable_option: glibc.rtld.dynamic_sort=1
+tunable_option: glibc.rtld.dynamic_sort=2
+
+tst-dso-ordering-all4-0: b->c;a->[cb];{}->[cba]
+output: c>b>a>{}<a<b<c
+
+tst-dso-ordering-all4-1: b->c;a->[cb];{}->[cab]
+output: c>b>a>{}<a<b<c
+
+tst-dso-ordering-all4-2: b->c;a->[cb];{}->[bca]
+output: c>b>a>{}<a<b<c
+
+tst-dso-ordering-all4-3: b->c;a->[cb];{}->[bac]
+output: c>b>a>{}<a<b<c
+
+tst-dso-ordering-all4-4: b->c;a->[cb];{}->[abc]
+output: c>b>a>{}<a<b<c
+
+tst-dso-ordering-all4-5: b->c;a->[cb];{}->[acb]
+output: c>b>a>{}<a<b<c
+
+tst-dso-ordering-all4-6: b->c;a->[bc];{}->[cba]
+output: c>b>a>{}<a<b<c
+
+tst-dso-ordering-all4-7: b->c;a->[bc];{}->[cab]
+output: c>b>a>{}<a<b<c
+
+tst-dso-ordering-all4-8: b->c;a->[bc];{}->[bca]
+output: c>b>a>{}<a<b<c
+
+tst-dso-ordering-all4-9: b->c;a->[bc];{}->[bac]
+output: c>b>a>{}<a<b<c
+
+tst-dso-ordering-all4-10: b->c;a->[bc];{}->[abc]
+output: c>b>a>{}<a<b<c
+
+tst-dso-ordering-all4-11: b->c;a->[bc];{}->[acb]
+output: c>b>a>{}<a<b<c
+
+tst-dso-ordering-all4-12: b->c;a->[cb];{}->[ca]
+output: c>b>a>{}<a<b<c
+
+tst-dso-ordering-all4-13: b->c;a->[cb];{}->[ac]
+output: c>b>a>{}<a<b<c
+
+tst-dso-ordering-all4-14: b->c;a->[bc];{}->[ca]
+output: c>b>a>{}<a<b<c
+
+tst-dso-ordering-all4-15: b->c;a->[bc];{}->[ac]
+output: c>b>a>{}<a<b<c
+
+tst-dso-ordering-all4-16: b->c;a->[cb];{}->[ba]
+output: c>b>a>{}<a<b<c
+
+tst-dso-ordering-all4-17: b->c;a->[cb];{}->[ab]
+output: c>b>a>{}<a<b<c
+
+tst-dso-ordering-all4-18: b->c;a->[bc];{}->[ba]
+output: c>b>a>{}<a<b<c
+
+tst-dso-ordering-all4-19: b->c;a->[bc];{}->[ab]
+output: c>b>a>{}<a<b<c
+
+tst-dso-ordering-all4-20: b->c;a->[cb];{}->a
+output: c>b>a>{}<a<b<c
+
+tst-dso-ordering-all4-21: b->c;a->[bc];{}->a
+output: c>b>a>{}<a<b<c
+
+tst-dso-ordering-all4-22: b->c;a->c;{}->[cab]
+output: c>b>a>{}<a<b<c
+
+tst-dso-ordering-all4-23: b->c;a->c;{}->[abc]
+output: c>b>a>{}<a<b<c
+
+tst-dso-ordering-all4-24: b->c;a->c;{}->[acb]
+output: c>b>a>{}<a<b<c
+
+tst-dso-ordering-all4-25: b->c;a->c;{}->[ab]
+output: c>b>a>{}<a<b<c
+
+tst-dso-ordering-all4-26: b->c;a->b;{}->[cba]
+output: c>b>a>{}<a<b<c
+
+tst-dso-ordering-all4-27: b->c;a->b;{}->[cab]
+output: c>b>a>{}<a<b<c
+
+tst-dso-ordering-all4-28: b->c;a->b;{}->[bca]
+output: c>b>a>{}<a<b<c
+
+tst-dso-ordering-all4-29: b->c;a->b;{}->[bac]
+output: c>b>a>{}<a<b<c
+
+tst-dso-ordering-all4-30: b->c;a->b;{}->[abc]
+output: c>b>a>{}<a<b<c
+
+tst-dso-ordering-all4-31: b->c;a->b;{}->[acb]
+output: c>b>a>{}<a<b<c
+
+tst-dso-ordering-all4-32: b->c;a->b;{}->[ca]
+output: c>b>a>{}<a<b<c
+
+tst-dso-ordering-all4-33: b->c;a->b;{}->[ac]
+output: c>b>a>{}<a<b<c
+
+tst-dso-ordering-all4-34: b->c;a->b;{}->[ba]
+output: c>b>a>{}<a<b<c
+
+tst-dso-ordering-all4-35: b->c;a->b;{}->[ab]
+output: c>b>a>{}<a<b<c
+
+tst-dso-ordering-all4-36: b->c;a->b;{}->a
+output: c>b>a>{}<a<b<c
+
+tst-dso-ordering-all4-37: b->c;{}->[cab]
+output: c>b>a>{}<a<b<c
+
+tst-dso-ordering-all4-38: b->c;{}->[abc]
+output: c>b>a>{}<a<b<c
+
+tst-dso-ordering-all4-39: b->c;{}->[acb]
+output: c>b>a>{}<a<b<c
+
+tst-dso-ordering-all4-40: b->c;{}->[ab]
+output: c>b>a>{}<a<b<c
+
+tst-dso-ordering-all4-41: a->[cb];{}->[cba]
+output: c>b>a>{}<a<b<c
+
+tst-dso-ordering-all4-42: a->[cb];{}->[bac]
+output: c>b>a>{}<a<b<c
+
+tst-dso-ordering-all4-43: a->[cb];{}->[abc]
+output: c>b>a>{}<a<b<c
+
+tst-dso-ordering-all4-44: a->[bc];{}->[cba]
+output(glibc.rtld.dynamic_sort=1): c>b>a>{}<a<b<c
+output(glibc.rtld.dynamic_sort=2): b>c>a>{}<a<c<b
+
+tst-dso-ordering-all4-45: a->[bc];{}->[bac]
+output: c>b>a>{}<a<b<c
+
+tst-dso-ordering-all4-46: a->[bc];{}->[abc]
+output: c>b>a>{}<a<b<c
+
+tst-dso-ordering-all4-47: a->[cb];{}->[ba]
+output: c>b>a>{}<a<b<c
+
+tst-dso-ordering-all4-48: a->[cb];{}->[ab]
+output: c>b>a>{}<a<b<c
+
+tst-dso-ordering-all4-49: a->[bc];{}->[ba]
+output: c>b>a>{}<a<b<c
+
+tst-dso-ordering-all4-50: a->[bc];{}->[ab]
+output: c>b>a>{}<a<b<c
+
+tst-dso-ordering-all4-51: a->[bc];{}->a
+output: c>b>a>{}<a<b<c
+
+tst-dso-ordering-all4-52: a->c;{}->[abc]
+output: c>b>a>{}<a<b<c
+
+tst-dso-ordering-all4-53: a->c;{}->[ab]
+output: c>b>a>{}<a<b<c
+
+tst-dso-ordering-all4-54: a->b;{}->[bac]
+output: c>b>a>{}<a<b<c
+
+tst-dso-ordering-all4-55: a->b;{}->[abc]
+output: c>b>a>{}<a<b<c
+
+tst-dso-ordering-all4-56: {}->[abc]
+output: c>b>a>{}<a<b<c
+

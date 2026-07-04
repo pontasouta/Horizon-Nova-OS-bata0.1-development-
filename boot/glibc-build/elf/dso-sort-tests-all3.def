@@ -1,0 +1,15 @@
+tunable_option: glibc.rtld.dynamic_sort=1
+tunable_option: glibc.rtld.dynamic_sort=2
+
+tst-dso-ordering-all3-0: a->b;{}->[ba]
+output: b>a>{}<a<b
+
+tst-dso-ordering-all3-1: a->b;{}->[ab]
+output: b>a>{}<a<b
+
+tst-dso-ordering-all3-2: a->b;{}->a
+output: b>a>{}<a<b
+
+tst-dso-ordering-all3-3: {}->[ab]
+output: b>a>{}<a<b
+
