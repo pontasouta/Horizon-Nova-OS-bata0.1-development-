@@ -1,0 +1,34 @@
+/home/sota/myos/boot/glibc-build/support/check_group.oS: check_group.c \
+ ../include/stdc-predef.h /home/sota/myos/boot/glibc-build/libc-modules.h \
+ ../include/libc-symbols.h ../include/libc-misc.h \
+ /home/sota/myos/boot/glibc-build/config.h \
+ ../sysdeps/generic/libc-symver.h ../include/libc-diag.h \
+ ../sysdeps/generic/symbol-hacks.h ../support/check_nss.h \
+ ../include/sys/cdefs.h ../misc/sys/cdefs.h ../include/features.h \
+ ../include/features-time64.h \
+ ../sysdeps/unix/sysv/linux/features-time64.h \
+ ../sysdeps/x86/bits/wordsize.h \
+ ../sysdeps/unix/sysv/linux/x86/bits/timesize.h ../include/gnu/stubs.h \
+ ../sysdeps/ieee754/ldbl-96/bits/long-double.h \
+ /usr/lib/gcc/x86_64-pc-linux-gnu/16.1.1/include/stddef.h \
+ ../support/format_nss.h
+../include/stdc-predef.h:
+/home/sota/myos/boot/glibc-build/libc-modules.h:
+../include/libc-symbols.h:
+../include/libc-misc.h:
+/home/sota/myos/boot/glibc-build/config.h:
+../sysdeps/generic/libc-symver.h:
+../include/libc-diag.h:
+../sysdeps/generic/symbol-hacks.h:
+../support/check_nss.h:
+../include/sys/cdefs.h:
+../misc/sys/cdefs.h:
+../include/features.h:
+../include/features-time64.h:
+../sysdeps/unix/sysv/linux/features-time64.h:
+../sysdeps/x86/bits/wordsize.h:
+../sysdeps/unix/sysv/linux/x86/bits/timesize.h:
+../include/gnu/stubs.h:
+../sysdeps/ieee754/ldbl-96/bits/long-double.h:
+/usr/lib/gcc/x86_64-pc-linux-gnu/16.1.1/include/stddef.h:
+../support/format_nss.h:

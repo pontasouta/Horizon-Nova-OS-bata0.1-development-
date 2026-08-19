@@ -1,0 +1,15 @@
+/home/sota/myos/boot/glibc-build/math/w_log1pf.os: \
+ ../sysdeps/ieee754/flt-32/w_log1pf.c ../include/stdc-predef.h \
+ /home/sota/myos/boot/glibc-build/libc-modules.h \
+ ../include/libc-symbols.h ../include/libc-misc.h \
+ /home/sota/myos/boot/glibc-build/config.h \
+ ../sysdeps/generic/libc-symver.h ../include/libc-diag.h \
+ ../sysdeps/generic/symbol-hacks.h
+../include/stdc-predef.h:
+/home/sota/myos/boot/glibc-build/libc-modules.h:
+../include/libc-symbols.h:
+../include/libc-misc.h:
+/home/sota/myos/boot/glibc-build/config.h:
+../sysdeps/generic/libc-symver.h:
+../include/libc-diag.h:
+../sysdeps/generic/symbol-hacks.h:

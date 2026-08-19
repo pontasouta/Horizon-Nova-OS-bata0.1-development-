@@ -1,0 +1,18 @@
+ifeq (yes,$(build-shared))
+$(objpfx)tst-dso-ordering-all2-0-dir/tst-dso-ordering-all2-0-a.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all2-0-a.c
+	$(compile.c) $(OUTPUT_OPTION)
+modules-names += tst-dso-ordering-all2-0-dir/tst-dso-ordering-all2-0-a
+LDFLAGS-tst-dso-ordering-all2-0-a.so = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all2-0-dir/tst-dso-ordering-all2-0: $(objpfx)tst-dso-ordering-all2-0-dir/tst-dso-ordering-all2-0-a.so
+LDFLAGS-tst-dso-ordering-all2-0 = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all2-0-dir/tst-dso-ordering-all2-0.o: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all2-0.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all2-0.out: $(objpfx)tst-dso-ordering-all2-0-dir/tst-dso-ordering-all2-0-a.so
+test-srcs += tst-dso-ordering-all2-0-dir/tst-dso-ordering-all2-0
+$(objpfx)tst-dso-ordering-all2-0.out: $(objpfx)tst-dso-ordering-all2-0-dir/tst-dso-ordering-all2-0
+$(objpfx)tst-dso-ordering-all2-0.out: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all2-0.sh $(objpfx)dso-sort-tests-src/tst-dso-ordering-all2-0.exp $(common-objpfx)support/test-run-command
+	$(SHELL) $< $(common-objpfx) '$(test-wrapper-env)' '$(run-program-env)' '$(rpath-link)' > $@; $(evaluate-test)
+ifeq ($(run-built-tests),yes)
+tests-special += $(objpfx)tst-dso-ordering-all2-0.out
+endif
+endif

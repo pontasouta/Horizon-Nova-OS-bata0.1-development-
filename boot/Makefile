@@ -24,10 +24,10 @@ myoskernel.elf:
 	-static \
 	-Wl,-T,linker.ld \
 	-Wl,-entry=mainkernel \
+	-Wl,-z,notext -Wl,-z,execstack \
 	horaizon-nova-oskernel.c \
 	-o myoskernel.elf
-	
+
 	
 	llvm-objcopy --strip-all myoskernel.elf
-
 	cp myoskernel.elf esp/myoskernel.elf

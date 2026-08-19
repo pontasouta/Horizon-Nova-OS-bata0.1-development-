@@ -1,0 +1,16 @@
+/home/sota/myos/boot/glibc-build/nss/hash-string.os: \
+ ../intl/hash-string.c ../include/stdc-predef.h \
+ /home/sota/myos/boot/glibc-build/libc-modules.h \
+ ../include/libc-symbols.h ../include/libc-misc.h \
+ /home/sota/myos/boot/glibc-build/config.h \
+ ../sysdeps/generic/libc-symver.h ../include/libc-diag.h \
+ ../sysdeps/generic/symbol-hacks.h ../intl/hash-string.h
+../include/stdc-predef.h:
+/home/sota/myos/boot/glibc-build/libc-modules.h:
+../include/libc-symbols.h:
+../include/libc-misc.h:
+/home/sota/myos/boot/glibc-build/config.h:
+../sysdeps/generic/libc-symver.h:
+../include/libc-diag.h:
+../sysdeps/generic/symbol-hacks.h:
+../intl/hash-string.h:

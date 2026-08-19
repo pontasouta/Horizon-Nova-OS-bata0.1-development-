@@ -1,0 +1,161 @@
+$(common-objpfx)misc/lutimes.os: \
+ ../sysdeps/unix/sysv/linux/lutimes.c ../include/stdc-predef.h \
+ $(common-objpfx)libc-modules.h \
+ ../include/libc-symbols.h ../include/libc-misc.h \
+ $(common-objpfx)config.h \
+ ../sysdeps/generic/libc-symver.h ../include/libc-diag.h \
+ ../sysdeps/generic/symbol-hacks.h ../include/errno.h ../stdlib/errno.h \
+ ../include/features.h ../include/features-time64.h \
+ ../sysdeps/unix/sysv/linux/features-time64.h \
+ ../sysdeps/x86/bits/wordsize.h \
+ ../sysdeps/unix/sysv/linux/x86/bits/timesize.h ../include/sys/cdefs.h \
+ ../misc/sys/cdefs.h ../sysdeps/ieee754/ldbl-96/bits/long-double.h \
+ ../include/gnu/stubs.h ../sysdeps/unix/sysv/linux/bits/errno.h \
+ /usr/include/linux/errno.h /usr/include/asm/errno.h \
+ /usr/include/asm-generic/errno.h /usr/include/asm-generic/errno-base.h \
+ ../bits/types/error_t.h ../include/fcntl.h ../io/fcntl.h \
+ ../include/bits/types.h ../posix/bits/types.h \
+ ../sysdeps/unix/sysv/linux/x86/bits/typesizes.h ../bits/time64.h \
+ ../sysdeps/unix/sysv/linux/x86/bits/fcntl.h \
+ ../sysdeps/unix/sysv/linux/bits/fcntl-linux.h \
+ ../include/bits/types/struct_iovec.h ../misc/bits/types/struct_iovec.h \
+ /usr/lib/gcc/x86_64-pc-linux-gnu/16.1.1/include/stddef.h \
+ ../sysdeps/unix/sysv/linux/bits/cloexec.h /usr/include/linux/falloc.h \
+ /usr/include/linux/openat2.h /usr/include/linux/types.h \
+ /usr/include/asm/types.h /usr/include/asm-generic/types.h \
+ /usr/include/asm-generic/int-ll64.h /usr/include/asm/bitsperlong.h \
+ /usr/include/asm-generic/bitsperlong.h /usr/include/linux/posix_types.h \
+ /usr/include/linux/stddef.h /usr/include/asm/posix_types.h \
+ /usr/include/asm/posix_types_64.h /usr/include/asm-generic/posix_types.h \
+ ../sysdeps/unix/sysv/linux/bits/openat2.h \
+ ../include/bits/types/struct_timespec.h \
+ ../time/bits/types/struct_timespec.h ../include/bits/endian.h \
+ ../string/bits/endian.h ../sysdeps/x86/bits/endianness.h \
+ ../include/bits/types/time_t.h ../time/bits/types/time_t.h \
+ ../sysdeps/unix/sysv/linux/bits/stat.h \
+ ../sysdeps/unix/sysv/linux/x86/bits/struct_stat.h ../include/time.h \
+ ../time/time.h ../sysdeps/unix/sysv/linux/bits/time.h \
+ ../sysdeps/unix/sysv/linux/bits/timex.h \
+ ../include/bits/types/struct_timeval.h \
+ ../time/bits/types/struct_timeval.h ../include/bits/types/clock_t.h \
+ ../time/bits/types/clock_t.h ../include/bits/types/struct_tm.h \
+ ../time/bits/types/struct_tm.h ../include/bits/types/clockid_t.h \
+ ../time/bits/types/clockid_t.h ../include/bits/types/timer_t.h \
+ ../time/bits/types/timer_t.h ../include/bits/types/struct_itimerspec.h \
+ ../time/bits/types/struct_itimerspec.h ../include/bits/types/locale_t.h \
+ ../locale/bits/types/locale_t.h ../include/bits/types/__locale_t.h \
+ ../locale/bits/types/__locale_t.h ../include/struct___timespec64.h \
+ ../include/struct___timeval64.h \
+ /usr/lib/gcc/x86_64-pc-linux-gnu/16.1.1/include/stdbool.h \
+ ../time/mktime-internal.h ../include/sys/time.h ../time/sys/time.h \
+ ../include/sys/select.h ../misc/sys/select.h ../bits/select.h \
+ ../include/bits/types/sigset_t.h ../signal/bits/types/sigset_t.h \
+ ../sysdeps/unix/sysv/linux/bits/types/__sigset_t.h \
+ ../include/bits/select-decl.h ../misc/bits/select-decl.h \
+ ../sysdeps/unix/sysv/linux/time-clockid.h ../include/stdint.h \
+ ../stdlib/stdint.h ../bits/libc-header-start.h ../bits/wchar.h \
+ ../bits/stdint-intn.h ../bits/stdint-uintn.h ../bits/stdint-least.h \
+ ../include/verify.h
+../include/stdc-predef.h:
+$(common-objpfx)libc-modules.h:
+../include/libc-symbols.h:
+../include/libc-misc.h:
+$(common-objpfx)config.h:
+../sysdeps/generic/libc-symver.h:
+../include/libc-diag.h:
+../sysdeps/generic/symbol-hacks.h:
+../include/errno.h:
+../stdlib/errno.h:
+../include/features.h:
+../include/features-time64.h:
+../sysdeps/unix/sysv/linux/features-time64.h:
+../sysdeps/x86/bits/wordsize.h:
+../sysdeps/unix/sysv/linux/x86/bits/timesize.h:
+../include/sys/cdefs.h:
+../misc/sys/cdefs.h:
+../sysdeps/ieee754/ldbl-96/bits/long-double.h:
+../include/gnu/stubs.h:
+../sysdeps/unix/sysv/linux/bits/errno.h:
+/usr/include/linux/errno.h:
+/usr/include/asm/errno.h:
+/usr/include/asm-generic/errno.h:
+/usr/include/asm-generic/errno-base.h:
+../bits/types/error_t.h:
+../include/fcntl.h:
+../io/fcntl.h:
+../include/bits/types.h:
+../posix/bits/types.h:
+../sysdeps/unix/sysv/linux/x86/bits/typesizes.h:
+../bits/time64.h:
+../sysdeps/unix/sysv/linux/x86/bits/fcntl.h:
+../sysdeps/unix/sysv/linux/bits/fcntl-linux.h:
+../include/bits/types/struct_iovec.h:
+../misc/bits/types/struct_iovec.h:
+/usr/lib/gcc/x86_64-pc-linux-gnu/16.1.1/include/stddef.h:
+../sysdeps/unix/sysv/linux/bits/cloexec.h:
+/usr/include/linux/falloc.h:
+/usr/include/linux/openat2.h:
+/usr/include/linux/types.h:
+/usr/include/asm/types.h:
+/usr/include/asm-generic/types.h:
+/usr/include/asm-generic/int-ll64.h:
+/usr/include/asm/bitsperlong.h:
+/usr/include/asm-generic/bitsperlong.h:
+/usr/include/linux/posix_types.h:
+/usr/include/linux/stddef.h:
+/usr/include/asm/posix_types.h:
+/usr/include/asm/posix_types_64.h:
+/usr/include/asm-generic/posix_types.h:
+../sysdeps/unix/sysv/linux/bits/openat2.h:
+../include/bits/types/struct_timespec.h:
+../time/bits/types/struct_timespec.h:
+../include/bits/endian.h:
+../string/bits/endian.h:
+../sysdeps/x86/bits/endianness.h:
+../include/bits/types/time_t.h:
+../time/bits/types/time_t.h:
+../sysdeps/unix/sysv/linux/bits/stat.h:
+../sysdeps/unix/sysv/linux/x86/bits/struct_stat.h:
+../include/time.h:
+../time/time.h:
+../sysdeps/unix/sysv/linux/bits/time.h:
+../sysdeps/unix/sysv/linux/bits/timex.h:
+../include/bits/types/struct_timeval.h:
+../time/bits/types/struct_timeval.h:
+../include/bits/types/clock_t.h:
+../time/bits/types/clock_t.h:
+../include/bits/types/struct_tm.h:
+../time/bits/types/struct_tm.h:
+../include/bits/types/clockid_t.h:
+../time/bits/types/clockid_t.h:
+../include/bits/types/timer_t.h:
+../time/bits/types/timer_t.h:
+../include/bits/types/struct_itimerspec.h:
+../time/bits/types/struct_itimerspec.h:
+../include/bits/types/locale_t.h:
+../locale/bits/types/locale_t.h:
+../include/bits/types/__locale_t.h:
+../locale/bits/types/__locale_t.h:
+../include/struct___timespec64.h:
+../include/struct___timeval64.h:
+/usr/lib/gcc/x86_64-pc-linux-gnu/16.1.1/include/stdbool.h:
+../time/mktime-internal.h:
+../include/sys/time.h:
+../time/sys/time.h:
+../include/sys/select.h:
+../misc/sys/select.h:
+../bits/select.h:
+../include/bits/types/sigset_t.h:
+../signal/bits/types/sigset_t.h:
+../sysdeps/unix/sysv/linux/bits/types/__sigset_t.h:
+../include/bits/select-decl.h:
+../misc/bits/select-decl.h:
+../sysdeps/unix/sysv/linux/time-clockid.h:
+../include/stdint.h:
+../stdlib/stdint.h:
+../bits/libc-header-start.h:
+../bits/wchar.h:
+../bits/stdint-intn.h:
+../bits/stdint-uintn.h:
+../bits/stdint-least.h:
+../include/verify.h:

@@ -1,0 +1,1461 @@
+ifeq (yes,$(build-shared))
+$(objpfx)tst-dso-ordering-all4-0-dir/tst-dso-ordering-all4-0-b.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-0-b.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-0-dir/tst-dso-ordering-all4-0-c.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-0-c.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-0-dir/tst-dso-ordering-all4-0-a.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-0-a.c
+	$(compile.c) $(OUTPUT_OPTION)
+modules-names += tst-dso-ordering-all4-0-dir/tst-dso-ordering-all4-0-b tst-dso-ordering-all4-0-dir/tst-dso-ordering-all4-0-c tst-dso-ordering-all4-0-dir/tst-dso-ordering-all4-0-a
+$(objpfx)tst-dso-ordering-all4-0-dir/tst-dso-ordering-all4-0-b.so: $(objpfx)tst-dso-ordering-all4-0-dir/tst-dso-ordering-all4-0-c.so
+$(objpfx)tst-dso-ordering-all4-0-dir/tst-dso-ordering-all4-0-a.so: $(objpfx)tst-dso-ordering-all4-0-dir/tst-dso-ordering-all4-0-c.so $(objpfx)tst-dso-ordering-all4-0-dir/tst-dso-ordering-all4-0-b.so
+LDFLAGS-tst-dso-ordering-all4-0-b.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-0-c.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-0-a.so = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-0-dir/tst-dso-ordering-all4-0: $(objpfx)tst-dso-ordering-all4-0-dir/tst-dso-ordering-all4-0-c.so $(objpfx)tst-dso-ordering-all4-0-dir/tst-dso-ordering-all4-0-b.so $(objpfx)tst-dso-ordering-all4-0-dir/tst-dso-ordering-all4-0-a.so
+LDFLAGS-tst-dso-ordering-all4-0 = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-0-dir/tst-dso-ordering-all4-0.o: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-0.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-0.out: $(objpfx)tst-dso-ordering-all4-0-dir/tst-dso-ordering-all4-0-b.so $(objpfx)tst-dso-ordering-all4-0-dir/tst-dso-ordering-all4-0-c.so $(objpfx)tst-dso-ordering-all4-0-dir/tst-dso-ordering-all4-0-a.so
+test-srcs += tst-dso-ordering-all4-0-dir/tst-dso-ordering-all4-0
+$(objpfx)tst-dso-ordering-all4-0.out: $(objpfx)tst-dso-ordering-all4-0-dir/tst-dso-ordering-all4-0
+$(objpfx)tst-dso-ordering-all4-0.out: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-0.sh $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-0.exp $(common-objpfx)support/test-run-command
+	$(SHELL) $< $(common-objpfx) '$(test-wrapper-env)' '$(run-program-env)' '$(rpath-link)' > $@; $(evaluate-test)
+ifeq ($(run-built-tests),yes)
+tests-special += $(objpfx)tst-dso-ordering-all4-0.out
+endif
+endif
+ifeq (yes,$(build-shared))
+$(objpfx)tst-dso-ordering-all4-1-dir/tst-dso-ordering-all4-1-b.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-1-b.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-1-dir/tst-dso-ordering-all4-1-c.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-1-c.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-1-dir/tst-dso-ordering-all4-1-a.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-1-a.c
+	$(compile.c) $(OUTPUT_OPTION)
+modules-names += tst-dso-ordering-all4-1-dir/tst-dso-ordering-all4-1-b tst-dso-ordering-all4-1-dir/tst-dso-ordering-all4-1-c tst-dso-ordering-all4-1-dir/tst-dso-ordering-all4-1-a
+$(objpfx)tst-dso-ordering-all4-1-dir/tst-dso-ordering-all4-1-b.so: $(objpfx)tst-dso-ordering-all4-1-dir/tst-dso-ordering-all4-1-c.so
+$(objpfx)tst-dso-ordering-all4-1-dir/tst-dso-ordering-all4-1-a.so: $(objpfx)tst-dso-ordering-all4-1-dir/tst-dso-ordering-all4-1-c.so $(objpfx)tst-dso-ordering-all4-1-dir/tst-dso-ordering-all4-1-b.so
+LDFLAGS-tst-dso-ordering-all4-1-b.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-1-c.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-1-a.so = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-1-dir/tst-dso-ordering-all4-1: $(objpfx)tst-dso-ordering-all4-1-dir/tst-dso-ordering-all4-1-c.so $(objpfx)tst-dso-ordering-all4-1-dir/tst-dso-ordering-all4-1-a.so $(objpfx)tst-dso-ordering-all4-1-dir/tst-dso-ordering-all4-1-b.so
+LDFLAGS-tst-dso-ordering-all4-1 = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-1-dir/tst-dso-ordering-all4-1.o: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-1.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-1.out: $(objpfx)tst-dso-ordering-all4-1-dir/tst-dso-ordering-all4-1-b.so $(objpfx)tst-dso-ordering-all4-1-dir/tst-dso-ordering-all4-1-c.so $(objpfx)tst-dso-ordering-all4-1-dir/tst-dso-ordering-all4-1-a.so
+test-srcs += tst-dso-ordering-all4-1-dir/tst-dso-ordering-all4-1
+$(objpfx)tst-dso-ordering-all4-1.out: $(objpfx)tst-dso-ordering-all4-1-dir/tst-dso-ordering-all4-1
+$(objpfx)tst-dso-ordering-all4-1.out: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-1.sh $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-1.exp $(common-objpfx)support/test-run-command
+	$(SHELL) $< $(common-objpfx) '$(test-wrapper-env)' '$(run-program-env)' '$(rpath-link)' > $@; $(evaluate-test)
+ifeq ($(run-built-tests),yes)
+tests-special += $(objpfx)tst-dso-ordering-all4-1.out
+endif
+endif
+ifeq (yes,$(build-shared))
+$(objpfx)tst-dso-ordering-all4-2-dir/tst-dso-ordering-all4-2-b.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-2-b.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-2-dir/tst-dso-ordering-all4-2-c.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-2-c.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-2-dir/tst-dso-ordering-all4-2-a.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-2-a.c
+	$(compile.c) $(OUTPUT_OPTION)
+modules-names += tst-dso-ordering-all4-2-dir/tst-dso-ordering-all4-2-b tst-dso-ordering-all4-2-dir/tst-dso-ordering-all4-2-c tst-dso-ordering-all4-2-dir/tst-dso-ordering-all4-2-a
+$(objpfx)tst-dso-ordering-all4-2-dir/tst-dso-ordering-all4-2-b.so: $(objpfx)tst-dso-ordering-all4-2-dir/tst-dso-ordering-all4-2-c.so
+$(objpfx)tst-dso-ordering-all4-2-dir/tst-dso-ordering-all4-2-a.so: $(objpfx)tst-dso-ordering-all4-2-dir/tst-dso-ordering-all4-2-c.so $(objpfx)tst-dso-ordering-all4-2-dir/tst-dso-ordering-all4-2-b.so
+LDFLAGS-tst-dso-ordering-all4-2-b.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-2-c.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-2-a.so = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-2-dir/tst-dso-ordering-all4-2: $(objpfx)tst-dso-ordering-all4-2-dir/tst-dso-ordering-all4-2-b.so $(objpfx)tst-dso-ordering-all4-2-dir/tst-dso-ordering-all4-2-c.so $(objpfx)tst-dso-ordering-all4-2-dir/tst-dso-ordering-all4-2-a.so
+LDFLAGS-tst-dso-ordering-all4-2 = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-2-dir/tst-dso-ordering-all4-2.o: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-2.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-2.out: $(objpfx)tst-dso-ordering-all4-2-dir/tst-dso-ordering-all4-2-b.so $(objpfx)tst-dso-ordering-all4-2-dir/tst-dso-ordering-all4-2-c.so $(objpfx)tst-dso-ordering-all4-2-dir/tst-dso-ordering-all4-2-a.so
+test-srcs += tst-dso-ordering-all4-2-dir/tst-dso-ordering-all4-2
+$(objpfx)tst-dso-ordering-all4-2.out: $(objpfx)tst-dso-ordering-all4-2-dir/tst-dso-ordering-all4-2
+$(objpfx)tst-dso-ordering-all4-2.out: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-2.sh $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-2.exp $(common-objpfx)support/test-run-command
+	$(SHELL) $< $(common-objpfx) '$(test-wrapper-env)' '$(run-program-env)' '$(rpath-link)' > $@; $(evaluate-test)
+ifeq ($(run-built-tests),yes)
+tests-special += $(objpfx)tst-dso-ordering-all4-2.out
+endif
+endif
+ifeq (yes,$(build-shared))
+$(objpfx)tst-dso-ordering-all4-3-dir/tst-dso-ordering-all4-3-b.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-3-b.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-3-dir/tst-dso-ordering-all4-3-c.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-3-c.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-3-dir/tst-dso-ordering-all4-3-a.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-3-a.c
+	$(compile.c) $(OUTPUT_OPTION)
+modules-names += tst-dso-ordering-all4-3-dir/tst-dso-ordering-all4-3-b tst-dso-ordering-all4-3-dir/tst-dso-ordering-all4-3-c tst-dso-ordering-all4-3-dir/tst-dso-ordering-all4-3-a
+$(objpfx)tst-dso-ordering-all4-3-dir/tst-dso-ordering-all4-3-b.so: $(objpfx)tst-dso-ordering-all4-3-dir/tst-dso-ordering-all4-3-c.so
+$(objpfx)tst-dso-ordering-all4-3-dir/tst-dso-ordering-all4-3-a.so: $(objpfx)tst-dso-ordering-all4-3-dir/tst-dso-ordering-all4-3-c.so $(objpfx)tst-dso-ordering-all4-3-dir/tst-dso-ordering-all4-3-b.so
+LDFLAGS-tst-dso-ordering-all4-3-b.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-3-c.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-3-a.so = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-3-dir/tst-dso-ordering-all4-3: $(objpfx)tst-dso-ordering-all4-3-dir/tst-dso-ordering-all4-3-b.so $(objpfx)tst-dso-ordering-all4-3-dir/tst-dso-ordering-all4-3-a.so $(objpfx)tst-dso-ordering-all4-3-dir/tst-dso-ordering-all4-3-c.so
+LDFLAGS-tst-dso-ordering-all4-3 = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-3-dir/tst-dso-ordering-all4-3.o: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-3.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-3.out: $(objpfx)tst-dso-ordering-all4-3-dir/tst-dso-ordering-all4-3-b.so $(objpfx)tst-dso-ordering-all4-3-dir/tst-dso-ordering-all4-3-c.so $(objpfx)tst-dso-ordering-all4-3-dir/tst-dso-ordering-all4-3-a.so
+test-srcs += tst-dso-ordering-all4-3-dir/tst-dso-ordering-all4-3
+$(objpfx)tst-dso-ordering-all4-3.out: $(objpfx)tst-dso-ordering-all4-3-dir/tst-dso-ordering-all4-3
+$(objpfx)tst-dso-ordering-all4-3.out: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-3.sh $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-3.exp $(common-objpfx)support/test-run-command
+	$(SHELL) $< $(common-objpfx) '$(test-wrapper-env)' '$(run-program-env)' '$(rpath-link)' > $@; $(evaluate-test)
+ifeq ($(run-built-tests),yes)
+tests-special += $(objpfx)tst-dso-ordering-all4-3.out
+endif
+endif
+ifeq (yes,$(build-shared))
+$(objpfx)tst-dso-ordering-all4-4-dir/tst-dso-ordering-all4-4-b.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-4-b.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-4-dir/tst-dso-ordering-all4-4-c.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-4-c.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-4-dir/tst-dso-ordering-all4-4-a.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-4-a.c
+	$(compile.c) $(OUTPUT_OPTION)
+modules-names += tst-dso-ordering-all4-4-dir/tst-dso-ordering-all4-4-b tst-dso-ordering-all4-4-dir/tst-dso-ordering-all4-4-c tst-dso-ordering-all4-4-dir/tst-dso-ordering-all4-4-a
+$(objpfx)tst-dso-ordering-all4-4-dir/tst-dso-ordering-all4-4-b.so: $(objpfx)tst-dso-ordering-all4-4-dir/tst-dso-ordering-all4-4-c.so
+$(objpfx)tst-dso-ordering-all4-4-dir/tst-dso-ordering-all4-4-a.so: $(objpfx)tst-dso-ordering-all4-4-dir/tst-dso-ordering-all4-4-c.so $(objpfx)tst-dso-ordering-all4-4-dir/tst-dso-ordering-all4-4-b.so
+LDFLAGS-tst-dso-ordering-all4-4-b.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-4-c.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-4-a.so = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-4-dir/tst-dso-ordering-all4-4: $(objpfx)tst-dso-ordering-all4-4-dir/tst-dso-ordering-all4-4-a.so $(objpfx)tst-dso-ordering-all4-4-dir/tst-dso-ordering-all4-4-b.so $(objpfx)tst-dso-ordering-all4-4-dir/tst-dso-ordering-all4-4-c.so
+LDFLAGS-tst-dso-ordering-all4-4 = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-4-dir/tst-dso-ordering-all4-4.o: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-4.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-4.out: $(objpfx)tst-dso-ordering-all4-4-dir/tst-dso-ordering-all4-4-b.so $(objpfx)tst-dso-ordering-all4-4-dir/tst-dso-ordering-all4-4-c.so $(objpfx)tst-dso-ordering-all4-4-dir/tst-dso-ordering-all4-4-a.so
+test-srcs += tst-dso-ordering-all4-4-dir/tst-dso-ordering-all4-4
+$(objpfx)tst-dso-ordering-all4-4.out: $(objpfx)tst-dso-ordering-all4-4-dir/tst-dso-ordering-all4-4
+$(objpfx)tst-dso-ordering-all4-4.out: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-4.sh $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-4.exp $(common-objpfx)support/test-run-command
+	$(SHELL) $< $(common-objpfx) '$(test-wrapper-env)' '$(run-program-env)' '$(rpath-link)' > $@; $(evaluate-test)
+ifeq ($(run-built-tests),yes)
+tests-special += $(objpfx)tst-dso-ordering-all4-4.out
+endif
+endif
+ifeq (yes,$(build-shared))
+$(objpfx)tst-dso-ordering-all4-5-dir/tst-dso-ordering-all4-5-b.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-5-b.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-5-dir/tst-dso-ordering-all4-5-c.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-5-c.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-5-dir/tst-dso-ordering-all4-5-a.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-5-a.c
+	$(compile.c) $(OUTPUT_OPTION)
+modules-names += tst-dso-ordering-all4-5-dir/tst-dso-ordering-all4-5-b tst-dso-ordering-all4-5-dir/tst-dso-ordering-all4-5-c tst-dso-ordering-all4-5-dir/tst-dso-ordering-all4-5-a
+$(objpfx)tst-dso-ordering-all4-5-dir/tst-dso-ordering-all4-5-b.so: $(objpfx)tst-dso-ordering-all4-5-dir/tst-dso-ordering-all4-5-c.so
+$(objpfx)tst-dso-ordering-all4-5-dir/tst-dso-ordering-all4-5-a.so: $(objpfx)tst-dso-ordering-all4-5-dir/tst-dso-ordering-all4-5-c.so $(objpfx)tst-dso-ordering-all4-5-dir/tst-dso-ordering-all4-5-b.so
+LDFLAGS-tst-dso-ordering-all4-5-b.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-5-c.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-5-a.so = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-5-dir/tst-dso-ordering-all4-5: $(objpfx)tst-dso-ordering-all4-5-dir/tst-dso-ordering-all4-5-a.so $(objpfx)tst-dso-ordering-all4-5-dir/tst-dso-ordering-all4-5-c.so $(objpfx)tst-dso-ordering-all4-5-dir/tst-dso-ordering-all4-5-b.so
+LDFLAGS-tst-dso-ordering-all4-5 = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-5-dir/tst-dso-ordering-all4-5.o: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-5.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-5.out: $(objpfx)tst-dso-ordering-all4-5-dir/tst-dso-ordering-all4-5-b.so $(objpfx)tst-dso-ordering-all4-5-dir/tst-dso-ordering-all4-5-c.so $(objpfx)tst-dso-ordering-all4-5-dir/tst-dso-ordering-all4-5-a.so
+test-srcs += tst-dso-ordering-all4-5-dir/tst-dso-ordering-all4-5
+$(objpfx)tst-dso-ordering-all4-5.out: $(objpfx)tst-dso-ordering-all4-5-dir/tst-dso-ordering-all4-5
+$(objpfx)tst-dso-ordering-all4-5.out: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-5.sh $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-5.exp $(common-objpfx)support/test-run-command
+	$(SHELL) $< $(common-objpfx) '$(test-wrapper-env)' '$(run-program-env)' '$(rpath-link)' > $@; $(evaluate-test)
+ifeq ($(run-built-tests),yes)
+tests-special += $(objpfx)tst-dso-ordering-all4-5.out
+endif
+endif
+ifeq (yes,$(build-shared))
+$(objpfx)tst-dso-ordering-all4-6-dir/tst-dso-ordering-all4-6-b.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-6-b.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-6-dir/tst-dso-ordering-all4-6-c.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-6-c.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-6-dir/tst-dso-ordering-all4-6-a.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-6-a.c
+	$(compile.c) $(OUTPUT_OPTION)
+modules-names += tst-dso-ordering-all4-6-dir/tst-dso-ordering-all4-6-b tst-dso-ordering-all4-6-dir/tst-dso-ordering-all4-6-c tst-dso-ordering-all4-6-dir/tst-dso-ordering-all4-6-a
+$(objpfx)tst-dso-ordering-all4-6-dir/tst-dso-ordering-all4-6-b.so: $(objpfx)tst-dso-ordering-all4-6-dir/tst-dso-ordering-all4-6-c.so
+$(objpfx)tst-dso-ordering-all4-6-dir/tst-dso-ordering-all4-6-a.so: $(objpfx)tst-dso-ordering-all4-6-dir/tst-dso-ordering-all4-6-b.so $(objpfx)tst-dso-ordering-all4-6-dir/tst-dso-ordering-all4-6-c.so
+LDFLAGS-tst-dso-ordering-all4-6-b.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-6-c.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-6-a.so = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-6-dir/tst-dso-ordering-all4-6: $(objpfx)tst-dso-ordering-all4-6-dir/tst-dso-ordering-all4-6-c.so $(objpfx)tst-dso-ordering-all4-6-dir/tst-dso-ordering-all4-6-b.so $(objpfx)tst-dso-ordering-all4-6-dir/tst-dso-ordering-all4-6-a.so
+LDFLAGS-tst-dso-ordering-all4-6 = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-6-dir/tst-dso-ordering-all4-6.o: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-6.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-6.out: $(objpfx)tst-dso-ordering-all4-6-dir/tst-dso-ordering-all4-6-b.so $(objpfx)tst-dso-ordering-all4-6-dir/tst-dso-ordering-all4-6-c.so $(objpfx)tst-dso-ordering-all4-6-dir/tst-dso-ordering-all4-6-a.so
+test-srcs += tst-dso-ordering-all4-6-dir/tst-dso-ordering-all4-6
+$(objpfx)tst-dso-ordering-all4-6.out: $(objpfx)tst-dso-ordering-all4-6-dir/tst-dso-ordering-all4-6
+$(objpfx)tst-dso-ordering-all4-6.out: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-6.sh $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-6.exp $(common-objpfx)support/test-run-command
+	$(SHELL) $< $(common-objpfx) '$(test-wrapper-env)' '$(run-program-env)' '$(rpath-link)' > $@; $(evaluate-test)
+ifeq ($(run-built-tests),yes)
+tests-special += $(objpfx)tst-dso-ordering-all4-6.out
+endif
+endif
+ifeq (yes,$(build-shared))
+$(objpfx)tst-dso-ordering-all4-7-dir/tst-dso-ordering-all4-7-b.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-7-b.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-7-dir/tst-dso-ordering-all4-7-c.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-7-c.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-7-dir/tst-dso-ordering-all4-7-a.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-7-a.c
+	$(compile.c) $(OUTPUT_OPTION)
+modules-names += tst-dso-ordering-all4-7-dir/tst-dso-ordering-all4-7-b tst-dso-ordering-all4-7-dir/tst-dso-ordering-all4-7-c tst-dso-ordering-all4-7-dir/tst-dso-ordering-all4-7-a
+$(objpfx)tst-dso-ordering-all4-7-dir/tst-dso-ordering-all4-7-b.so: $(objpfx)tst-dso-ordering-all4-7-dir/tst-dso-ordering-all4-7-c.so
+$(objpfx)tst-dso-ordering-all4-7-dir/tst-dso-ordering-all4-7-a.so: $(objpfx)tst-dso-ordering-all4-7-dir/tst-dso-ordering-all4-7-b.so $(objpfx)tst-dso-ordering-all4-7-dir/tst-dso-ordering-all4-7-c.so
+LDFLAGS-tst-dso-ordering-all4-7-b.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-7-c.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-7-a.so = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-7-dir/tst-dso-ordering-all4-7: $(objpfx)tst-dso-ordering-all4-7-dir/tst-dso-ordering-all4-7-c.so $(objpfx)tst-dso-ordering-all4-7-dir/tst-dso-ordering-all4-7-a.so $(objpfx)tst-dso-ordering-all4-7-dir/tst-dso-ordering-all4-7-b.so
+LDFLAGS-tst-dso-ordering-all4-7 = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-7-dir/tst-dso-ordering-all4-7.o: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-7.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-7.out: $(objpfx)tst-dso-ordering-all4-7-dir/tst-dso-ordering-all4-7-b.so $(objpfx)tst-dso-ordering-all4-7-dir/tst-dso-ordering-all4-7-c.so $(objpfx)tst-dso-ordering-all4-7-dir/tst-dso-ordering-all4-7-a.so
+test-srcs += tst-dso-ordering-all4-7-dir/tst-dso-ordering-all4-7
+$(objpfx)tst-dso-ordering-all4-7.out: $(objpfx)tst-dso-ordering-all4-7-dir/tst-dso-ordering-all4-7
+$(objpfx)tst-dso-ordering-all4-7.out: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-7.sh $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-7.exp $(common-objpfx)support/test-run-command
+	$(SHELL) $< $(common-objpfx) '$(test-wrapper-env)' '$(run-program-env)' '$(rpath-link)' > $@; $(evaluate-test)
+ifeq ($(run-built-tests),yes)
+tests-special += $(objpfx)tst-dso-ordering-all4-7.out
+endif
+endif
+ifeq (yes,$(build-shared))
+$(objpfx)tst-dso-ordering-all4-8-dir/tst-dso-ordering-all4-8-b.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-8-b.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-8-dir/tst-dso-ordering-all4-8-c.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-8-c.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-8-dir/tst-dso-ordering-all4-8-a.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-8-a.c
+	$(compile.c) $(OUTPUT_OPTION)
+modules-names += tst-dso-ordering-all4-8-dir/tst-dso-ordering-all4-8-b tst-dso-ordering-all4-8-dir/tst-dso-ordering-all4-8-c tst-dso-ordering-all4-8-dir/tst-dso-ordering-all4-8-a
+$(objpfx)tst-dso-ordering-all4-8-dir/tst-dso-ordering-all4-8-b.so: $(objpfx)tst-dso-ordering-all4-8-dir/tst-dso-ordering-all4-8-c.so
+$(objpfx)tst-dso-ordering-all4-8-dir/tst-dso-ordering-all4-8-a.so: $(objpfx)tst-dso-ordering-all4-8-dir/tst-dso-ordering-all4-8-b.so $(objpfx)tst-dso-ordering-all4-8-dir/tst-dso-ordering-all4-8-c.so
+LDFLAGS-tst-dso-ordering-all4-8-b.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-8-c.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-8-a.so = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-8-dir/tst-dso-ordering-all4-8: $(objpfx)tst-dso-ordering-all4-8-dir/tst-dso-ordering-all4-8-b.so $(objpfx)tst-dso-ordering-all4-8-dir/tst-dso-ordering-all4-8-c.so $(objpfx)tst-dso-ordering-all4-8-dir/tst-dso-ordering-all4-8-a.so
+LDFLAGS-tst-dso-ordering-all4-8 = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-8-dir/tst-dso-ordering-all4-8.o: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-8.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-8.out: $(objpfx)tst-dso-ordering-all4-8-dir/tst-dso-ordering-all4-8-b.so $(objpfx)tst-dso-ordering-all4-8-dir/tst-dso-ordering-all4-8-c.so $(objpfx)tst-dso-ordering-all4-8-dir/tst-dso-ordering-all4-8-a.so
+test-srcs += tst-dso-ordering-all4-8-dir/tst-dso-ordering-all4-8
+$(objpfx)tst-dso-ordering-all4-8.out: $(objpfx)tst-dso-ordering-all4-8-dir/tst-dso-ordering-all4-8
+$(objpfx)tst-dso-ordering-all4-8.out: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-8.sh $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-8.exp $(common-objpfx)support/test-run-command
+	$(SHELL) $< $(common-objpfx) '$(test-wrapper-env)' '$(run-program-env)' '$(rpath-link)' > $@; $(evaluate-test)
+ifeq ($(run-built-tests),yes)
+tests-special += $(objpfx)tst-dso-ordering-all4-8.out
+endif
+endif
+ifeq (yes,$(build-shared))
+$(objpfx)tst-dso-ordering-all4-9-dir/tst-dso-ordering-all4-9-b.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-9-b.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-9-dir/tst-dso-ordering-all4-9-c.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-9-c.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-9-dir/tst-dso-ordering-all4-9-a.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-9-a.c
+	$(compile.c) $(OUTPUT_OPTION)
+modules-names += tst-dso-ordering-all4-9-dir/tst-dso-ordering-all4-9-b tst-dso-ordering-all4-9-dir/tst-dso-ordering-all4-9-c tst-dso-ordering-all4-9-dir/tst-dso-ordering-all4-9-a
+$(objpfx)tst-dso-ordering-all4-9-dir/tst-dso-ordering-all4-9-b.so: $(objpfx)tst-dso-ordering-all4-9-dir/tst-dso-ordering-all4-9-c.so
+$(objpfx)tst-dso-ordering-all4-9-dir/tst-dso-ordering-all4-9-a.so: $(objpfx)tst-dso-ordering-all4-9-dir/tst-dso-ordering-all4-9-b.so $(objpfx)tst-dso-ordering-all4-9-dir/tst-dso-ordering-all4-9-c.so
+LDFLAGS-tst-dso-ordering-all4-9-b.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-9-c.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-9-a.so = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-9-dir/tst-dso-ordering-all4-9: $(objpfx)tst-dso-ordering-all4-9-dir/tst-dso-ordering-all4-9-b.so $(objpfx)tst-dso-ordering-all4-9-dir/tst-dso-ordering-all4-9-a.so $(objpfx)tst-dso-ordering-all4-9-dir/tst-dso-ordering-all4-9-c.so
+LDFLAGS-tst-dso-ordering-all4-9 = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-9-dir/tst-dso-ordering-all4-9.o: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-9.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-9.out: $(objpfx)tst-dso-ordering-all4-9-dir/tst-dso-ordering-all4-9-b.so $(objpfx)tst-dso-ordering-all4-9-dir/tst-dso-ordering-all4-9-c.so $(objpfx)tst-dso-ordering-all4-9-dir/tst-dso-ordering-all4-9-a.so
+test-srcs += tst-dso-ordering-all4-9-dir/tst-dso-ordering-all4-9
+$(objpfx)tst-dso-ordering-all4-9.out: $(objpfx)tst-dso-ordering-all4-9-dir/tst-dso-ordering-all4-9
+$(objpfx)tst-dso-ordering-all4-9.out: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-9.sh $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-9.exp $(common-objpfx)support/test-run-command
+	$(SHELL) $< $(common-objpfx) '$(test-wrapper-env)' '$(run-program-env)' '$(rpath-link)' > $@; $(evaluate-test)
+ifeq ($(run-built-tests),yes)
+tests-special += $(objpfx)tst-dso-ordering-all4-9.out
+endif
+endif
+ifeq (yes,$(build-shared))
+$(objpfx)tst-dso-ordering-all4-10-dir/tst-dso-ordering-all4-10-b.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-10-b.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-10-dir/tst-dso-ordering-all4-10-c.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-10-c.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-10-dir/tst-dso-ordering-all4-10-a.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-10-a.c
+	$(compile.c) $(OUTPUT_OPTION)
+modules-names += tst-dso-ordering-all4-10-dir/tst-dso-ordering-all4-10-b tst-dso-ordering-all4-10-dir/tst-dso-ordering-all4-10-c tst-dso-ordering-all4-10-dir/tst-dso-ordering-all4-10-a
+$(objpfx)tst-dso-ordering-all4-10-dir/tst-dso-ordering-all4-10-b.so: $(objpfx)tst-dso-ordering-all4-10-dir/tst-dso-ordering-all4-10-c.so
+$(objpfx)tst-dso-ordering-all4-10-dir/tst-dso-ordering-all4-10-a.so: $(objpfx)tst-dso-ordering-all4-10-dir/tst-dso-ordering-all4-10-b.so $(objpfx)tst-dso-ordering-all4-10-dir/tst-dso-ordering-all4-10-c.so
+LDFLAGS-tst-dso-ordering-all4-10-b.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-10-c.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-10-a.so = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-10-dir/tst-dso-ordering-all4-10: $(objpfx)tst-dso-ordering-all4-10-dir/tst-dso-ordering-all4-10-a.so $(objpfx)tst-dso-ordering-all4-10-dir/tst-dso-ordering-all4-10-b.so $(objpfx)tst-dso-ordering-all4-10-dir/tst-dso-ordering-all4-10-c.so
+LDFLAGS-tst-dso-ordering-all4-10 = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-10-dir/tst-dso-ordering-all4-10.o: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-10.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-10.out: $(objpfx)tst-dso-ordering-all4-10-dir/tst-dso-ordering-all4-10-b.so $(objpfx)tst-dso-ordering-all4-10-dir/tst-dso-ordering-all4-10-c.so $(objpfx)tst-dso-ordering-all4-10-dir/tst-dso-ordering-all4-10-a.so
+test-srcs += tst-dso-ordering-all4-10-dir/tst-dso-ordering-all4-10
+$(objpfx)tst-dso-ordering-all4-10.out: $(objpfx)tst-dso-ordering-all4-10-dir/tst-dso-ordering-all4-10
+$(objpfx)tst-dso-ordering-all4-10.out: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-10.sh $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-10.exp $(common-objpfx)support/test-run-command
+	$(SHELL) $< $(common-objpfx) '$(test-wrapper-env)' '$(run-program-env)' '$(rpath-link)' > $@; $(evaluate-test)
+ifeq ($(run-built-tests),yes)
+tests-special += $(objpfx)tst-dso-ordering-all4-10.out
+endif
+endif
+ifeq (yes,$(build-shared))
+$(objpfx)tst-dso-ordering-all4-11-dir/tst-dso-ordering-all4-11-b.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-11-b.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-11-dir/tst-dso-ordering-all4-11-c.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-11-c.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-11-dir/tst-dso-ordering-all4-11-a.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-11-a.c
+	$(compile.c) $(OUTPUT_OPTION)
+modules-names += tst-dso-ordering-all4-11-dir/tst-dso-ordering-all4-11-b tst-dso-ordering-all4-11-dir/tst-dso-ordering-all4-11-c tst-dso-ordering-all4-11-dir/tst-dso-ordering-all4-11-a
+$(objpfx)tst-dso-ordering-all4-11-dir/tst-dso-ordering-all4-11-b.so: $(objpfx)tst-dso-ordering-all4-11-dir/tst-dso-ordering-all4-11-c.so
+$(objpfx)tst-dso-ordering-all4-11-dir/tst-dso-ordering-all4-11-a.so: $(objpfx)tst-dso-ordering-all4-11-dir/tst-dso-ordering-all4-11-b.so $(objpfx)tst-dso-ordering-all4-11-dir/tst-dso-ordering-all4-11-c.so
+LDFLAGS-tst-dso-ordering-all4-11-b.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-11-c.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-11-a.so = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-11-dir/tst-dso-ordering-all4-11: $(objpfx)tst-dso-ordering-all4-11-dir/tst-dso-ordering-all4-11-a.so $(objpfx)tst-dso-ordering-all4-11-dir/tst-dso-ordering-all4-11-c.so $(objpfx)tst-dso-ordering-all4-11-dir/tst-dso-ordering-all4-11-b.so
+LDFLAGS-tst-dso-ordering-all4-11 = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-11-dir/tst-dso-ordering-all4-11.o: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-11.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-11.out: $(objpfx)tst-dso-ordering-all4-11-dir/tst-dso-ordering-all4-11-b.so $(objpfx)tst-dso-ordering-all4-11-dir/tst-dso-ordering-all4-11-c.so $(objpfx)tst-dso-ordering-all4-11-dir/tst-dso-ordering-all4-11-a.so
+test-srcs += tst-dso-ordering-all4-11-dir/tst-dso-ordering-all4-11
+$(objpfx)tst-dso-ordering-all4-11.out: $(objpfx)tst-dso-ordering-all4-11-dir/tst-dso-ordering-all4-11
+$(objpfx)tst-dso-ordering-all4-11.out: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-11.sh $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-11.exp $(common-objpfx)support/test-run-command
+	$(SHELL) $< $(common-objpfx) '$(test-wrapper-env)' '$(run-program-env)' '$(rpath-link)' > $@; $(evaluate-test)
+ifeq ($(run-built-tests),yes)
+tests-special += $(objpfx)tst-dso-ordering-all4-11.out
+endif
+endif
+ifeq (yes,$(build-shared))
+$(objpfx)tst-dso-ordering-all4-12-dir/tst-dso-ordering-all4-12-b.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-12-b.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-12-dir/tst-dso-ordering-all4-12-c.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-12-c.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-12-dir/tst-dso-ordering-all4-12-a.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-12-a.c
+	$(compile.c) $(OUTPUT_OPTION)
+modules-names += tst-dso-ordering-all4-12-dir/tst-dso-ordering-all4-12-b tst-dso-ordering-all4-12-dir/tst-dso-ordering-all4-12-c tst-dso-ordering-all4-12-dir/tst-dso-ordering-all4-12-a
+$(objpfx)tst-dso-ordering-all4-12-dir/tst-dso-ordering-all4-12-b.so: $(objpfx)tst-dso-ordering-all4-12-dir/tst-dso-ordering-all4-12-c.so
+$(objpfx)tst-dso-ordering-all4-12-dir/tst-dso-ordering-all4-12-a.so: $(objpfx)tst-dso-ordering-all4-12-dir/tst-dso-ordering-all4-12-c.so $(objpfx)tst-dso-ordering-all4-12-dir/tst-dso-ordering-all4-12-b.so
+LDFLAGS-tst-dso-ordering-all4-12-b.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-12-c.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-12-a.so = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-12-dir/tst-dso-ordering-all4-12: $(objpfx)tst-dso-ordering-all4-12-dir/tst-dso-ordering-all4-12-c.so $(objpfx)tst-dso-ordering-all4-12-dir/tst-dso-ordering-all4-12-a.so
+LDFLAGS-tst-dso-ordering-all4-12 = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-12-dir/tst-dso-ordering-all4-12.o: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-12.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-12.out: $(objpfx)tst-dso-ordering-all4-12-dir/tst-dso-ordering-all4-12-b.so $(objpfx)tst-dso-ordering-all4-12-dir/tst-dso-ordering-all4-12-c.so $(objpfx)tst-dso-ordering-all4-12-dir/tst-dso-ordering-all4-12-a.so
+test-srcs += tst-dso-ordering-all4-12-dir/tst-dso-ordering-all4-12
+$(objpfx)tst-dso-ordering-all4-12.out: $(objpfx)tst-dso-ordering-all4-12-dir/tst-dso-ordering-all4-12
+$(objpfx)tst-dso-ordering-all4-12.out: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-12.sh $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-12.exp $(common-objpfx)support/test-run-command
+	$(SHELL) $< $(common-objpfx) '$(test-wrapper-env)' '$(run-program-env)' '$(rpath-link)' > $@; $(evaluate-test)
+ifeq ($(run-built-tests),yes)
+tests-special += $(objpfx)tst-dso-ordering-all4-12.out
+endif
+endif
+ifeq (yes,$(build-shared))
+$(objpfx)tst-dso-ordering-all4-13-dir/tst-dso-ordering-all4-13-b.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-13-b.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-13-dir/tst-dso-ordering-all4-13-c.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-13-c.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-13-dir/tst-dso-ordering-all4-13-a.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-13-a.c
+	$(compile.c) $(OUTPUT_OPTION)
+modules-names += tst-dso-ordering-all4-13-dir/tst-dso-ordering-all4-13-b tst-dso-ordering-all4-13-dir/tst-dso-ordering-all4-13-c tst-dso-ordering-all4-13-dir/tst-dso-ordering-all4-13-a
+$(objpfx)tst-dso-ordering-all4-13-dir/tst-dso-ordering-all4-13-b.so: $(objpfx)tst-dso-ordering-all4-13-dir/tst-dso-ordering-all4-13-c.so
+$(objpfx)tst-dso-ordering-all4-13-dir/tst-dso-ordering-all4-13-a.so: $(objpfx)tst-dso-ordering-all4-13-dir/tst-dso-ordering-all4-13-c.so $(objpfx)tst-dso-ordering-all4-13-dir/tst-dso-ordering-all4-13-b.so
+LDFLAGS-tst-dso-ordering-all4-13-b.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-13-c.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-13-a.so = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-13-dir/tst-dso-ordering-all4-13: $(objpfx)tst-dso-ordering-all4-13-dir/tst-dso-ordering-all4-13-a.so $(objpfx)tst-dso-ordering-all4-13-dir/tst-dso-ordering-all4-13-c.so
+LDFLAGS-tst-dso-ordering-all4-13 = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-13-dir/tst-dso-ordering-all4-13.o: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-13.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-13.out: $(objpfx)tst-dso-ordering-all4-13-dir/tst-dso-ordering-all4-13-b.so $(objpfx)tst-dso-ordering-all4-13-dir/tst-dso-ordering-all4-13-c.so $(objpfx)tst-dso-ordering-all4-13-dir/tst-dso-ordering-all4-13-a.so
+test-srcs += tst-dso-ordering-all4-13-dir/tst-dso-ordering-all4-13
+$(objpfx)tst-dso-ordering-all4-13.out: $(objpfx)tst-dso-ordering-all4-13-dir/tst-dso-ordering-all4-13
+$(objpfx)tst-dso-ordering-all4-13.out: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-13.sh $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-13.exp $(common-objpfx)support/test-run-command
+	$(SHELL) $< $(common-objpfx) '$(test-wrapper-env)' '$(run-program-env)' '$(rpath-link)' > $@; $(evaluate-test)
+ifeq ($(run-built-tests),yes)
+tests-special += $(objpfx)tst-dso-ordering-all4-13.out
+endif
+endif
+ifeq (yes,$(build-shared))
+$(objpfx)tst-dso-ordering-all4-14-dir/tst-dso-ordering-all4-14-b.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-14-b.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-14-dir/tst-dso-ordering-all4-14-c.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-14-c.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-14-dir/tst-dso-ordering-all4-14-a.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-14-a.c
+	$(compile.c) $(OUTPUT_OPTION)
+modules-names += tst-dso-ordering-all4-14-dir/tst-dso-ordering-all4-14-b tst-dso-ordering-all4-14-dir/tst-dso-ordering-all4-14-c tst-dso-ordering-all4-14-dir/tst-dso-ordering-all4-14-a
+$(objpfx)tst-dso-ordering-all4-14-dir/tst-dso-ordering-all4-14-b.so: $(objpfx)tst-dso-ordering-all4-14-dir/tst-dso-ordering-all4-14-c.so
+$(objpfx)tst-dso-ordering-all4-14-dir/tst-dso-ordering-all4-14-a.so: $(objpfx)tst-dso-ordering-all4-14-dir/tst-dso-ordering-all4-14-b.so $(objpfx)tst-dso-ordering-all4-14-dir/tst-dso-ordering-all4-14-c.so
+LDFLAGS-tst-dso-ordering-all4-14-b.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-14-c.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-14-a.so = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-14-dir/tst-dso-ordering-all4-14: $(objpfx)tst-dso-ordering-all4-14-dir/tst-dso-ordering-all4-14-c.so $(objpfx)tst-dso-ordering-all4-14-dir/tst-dso-ordering-all4-14-a.so
+LDFLAGS-tst-dso-ordering-all4-14 = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-14-dir/tst-dso-ordering-all4-14.o: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-14.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-14.out: $(objpfx)tst-dso-ordering-all4-14-dir/tst-dso-ordering-all4-14-b.so $(objpfx)tst-dso-ordering-all4-14-dir/tst-dso-ordering-all4-14-c.so $(objpfx)tst-dso-ordering-all4-14-dir/tst-dso-ordering-all4-14-a.so
+test-srcs += tst-dso-ordering-all4-14-dir/tst-dso-ordering-all4-14
+$(objpfx)tst-dso-ordering-all4-14.out: $(objpfx)tst-dso-ordering-all4-14-dir/tst-dso-ordering-all4-14
+$(objpfx)tst-dso-ordering-all4-14.out: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-14.sh $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-14.exp $(common-objpfx)support/test-run-command
+	$(SHELL) $< $(common-objpfx) '$(test-wrapper-env)' '$(run-program-env)' '$(rpath-link)' > $@; $(evaluate-test)
+ifeq ($(run-built-tests),yes)
+tests-special += $(objpfx)tst-dso-ordering-all4-14.out
+endif
+endif
+ifeq (yes,$(build-shared))
+$(objpfx)tst-dso-ordering-all4-15-dir/tst-dso-ordering-all4-15-b.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-15-b.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-15-dir/tst-dso-ordering-all4-15-c.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-15-c.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-15-dir/tst-dso-ordering-all4-15-a.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-15-a.c
+	$(compile.c) $(OUTPUT_OPTION)
+modules-names += tst-dso-ordering-all4-15-dir/tst-dso-ordering-all4-15-b tst-dso-ordering-all4-15-dir/tst-dso-ordering-all4-15-c tst-dso-ordering-all4-15-dir/tst-dso-ordering-all4-15-a
+$(objpfx)tst-dso-ordering-all4-15-dir/tst-dso-ordering-all4-15-b.so: $(objpfx)tst-dso-ordering-all4-15-dir/tst-dso-ordering-all4-15-c.so
+$(objpfx)tst-dso-ordering-all4-15-dir/tst-dso-ordering-all4-15-a.so: $(objpfx)tst-dso-ordering-all4-15-dir/tst-dso-ordering-all4-15-b.so $(objpfx)tst-dso-ordering-all4-15-dir/tst-dso-ordering-all4-15-c.so
+LDFLAGS-tst-dso-ordering-all4-15-b.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-15-c.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-15-a.so = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-15-dir/tst-dso-ordering-all4-15: $(objpfx)tst-dso-ordering-all4-15-dir/tst-dso-ordering-all4-15-a.so $(objpfx)tst-dso-ordering-all4-15-dir/tst-dso-ordering-all4-15-c.so
+LDFLAGS-tst-dso-ordering-all4-15 = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-15-dir/tst-dso-ordering-all4-15.o: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-15.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-15.out: $(objpfx)tst-dso-ordering-all4-15-dir/tst-dso-ordering-all4-15-b.so $(objpfx)tst-dso-ordering-all4-15-dir/tst-dso-ordering-all4-15-c.so $(objpfx)tst-dso-ordering-all4-15-dir/tst-dso-ordering-all4-15-a.so
+test-srcs += tst-dso-ordering-all4-15-dir/tst-dso-ordering-all4-15
+$(objpfx)tst-dso-ordering-all4-15.out: $(objpfx)tst-dso-ordering-all4-15-dir/tst-dso-ordering-all4-15
+$(objpfx)tst-dso-ordering-all4-15.out: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-15.sh $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-15.exp $(common-objpfx)support/test-run-command
+	$(SHELL) $< $(common-objpfx) '$(test-wrapper-env)' '$(run-program-env)' '$(rpath-link)' > $@; $(evaluate-test)
+ifeq ($(run-built-tests),yes)
+tests-special += $(objpfx)tst-dso-ordering-all4-15.out
+endif
+endif
+ifeq (yes,$(build-shared))
+$(objpfx)tst-dso-ordering-all4-16-dir/tst-dso-ordering-all4-16-b.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-16-b.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-16-dir/tst-dso-ordering-all4-16-c.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-16-c.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-16-dir/tst-dso-ordering-all4-16-a.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-16-a.c
+	$(compile.c) $(OUTPUT_OPTION)
+modules-names += tst-dso-ordering-all4-16-dir/tst-dso-ordering-all4-16-b tst-dso-ordering-all4-16-dir/tst-dso-ordering-all4-16-c tst-dso-ordering-all4-16-dir/tst-dso-ordering-all4-16-a
+$(objpfx)tst-dso-ordering-all4-16-dir/tst-dso-ordering-all4-16-b.so: $(objpfx)tst-dso-ordering-all4-16-dir/tst-dso-ordering-all4-16-c.so
+$(objpfx)tst-dso-ordering-all4-16-dir/tst-dso-ordering-all4-16-a.so: $(objpfx)tst-dso-ordering-all4-16-dir/tst-dso-ordering-all4-16-c.so $(objpfx)tst-dso-ordering-all4-16-dir/tst-dso-ordering-all4-16-b.so
+LDFLAGS-tst-dso-ordering-all4-16-b.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-16-c.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-16-a.so = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-16-dir/tst-dso-ordering-all4-16: $(objpfx)tst-dso-ordering-all4-16-dir/tst-dso-ordering-all4-16-b.so $(objpfx)tst-dso-ordering-all4-16-dir/tst-dso-ordering-all4-16-a.so
+LDFLAGS-tst-dso-ordering-all4-16 = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-16-dir/tst-dso-ordering-all4-16.o: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-16.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-16.out: $(objpfx)tst-dso-ordering-all4-16-dir/tst-dso-ordering-all4-16-b.so $(objpfx)tst-dso-ordering-all4-16-dir/tst-dso-ordering-all4-16-c.so $(objpfx)tst-dso-ordering-all4-16-dir/tst-dso-ordering-all4-16-a.so
+test-srcs += tst-dso-ordering-all4-16-dir/tst-dso-ordering-all4-16
+$(objpfx)tst-dso-ordering-all4-16.out: $(objpfx)tst-dso-ordering-all4-16-dir/tst-dso-ordering-all4-16
+$(objpfx)tst-dso-ordering-all4-16.out: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-16.sh $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-16.exp $(common-objpfx)support/test-run-command
+	$(SHELL) $< $(common-objpfx) '$(test-wrapper-env)' '$(run-program-env)' '$(rpath-link)' > $@; $(evaluate-test)
+ifeq ($(run-built-tests),yes)
+tests-special += $(objpfx)tst-dso-ordering-all4-16.out
+endif
+endif
+ifeq (yes,$(build-shared))
+$(objpfx)tst-dso-ordering-all4-17-dir/tst-dso-ordering-all4-17-b.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-17-b.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-17-dir/tst-dso-ordering-all4-17-c.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-17-c.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-17-dir/tst-dso-ordering-all4-17-a.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-17-a.c
+	$(compile.c) $(OUTPUT_OPTION)
+modules-names += tst-dso-ordering-all4-17-dir/tst-dso-ordering-all4-17-b tst-dso-ordering-all4-17-dir/tst-dso-ordering-all4-17-c tst-dso-ordering-all4-17-dir/tst-dso-ordering-all4-17-a
+$(objpfx)tst-dso-ordering-all4-17-dir/tst-dso-ordering-all4-17-b.so: $(objpfx)tst-dso-ordering-all4-17-dir/tst-dso-ordering-all4-17-c.so
+$(objpfx)tst-dso-ordering-all4-17-dir/tst-dso-ordering-all4-17-a.so: $(objpfx)tst-dso-ordering-all4-17-dir/tst-dso-ordering-all4-17-c.so $(objpfx)tst-dso-ordering-all4-17-dir/tst-dso-ordering-all4-17-b.so
+LDFLAGS-tst-dso-ordering-all4-17-b.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-17-c.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-17-a.so = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-17-dir/tst-dso-ordering-all4-17: $(objpfx)tst-dso-ordering-all4-17-dir/tst-dso-ordering-all4-17-a.so $(objpfx)tst-dso-ordering-all4-17-dir/tst-dso-ordering-all4-17-b.so
+LDFLAGS-tst-dso-ordering-all4-17 = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-17-dir/tst-dso-ordering-all4-17.o: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-17.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-17.out: $(objpfx)tst-dso-ordering-all4-17-dir/tst-dso-ordering-all4-17-b.so $(objpfx)tst-dso-ordering-all4-17-dir/tst-dso-ordering-all4-17-c.so $(objpfx)tst-dso-ordering-all4-17-dir/tst-dso-ordering-all4-17-a.so
+test-srcs += tst-dso-ordering-all4-17-dir/tst-dso-ordering-all4-17
+$(objpfx)tst-dso-ordering-all4-17.out: $(objpfx)tst-dso-ordering-all4-17-dir/tst-dso-ordering-all4-17
+$(objpfx)tst-dso-ordering-all4-17.out: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-17.sh $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-17.exp $(common-objpfx)support/test-run-command
+	$(SHELL) $< $(common-objpfx) '$(test-wrapper-env)' '$(run-program-env)' '$(rpath-link)' > $@; $(evaluate-test)
+ifeq ($(run-built-tests),yes)
+tests-special += $(objpfx)tst-dso-ordering-all4-17.out
+endif
+endif
+ifeq (yes,$(build-shared))
+$(objpfx)tst-dso-ordering-all4-18-dir/tst-dso-ordering-all4-18-b.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-18-b.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-18-dir/tst-dso-ordering-all4-18-c.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-18-c.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-18-dir/tst-dso-ordering-all4-18-a.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-18-a.c
+	$(compile.c) $(OUTPUT_OPTION)
+modules-names += tst-dso-ordering-all4-18-dir/tst-dso-ordering-all4-18-b tst-dso-ordering-all4-18-dir/tst-dso-ordering-all4-18-c tst-dso-ordering-all4-18-dir/tst-dso-ordering-all4-18-a
+$(objpfx)tst-dso-ordering-all4-18-dir/tst-dso-ordering-all4-18-b.so: $(objpfx)tst-dso-ordering-all4-18-dir/tst-dso-ordering-all4-18-c.so
+$(objpfx)tst-dso-ordering-all4-18-dir/tst-dso-ordering-all4-18-a.so: $(objpfx)tst-dso-ordering-all4-18-dir/tst-dso-ordering-all4-18-b.so $(objpfx)tst-dso-ordering-all4-18-dir/tst-dso-ordering-all4-18-c.so
+LDFLAGS-tst-dso-ordering-all4-18-b.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-18-c.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-18-a.so = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-18-dir/tst-dso-ordering-all4-18: $(objpfx)tst-dso-ordering-all4-18-dir/tst-dso-ordering-all4-18-b.so $(objpfx)tst-dso-ordering-all4-18-dir/tst-dso-ordering-all4-18-a.so
+LDFLAGS-tst-dso-ordering-all4-18 = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-18-dir/tst-dso-ordering-all4-18.o: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-18.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-18.out: $(objpfx)tst-dso-ordering-all4-18-dir/tst-dso-ordering-all4-18-b.so $(objpfx)tst-dso-ordering-all4-18-dir/tst-dso-ordering-all4-18-c.so $(objpfx)tst-dso-ordering-all4-18-dir/tst-dso-ordering-all4-18-a.so
+test-srcs += tst-dso-ordering-all4-18-dir/tst-dso-ordering-all4-18
+$(objpfx)tst-dso-ordering-all4-18.out: $(objpfx)tst-dso-ordering-all4-18-dir/tst-dso-ordering-all4-18
+$(objpfx)tst-dso-ordering-all4-18.out: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-18.sh $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-18.exp $(common-objpfx)support/test-run-command
+	$(SHELL) $< $(common-objpfx) '$(test-wrapper-env)' '$(run-program-env)' '$(rpath-link)' > $@; $(evaluate-test)
+ifeq ($(run-built-tests),yes)
+tests-special += $(objpfx)tst-dso-ordering-all4-18.out
+endif
+endif
+ifeq (yes,$(build-shared))
+$(objpfx)tst-dso-ordering-all4-19-dir/tst-dso-ordering-all4-19-b.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-19-b.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-19-dir/tst-dso-ordering-all4-19-c.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-19-c.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-19-dir/tst-dso-ordering-all4-19-a.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-19-a.c
+	$(compile.c) $(OUTPUT_OPTION)
+modules-names += tst-dso-ordering-all4-19-dir/tst-dso-ordering-all4-19-b tst-dso-ordering-all4-19-dir/tst-dso-ordering-all4-19-c tst-dso-ordering-all4-19-dir/tst-dso-ordering-all4-19-a
+$(objpfx)tst-dso-ordering-all4-19-dir/tst-dso-ordering-all4-19-b.so: $(objpfx)tst-dso-ordering-all4-19-dir/tst-dso-ordering-all4-19-c.so
+$(objpfx)tst-dso-ordering-all4-19-dir/tst-dso-ordering-all4-19-a.so: $(objpfx)tst-dso-ordering-all4-19-dir/tst-dso-ordering-all4-19-b.so $(objpfx)tst-dso-ordering-all4-19-dir/tst-dso-ordering-all4-19-c.so
+LDFLAGS-tst-dso-ordering-all4-19-b.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-19-c.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-19-a.so = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-19-dir/tst-dso-ordering-all4-19: $(objpfx)tst-dso-ordering-all4-19-dir/tst-dso-ordering-all4-19-a.so $(objpfx)tst-dso-ordering-all4-19-dir/tst-dso-ordering-all4-19-b.so
+LDFLAGS-tst-dso-ordering-all4-19 = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-19-dir/tst-dso-ordering-all4-19.o: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-19.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-19.out: $(objpfx)tst-dso-ordering-all4-19-dir/tst-dso-ordering-all4-19-b.so $(objpfx)tst-dso-ordering-all4-19-dir/tst-dso-ordering-all4-19-c.so $(objpfx)tst-dso-ordering-all4-19-dir/tst-dso-ordering-all4-19-a.so
+test-srcs += tst-dso-ordering-all4-19-dir/tst-dso-ordering-all4-19
+$(objpfx)tst-dso-ordering-all4-19.out: $(objpfx)tst-dso-ordering-all4-19-dir/tst-dso-ordering-all4-19
+$(objpfx)tst-dso-ordering-all4-19.out: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-19.sh $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-19.exp $(common-objpfx)support/test-run-command
+	$(SHELL) $< $(common-objpfx) '$(test-wrapper-env)' '$(run-program-env)' '$(rpath-link)' > $@; $(evaluate-test)
+ifeq ($(run-built-tests),yes)
+tests-special += $(objpfx)tst-dso-ordering-all4-19.out
+endif
+endif
+ifeq (yes,$(build-shared))
+$(objpfx)tst-dso-ordering-all4-20-dir/tst-dso-ordering-all4-20-b.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-20-b.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-20-dir/tst-dso-ordering-all4-20-c.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-20-c.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-20-dir/tst-dso-ordering-all4-20-a.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-20-a.c
+	$(compile.c) $(OUTPUT_OPTION)
+modules-names += tst-dso-ordering-all4-20-dir/tst-dso-ordering-all4-20-b tst-dso-ordering-all4-20-dir/tst-dso-ordering-all4-20-c tst-dso-ordering-all4-20-dir/tst-dso-ordering-all4-20-a
+$(objpfx)tst-dso-ordering-all4-20-dir/tst-dso-ordering-all4-20-b.so: $(objpfx)tst-dso-ordering-all4-20-dir/tst-dso-ordering-all4-20-c.so
+$(objpfx)tst-dso-ordering-all4-20-dir/tst-dso-ordering-all4-20-a.so: $(objpfx)tst-dso-ordering-all4-20-dir/tst-dso-ordering-all4-20-c.so $(objpfx)tst-dso-ordering-all4-20-dir/tst-dso-ordering-all4-20-b.so
+LDFLAGS-tst-dso-ordering-all4-20-b.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-20-c.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-20-a.so = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-20-dir/tst-dso-ordering-all4-20: $(objpfx)tst-dso-ordering-all4-20-dir/tst-dso-ordering-all4-20-a.so
+LDFLAGS-tst-dso-ordering-all4-20 = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-20-dir/tst-dso-ordering-all4-20.o: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-20.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-20.out: $(objpfx)tst-dso-ordering-all4-20-dir/tst-dso-ordering-all4-20-b.so $(objpfx)tst-dso-ordering-all4-20-dir/tst-dso-ordering-all4-20-c.so $(objpfx)tst-dso-ordering-all4-20-dir/tst-dso-ordering-all4-20-a.so
+test-srcs += tst-dso-ordering-all4-20-dir/tst-dso-ordering-all4-20
+$(objpfx)tst-dso-ordering-all4-20.out: $(objpfx)tst-dso-ordering-all4-20-dir/tst-dso-ordering-all4-20
+$(objpfx)tst-dso-ordering-all4-20.out: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-20.sh $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-20.exp $(common-objpfx)support/test-run-command
+	$(SHELL) $< $(common-objpfx) '$(test-wrapper-env)' '$(run-program-env)' '$(rpath-link)' > $@; $(evaluate-test)
+ifeq ($(run-built-tests),yes)
+tests-special += $(objpfx)tst-dso-ordering-all4-20.out
+endif
+endif
+ifeq (yes,$(build-shared))
+$(objpfx)tst-dso-ordering-all4-21-dir/tst-dso-ordering-all4-21-b.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-21-b.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-21-dir/tst-dso-ordering-all4-21-c.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-21-c.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-21-dir/tst-dso-ordering-all4-21-a.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-21-a.c
+	$(compile.c) $(OUTPUT_OPTION)
+modules-names += tst-dso-ordering-all4-21-dir/tst-dso-ordering-all4-21-b tst-dso-ordering-all4-21-dir/tst-dso-ordering-all4-21-c tst-dso-ordering-all4-21-dir/tst-dso-ordering-all4-21-a
+$(objpfx)tst-dso-ordering-all4-21-dir/tst-dso-ordering-all4-21-b.so: $(objpfx)tst-dso-ordering-all4-21-dir/tst-dso-ordering-all4-21-c.so
+$(objpfx)tst-dso-ordering-all4-21-dir/tst-dso-ordering-all4-21-a.so: $(objpfx)tst-dso-ordering-all4-21-dir/tst-dso-ordering-all4-21-b.so $(objpfx)tst-dso-ordering-all4-21-dir/tst-dso-ordering-all4-21-c.so
+LDFLAGS-tst-dso-ordering-all4-21-b.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-21-c.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-21-a.so = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-21-dir/tst-dso-ordering-all4-21: $(objpfx)tst-dso-ordering-all4-21-dir/tst-dso-ordering-all4-21-a.so
+LDFLAGS-tst-dso-ordering-all4-21 = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-21-dir/tst-dso-ordering-all4-21.o: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-21.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-21.out: $(objpfx)tst-dso-ordering-all4-21-dir/tst-dso-ordering-all4-21-b.so $(objpfx)tst-dso-ordering-all4-21-dir/tst-dso-ordering-all4-21-c.so $(objpfx)tst-dso-ordering-all4-21-dir/tst-dso-ordering-all4-21-a.so
+test-srcs += tst-dso-ordering-all4-21-dir/tst-dso-ordering-all4-21
+$(objpfx)tst-dso-ordering-all4-21.out: $(objpfx)tst-dso-ordering-all4-21-dir/tst-dso-ordering-all4-21
+$(objpfx)tst-dso-ordering-all4-21.out: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-21.sh $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-21.exp $(common-objpfx)support/test-run-command
+	$(SHELL) $< $(common-objpfx) '$(test-wrapper-env)' '$(run-program-env)' '$(rpath-link)' > $@; $(evaluate-test)
+ifeq ($(run-built-tests),yes)
+tests-special += $(objpfx)tst-dso-ordering-all4-21.out
+endif
+endif
+ifeq (yes,$(build-shared))
+$(objpfx)tst-dso-ordering-all4-22-dir/tst-dso-ordering-all4-22-b.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-22-b.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-22-dir/tst-dso-ordering-all4-22-c.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-22-c.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-22-dir/tst-dso-ordering-all4-22-a.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-22-a.c
+	$(compile.c) $(OUTPUT_OPTION)
+modules-names += tst-dso-ordering-all4-22-dir/tst-dso-ordering-all4-22-b tst-dso-ordering-all4-22-dir/tst-dso-ordering-all4-22-c tst-dso-ordering-all4-22-dir/tst-dso-ordering-all4-22-a
+$(objpfx)tst-dso-ordering-all4-22-dir/tst-dso-ordering-all4-22-b.so: $(objpfx)tst-dso-ordering-all4-22-dir/tst-dso-ordering-all4-22-c.so
+$(objpfx)tst-dso-ordering-all4-22-dir/tst-dso-ordering-all4-22-a.so: $(objpfx)tst-dso-ordering-all4-22-dir/tst-dso-ordering-all4-22-c.so
+LDFLAGS-tst-dso-ordering-all4-22-b.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-22-c.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-22-a.so = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-22-dir/tst-dso-ordering-all4-22: $(objpfx)tst-dso-ordering-all4-22-dir/tst-dso-ordering-all4-22-c.so $(objpfx)tst-dso-ordering-all4-22-dir/tst-dso-ordering-all4-22-a.so $(objpfx)tst-dso-ordering-all4-22-dir/tst-dso-ordering-all4-22-b.so
+LDFLAGS-tst-dso-ordering-all4-22 = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-22-dir/tst-dso-ordering-all4-22.o: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-22.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-22.out: $(objpfx)tst-dso-ordering-all4-22-dir/tst-dso-ordering-all4-22-b.so $(objpfx)tst-dso-ordering-all4-22-dir/tst-dso-ordering-all4-22-c.so $(objpfx)tst-dso-ordering-all4-22-dir/tst-dso-ordering-all4-22-a.so
+test-srcs += tst-dso-ordering-all4-22-dir/tst-dso-ordering-all4-22
+$(objpfx)tst-dso-ordering-all4-22.out: $(objpfx)tst-dso-ordering-all4-22-dir/tst-dso-ordering-all4-22
+$(objpfx)tst-dso-ordering-all4-22.out: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-22.sh $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-22.exp $(common-objpfx)support/test-run-command
+	$(SHELL) $< $(common-objpfx) '$(test-wrapper-env)' '$(run-program-env)' '$(rpath-link)' > $@; $(evaluate-test)
+ifeq ($(run-built-tests),yes)
+tests-special += $(objpfx)tst-dso-ordering-all4-22.out
+endif
+endif
+ifeq (yes,$(build-shared))
+$(objpfx)tst-dso-ordering-all4-23-dir/tst-dso-ordering-all4-23-b.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-23-b.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-23-dir/tst-dso-ordering-all4-23-c.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-23-c.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-23-dir/tst-dso-ordering-all4-23-a.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-23-a.c
+	$(compile.c) $(OUTPUT_OPTION)
+modules-names += tst-dso-ordering-all4-23-dir/tst-dso-ordering-all4-23-b tst-dso-ordering-all4-23-dir/tst-dso-ordering-all4-23-c tst-dso-ordering-all4-23-dir/tst-dso-ordering-all4-23-a
+$(objpfx)tst-dso-ordering-all4-23-dir/tst-dso-ordering-all4-23-b.so: $(objpfx)tst-dso-ordering-all4-23-dir/tst-dso-ordering-all4-23-c.so
+$(objpfx)tst-dso-ordering-all4-23-dir/tst-dso-ordering-all4-23-a.so: $(objpfx)tst-dso-ordering-all4-23-dir/tst-dso-ordering-all4-23-c.so
+LDFLAGS-tst-dso-ordering-all4-23-b.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-23-c.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-23-a.so = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-23-dir/tst-dso-ordering-all4-23: $(objpfx)tst-dso-ordering-all4-23-dir/tst-dso-ordering-all4-23-a.so $(objpfx)tst-dso-ordering-all4-23-dir/tst-dso-ordering-all4-23-b.so $(objpfx)tst-dso-ordering-all4-23-dir/tst-dso-ordering-all4-23-c.so
+LDFLAGS-tst-dso-ordering-all4-23 = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-23-dir/tst-dso-ordering-all4-23.o: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-23.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-23.out: $(objpfx)tst-dso-ordering-all4-23-dir/tst-dso-ordering-all4-23-b.so $(objpfx)tst-dso-ordering-all4-23-dir/tst-dso-ordering-all4-23-c.so $(objpfx)tst-dso-ordering-all4-23-dir/tst-dso-ordering-all4-23-a.so
+test-srcs += tst-dso-ordering-all4-23-dir/tst-dso-ordering-all4-23
+$(objpfx)tst-dso-ordering-all4-23.out: $(objpfx)tst-dso-ordering-all4-23-dir/tst-dso-ordering-all4-23
+$(objpfx)tst-dso-ordering-all4-23.out: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-23.sh $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-23.exp $(common-objpfx)support/test-run-command
+	$(SHELL) $< $(common-objpfx) '$(test-wrapper-env)' '$(run-program-env)' '$(rpath-link)' > $@; $(evaluate-test)
+ifeq ($(run-built-tests),yes)
+tests-special += $(objpfx)tst-dso-ordering-all4-23.out
+endif
+endif
+ifeq (yes,$(build-shared))
+$(objpfx)tst-dso-ordering-all4-24-dir/tst-dso-ordering-all4-24-b.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-24-b.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-24-dir/tst-dso-ordering-all4-24-c.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-24-c.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-24-dir/tst-dso-ordering-all4-24-a.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-24-a.c
+	$(compile.c) $(OUTPUT_OPTION)
+modules-names += tst-dso-ordering-all4-24-dir/tst-dso-ordering-all4-24-b tst-dso-ordering-all4-24-dir/tst-dso-ordering-all4-24-c tst-dso-ordering-all4-24-dir/tst-dso-ordering-all4-24-a
+$(objpfx)tst-dso-ordering-all4-24-dir/tst-dso-ordering-all4-24-b.so: $(objpfx)tst-dso-ordering-all4-24-dir/tst-dso-ordering-all4-24-c.so
+$(objpfx)tst-dso-ordering-all4-24-dir/tst-dso-ordering-all4-24-a.so: $(objpfx)tst-dso-ordering-all4-24-dir/tst-dso-ordering-all4-24-c.so
+LDFLAGS-tst-dso-ordering-all4-24-b.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-24-c.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-24-a.so = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-24-dir/tst-dso-ordering-all4-24: $(objpfx)tst-dso-ordering-all4-24-dir/tst-dso-ordering-all4-24-a.so $(objpfx)tst-dso-ordering-all4-24-dir/tst-dso-ordering-all4-24-c.so $(objpfx)tst-dso-ordering-all4-24-dir/tst-dso-ordering-all4-24-b.so
+LDFLAGS-tst-dso-ordering-all4-24 = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-24-dir/tst-dso-ordering-all4-24.o: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-24.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-24.out: $(objpfx)tst-dso-ordering-all4-24-dir/tst-dso-ordering-all4-24-b.so $(objpfx)tst-dso-ordering-all4-24-dir/tst-dso-ordering-all4-24-c.so $(objpfx)tst-dso-ordering-all4-24-dir/tst-dso-ordering-all4-24-a.so
+test-srcs += tst-dso-ordering-all4-24-dir/tst-dso-ordering-all4-24
+$(objpfx)tst-dso-ordering-all4-24.out: $(objpfx)tst-dso-ordering-all4-24-dir/tst-dso-ordering-all4-24
+$(objpfx)tst-dso-ordering-all4-24.out: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-24.sh $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-24.exp $(common-objpfx)support/test-run-command
+	$(SHELL) $< $(common-objpfx) '$(test-wrapper-env)' '$(run-program-env)' '$(rpath-link)' > $@; $(evaluate-test)
+ifeq ($(run-built-tests),yes)
+tests-special += $(objpfx)tst-dso-ordering-all4-24.out
+endif
+endif
+ifeq (yes,$(build-shared))
+$(objpfx)tst-dso-ordering-all4-25-dir/tst-dso-ordering-all4-25-b.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-25-b.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-25-dir/tst-dso-ordering-all4-25-c.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-25-c.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-25-dir/tst-dso-ordering-all4-25-a.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-25-a.c
+	$(compile.c) $(OUTPUT_OPTION)
+modules-names += tst-dso-ordering-all4-25-dir/tst-dso-ordering-all4-25-b tst-dso-ordering-all4-25-dir/tst-dso-ordering-all4-25-c tst-dso-ordering-all4-25-dir/tst-dso-ordering-all4-25-a
+$(objpfx)tst-dso-ordering-all4-25-dir/tst-dso-ordering-all4-25-b.so: $(objpfx)tst-dso-ordering-all4-25-dir/tst-dso-ordering-all4-25-c.so
+$(objpfx)tst-dso-ordering-all4-25-dir/tst-dso-ordering-all4-25-a.so: $(objpfx)tst-dso-ordering-all4-25-dir/tst-dso-ordering-all4-25-c.so
+LDFLAGS-tst-dso-ordering-all4-25-b.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-25-c.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-25-a.so = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-25-dir/tst-dso-ordering-all4-25: $(objpfx)tst-dso-ordering-all4-25-dir/tst-dso-ordering-all4-25-a.so $(objpfx)tst-dso-ordering-all4-25-dir/tst-dso-ordering-all4-25-b.so
+LDFLAGS-tst-dso-ordering-all4-25 = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-25-dir/tst-dso-ordering-all4-25.o: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-25.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-25.out: $(objpfx)tst-dso-ordering-all4-25-dir/tst-dso-ordering-all4-25-b.so $(objpfx)tst-dso-ordering-all4-25-dir/tst-dso-ordering-all4-25-c.so $(objpfx)tst-dso-ordering-all4-25-dir/tst-dso-ordering-all4-25-a.so
+test-srcs += tst-dso-ordering-all4-25-dir/tst-dso-ordering-all4-25
+$(objpfx)tst-dso-ordering-all4-25.out: $(objpfx)tst-dso-ordering-all4-25-dir/tst-dso-ordering-all4-25
+$(objpfx)tst-dso-ordering-all4-25.out: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-25.sh $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-25.exp $(common-objpfx)support/test-run-command
+	$(SHELL) $< $(common-objpfx) '$(test-wrapper-env)' '$(run-program-env)' '$(rpath-link)' > $@; $(evaluate-test)
+ifeq ($(run-built-tests),yes)
+tests-special += $(objpfx)tst-dso-ordering-all4-25.out
+endif
+endif
+ifeq (yes,$(build-shared))
+$(objpfx)tst-dso-ordering-all4-26-dir/tst-dso-ordering-all4-26-b.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-26-b.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-26-dir/tst-dso-ordering-all4-26-c.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-26-c.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-26-dir/tst-dso-ordering-all4-26-a.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-26-a.c
+	$(compile.c) $(OUTPUT_OPTION)
+modules-names += tst-dso-ordering-all4-26-dir/tst-dso-ordering-all4-26-b tst-dso-ordering-all4-26-dir/tst-dso-ordering-all4-26-c tst-dso-ordering-all4-26-dir/tst-dso-ordering-all4-26-a
+$(objpfx)tst-dso-ordering-all4-26-dir/tst-dso-ordering-all4-26-b.so: $(objpfx)tst-dso-ordering-all4-26-dir/tst-dso-ordering-all4-26-c.so
+$(objpfx)tst-dso-ordering-all4-26-dir/tst-dso-ordering-all4-26-a.so: $(objpfx)tst-dso-ordering-all4-26-dir/tst-dso-ordering-all4-26-b.so
+LDFLAGS-tst-dso-ordering-all4-26-b.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-26-c.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-26-a.so = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-26-dir/tst-dso-ordering-all4-26: $(objpfx)tst-dso-ordering-all4-26-dir/tst-dso-ordering-all4-26-c.so $(objpfx)tst-dso-ordering-all4-26-dir/tst-dso-ordering-all4-26-b.so $(objpfx)tst-dso-ordering-all4-26-dir/tst-dso-ordering-all4-26-a.so
+LDFLAGS-tst-dso-ordering-all4-26 = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-26-dir/tst-dso-ordering-all4-26.o: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-26.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-26.out: $(objpfx)tst-dso-ordering-all4-26-dir/tst-dso-ordering-all4-26-b.so $(objpfx)tst-dso-ordering-all4-26-dir/tst-dso-ordering-all4-26-c.so $(objpfx)tst-dso-ordering-all4-26-dir/tst-dso-ordering-all4-26-a.so
+test-srcs += tst-dso-ordering-all4-26-dir/tst-dso-ordering-all4-26
+$(objpfx)tst-dso-ordering-all4-26.out: $(objpfx)tst-dso-ordering-all4-26-dir/tst-dso-ordering-all4-26
+$(objpfx)tst-dso-ordering-all4-26.out: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-26.sh $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-26.exp $(common-objpfx)support/test-run-command
+	$(SHELL) $< $(common-objpfx) '$(test-wrapper-env)' '$(run-program-env)' '$(rpath-link)' > $@; $(evaluate-test)
+ifeq ($(run-built-tests),yes)
+tests-special += $(objpfx)tst-dso-ordering-all4-26.out
+endif
+endif
+ifeq (yes,$(build-shared))
+$(objpfx)tst-dso-ordering-all4-27-dir/tst-dso-ordering-all4-27-b.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-27-b.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-27-dir/tst-dso-ordering-all4-27-c.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-27-c.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-27-dir/tst-dso-ordering-all4-27-a.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-27-a.c
+	$(compile.c) $(OUTPUT_OPTION)
+modules-names += tst-dso-ordering-all4-27-dir/tst-dso-ordering-all4-27-b tst-dso-ordering-all4-27-dir/tst-dso-ordering-all4-27-c tst-dso-ordering-all4-27-dir/tst-dso-ordering-all4-27-a
+$(objpfx)tst-dso-ordering-all4-27-dir/tst-dso-ordering-all4-27-b.so: $(objpfx)tst-dso-ordering-all4-27-dir/tst-dso-ordering-all4-27-c.so
+$(objpfx)tst-dso-ordering-all4-27-dir/tst-dso-ordering-all4-27-a.so: $(objpfx)tst-dso-ordering-all4-27-dir/tst-dso-ordering-all4-27-b.so
+LDFLAGS-tst-dso-ordering-all4-27-b.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-27-c.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-27-a.so = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-27-dir/tst-dso-ordering-all4-27: $(objpfx)tst-dso-ordering-all4-27-dir/tst-dso-ordering-all4-27-c.so $(objpfx)tst-dso-ordering-all4-27-dir/tst-dso-ordering-all4-27-a.so $(objpfx)tst-dso-ordering-all4-27-dir/tst-dso-ordering-all4-27-b.so
+LDFLAGS-tst-dso-ordering-all4-27 = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-27-dir/tst-dso-ordering-all4-27.o: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-27.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-27.out: $(objpfx)tst-dso-ordering-all4-27-dir/tst-dso-ordering-all4-27-b.so $(objpfx)tst-dso-ordering-all4-27-dir/tst-dso-ordering-all4-27-c.so $(objpfx)tst-dso-ordering-all4-27-dir/tst-dso-ordering-all4-27-a.so
+test-srcs += tst-dso-ordering-all4-27-dir/tst-dso-ordering-all4-27
+$(objpfx)tst-dso-ordering-all4-27.out: $(objpfx)tst-dso-ordering-all4-27-dir/tst-dso-ordering-all4-27
+$(objpfx)tst-dso-ordering-all4-27.out: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-27.sh $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-27.exp $(common-objpfx)support/test-run-command
+	$(SHELL) $< $(common-objpfx) '$(test-wrapper-env)' '$(run-program-env)' '$(rpath-link)' > $@; $(evaluate-test)
+ifeq ($(run-built-tests),yes)
+tests-special += $(objpfx)tst-dso-ordering-all4-27.out
+endif
+endif
+ifeq (yes,$(build-shared))
+$(objpfx)tst-dso-ordering-all4-28-dir/tst-dso-ordering-all4-28-b.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-28-b.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-28-dir/tst-dso-ordering-all4-28-c.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-28-c.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-28-dir/tst-dso-ordering-all4-28-a.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-28-a.c
+	$(compile.c) $(OUTPUT_OPTION)
+modules-names += tst-dso-ordering-all4-28-dir/tst-dso-ordering-all4-28-b tst-dso-ordering-all4-28-dir/tst-dso-ordering-all4-28-c tst-dso-ordering-all4-28-dir/tst-dso-ordering-all4-28-a
+$(objpfx)tst-dso-ordering-all4-28-dir/tst-dso-ordering-all4-28-b.so: $(objpfx)tst-dso-ordering-all4-28-dir/tst-dso-ordering-all4-28-c.so
+$(objpfx)tst-dso-ordering-all4-28-dir/tst-dso-ordering-all4-28-a.so: $(objpfx)tst-dso-ordering-all4-28-dir/tst-dso-ordering-all4-28-b.so
+LDFLAGS-tst-dso-ordering-all4-28-b.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-28-c.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-28-a.so = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-28-dir/tst-dso-ordering-all4-28: $(objpfx)tst-dso-ordering-all4-28-dir/tst-dso-ordering-all4-28-b.so $(objpfx)tst-dso-ordering-all4-28-dir/tst-dso-ordering-all4-28-c.so $(objpfx)tst-dso-ordering-all4-28-dir/tst-dso-ordering-all4-28-a.so
+LDFLAGS-tst-dso-ordering-all4-28 = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-28-dir/tst-dso-ordering-all4-28.o: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-28.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-28.out: $(objpfx)tst-dso-ordering-all4-28-dir/tst-dso-ordering-all4-28-b.so $(objpfx)tst-dso-ordering-all4-28-dir/tst-dso-ordering-all4-28-c.so $(objpfx)tst-dso-ordering-all4-28-dir/tst-dso-ordering-all4-28-a.so
+test-srcs += tst-dso-ordering-all4-28-dir/tst-dso-ordering-all4-28
+$(objpfx)tst-dso-ordering-all4-28.out: $(objpfx)tst-dso-ordering-all4-28-dir/tst-dso-ordering-all4-28
+$(objpfx)tst-dso-ordering-all4-28.out: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-28.sh $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-28.exp $(common-objpfx)support/test-run-command
+	$(SHELL) $< $(common-objpfx) '$(test-wrapper-env)' '$(run-program-env)' '$(rpath-link)' > $@; $(evaluate-test)
+ifeq ($(run-built-tests),yes)
+tests-special += $(objpfx)tst-dso-ordering-all4-28.out
+endif
+endif
+ifeq (yes,$(build-shared))
+$(objpfx)tst-dso-ordering-all4-29-dir/tst-dso-ordering-all4-29-b.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-29-b.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-29-dir/tst-dso-ordering-all4-29-c.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-29-c.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-29-dir/tst-dso-ordering-all4-29-a.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-29-a.c
+	$(compile.c) $(OUTPUT_OPTION)
+modules-names += tst-dso-ordering-all4-29-dir/tst-dso-ordering-all4-29-b tst-dso-ordering-all4-29-dir/tst-dso-ordering-all4-29-c tst-dso-ordering-all4-29-dir/tst-dso-ordering-all4-29-a
+$(objpfx)tst-dso-ordering-all4-29-dir/tst-dso-ordering-all4-29-b.so: $(objpfx)tst-dso-ordering-all4-29-dir/tst-dso-ordering-all4-29-c.so
+$(objpfx)tst-dso-ordering-all4-29-dir/tst-dso-ordering-all4-29-a.so: $(objpfx)tst-dso-ordering-all4-29-dir/tst-dso-ordering-all4-29-b.so
+LDFLAGS-tst-dso-ordering-all4-29-b.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-29-c.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-29-a.so = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-29-dir/tst-dso-ordering-all4-29: $(objpfx)tst-dso-ordering-all4-29-dir/tst-dso-ordering-all4-29-b.so $(objpfx)tst-dso-ordering-all4-29-dir/tst-dso-ordering-all4-29-a.so $(objpfx)tst-dso-ordering-all4-29-dir/tst-dso-ordering-all4-29-c.so
+LDFLAGS-tst-dso-ordering-all4-29 = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-29-dir/tst-dso-ordering-all4-29.o: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-29.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-29.out: $(objpfx)tst-dso-ordering-all4-29-dir/tst-dso-ordering-all4-29-b.so $(objpfx)tst-dso-ordering-all4-29-dir/tst-dso-ordering-all4-29-c.so $(objpfx)tst-dso-ordering-all4-29-dir/tst-dso-ordering-all4-29-a.so
+test-srcs += tst-dso-ordering-all4-29-dir/tst-dso-ordering-all4-29
+$(objpfx)tst-dso-ordering-all4-29.out: $(objpfx)tst-dso-ordering-all4-29-dir/tst-dso-ordering-all4-29
+$(objpfx)tst-dso-ordering-all4-29.out: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-29.sh $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-29.exp $(common-objpfx)support/test-run-command
+	$(SHELL) $< $(common-objpfx) '$(test-wrapper-env)' '$(run-program-env)' '$(rpath-link)' > $@; $(evaluate-test)
+ifeq ($(run-built-tests),yes)
+tests-special += $(objpfx)tst-dso-ordering-all4-29.out
+endif
+endif
+ifeq (yes,$(build-shared))
+$(objpfx)tst-dso-ordering-all4-30-dir/tst-dso-ordering-all4-30-b.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-30-b.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-30-dir/tst-dso-ordering-all4-30-c.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-30-c.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-30-dir/tst-dso-ordering-all4-30-a.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-30-a.c
+	$(compile.c) $(OUTPUT_OPTION)
+modules-names += tst-dso-ordering-all4-30-dir/tst-dso-ordering-all4-30-b tst-dso-ordering-all4-30-dir/tst-dso-ordering-all4-30-c tst-dso-ordering-all4-30-dir/tst-dso-ordering-all4-30-a
+$(objpfx)tst-dso-ordering-all4-30-dir/tst-dso-ordering-all4-30-b.so: $(objpfx)tst-dso-ordering-all4-30-dir/tst-dso-ordering-all4-30-c.so
+$(objpfx)tst-dso-ordering-all4-30-dir/tst-dso-ordering-all4-30-a.so: $(objpfx)tst-dso-ordering-all4-30-dir/tst-dso-ordering-all4-30-b.so
+LDFLAGS-tst-dso-ordering-all4-30-b.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-30-c.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-30-a.so = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-30-dir/tst-dso-ordering-all4-30: $(objpfx)tst-dso-ordering-all4-30-dir/tst-dso-ordering-all4-30-a.so $(objpfx)tst-dso-ordering-all4-30-dir/tst-dso-ordering-all4-30-b.so $(objpfx)tst-dso-ordering-all4-30-dir/tst-dso-ordering-all4-30-c.so
+LDFLAGS-tst-dso-ordering-all4-30 = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-30-dir/tst-dso-ordering-all4-30.o: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-30.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-30.out: $(objpfx)tst-dso-ordering-all4-30-dir/tst-dso-ordering-all4-30-b.so $(objpfx)tst-dso-ordering-all4-30-dir/tst-dso-ordering-all4-30-c.so $(objpfx)tst-dso-ordering-all4-30-dir/tst-dso-ordering-all4-30-a.so
+test-srcs += tst-dso-ordering-all4-30-dir/tst-dso-ordering-all4-30
+$(objpfx)tst-dso-ordering-all4-30.out: $(objpfx)tst-dso-ordering-all4-30-dir/tst-dso-ordering-all4-30
+$(objpfx)tst-dso-ordering-all4-30.out: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-30.sh $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-30.exp $(common-objpfx)support/test-run-command
+	$(SHELL) $< $(common-objpfx) '$(test-wrapper-env)' '$(run-program-env)' '$(rpath-link)' > $@; $(evaluate-test)
+ifeq ($(run-built-tests),yes)
+tests-special += $(objpfx)tst-dso-ordering-all4-30.out
+endif
+endif
+ifeq (yes,$(build-shared))
+$(objpfx)tst-dso-ordering-all4-31-dir/tst-dso-ordering-all4-31-b.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-31-b.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-31-dir/tst-dso-ordering-all4-31-c.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-31-c.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-31-dir/tst-dso-ordering-all4-31-a.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-31-a.c
+	$(compile.c) $(OUTPUT_OPTION)
+modules-names += tst-dso-ordering-all4-31-dir/tst-dso-ordering-all4-31-b tst-dso-ordering-all4-31-dir/tst-dso-ordering-all4-31-c tst-dso-ordering-all4-31-dir/tst-dso-ordering-all4-31-a
+$(objpfx)tst-dso-ordering-all4-31-dir/tst-dso-ordering-all4-31-b.so: $(objpfx)tst-dso-ordering-all4-31-dir/tst-dso-ordering-all4-31-c.so
+$(objpfx)tst-dso-ordering-all4-31-dir/tst-dso-ordering-all4-31-a.so: $(objpfx)tst-dso-ordering-all4-31-dir/tst-dso-ordering-all4-31-b.so
+LDFLAGS-tst-dso-ordering-all4-31-b.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-31-c.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-31-a.so = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-31-dir/tst-dso-ordering-all4-31: $(objpfx)tst-dso-ordering-all4-31-dir/tst-dso-ordering-all4-31-a.so $(objpfx)tst-dso-ordering-all4-31-dir/tst-dso-ordering-all4-31-c.so $(objpfx)tst-dso-ordering-all4-31-dir/tst-dso-ordering-all4-31-b.so
+LDFLAGS-tst-dso-ordering-all4-31 = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-31-dir/tst-dso-ordering-all4-31.o: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-31.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-31.out: $(objpfx)tst-dso-ordering-all4-31-dir/tst-dso-ordering-all4-31-b.so $(objpfx)tst-dso-ordering-all4-31-dir/tst-dso-ordering-all4-31-c.so $(objpfx)tst-dso-ordering-all4-31-dir/tst-dso-ordering-all4-31-a.so
+test-srcs += tst-dso-ordering-all4-31-dir/tst-dso-ordering-all4-31
+$(objpfx)tst-dso-ordering-all4-31.out: $(objpfx)tst-dso-ordering-all4-31-dir/tst-dso-ordering-all4-31
+$(objpfx)tst-dso-ordering-all4-31.out: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-31.sh $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-31.exp $(common-objpfx)support/test-run-command
+	$(SHELL) $< $(common-objpfx) '$(test-wrapper-env)' '$(run-program-env)' '$(rpath-link)' > $@; $(evaluate-test)
+ifeq ($(run-built-tests),yes)
+tests-special += $(objpfx)tst-dso-ordering-all4-31.out
+endif
+endif
+ifeq (yes,$(build-shared))
+$(objpfx)tst-dso-ordering-all4-32-dir/tst-dso-ordering-all4-32-b.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-32-b.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-32-dir/tst-dso-ordering-all4-32-c.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-32-c.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-32-dir/tst-dso-ordering-all4-32-a.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-32-a.c
+	$(compile.c) $(OUTPUT_OPTION)
+modules-names += tst-dso-ordering-all4-32-dir/tst-dso-ordering-all4-32-b tst-dso-ordering-all4-32-dir/tst-dso-ordering-all4-32-c tst-dso-ordering-all4-32-dir/tst-dso-ordering-all4-32-a
+$(objpfx)tst-dso-ordering-all4-32-dir/tst-dso-ordering-all4-32-b.so: $(objpfx)tst-dso-ordering-all4-32-dir/tst-dso-ordering-all4-32-c.so
+$(objpfx)tst-dso-ordering-all4-32-dir/tst-dso-ordering-all4-32-a.so: $(objpfx)tst-dso-ordering-all4-32-dir/tst-dso-ordering-all4-32-b.so
+LDFLAGS-tst-dso-ordering-all4-32-b.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-32-c.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-32-a.so = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-32-dir/tst-dso-ordering-all4-32: $(objpfx)tst-dso-ordering-all4-32-dir/tst-dso-ordering-all4-32-c.so $(objpfx)tst-dso-ordering-all4-32-dir/tst-dso-ordering-all4-32-a.so
+LDFLAGS-tst-dso-ordering-all4-32 = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-32-dir/tst-dso-ordering-all4-32.o: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-32.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-32.out: $(objpfx)tst-dso-ordering-all4-32-dir/tst-dso-ordering-all4-32-b.so $(objpfx)tst-dso-ordering-all4-32-dir/tst-dso-ordering-all4-32-c.so $(objpfx)tst-dso-ordering-all4-32-dir/tst-dso-ordering-all4-32-a.so
+test-srcs += tst-dso-ordering-all4-32-dir/tst-dso-ordering-all4-32
+$(objpfx)tst-dso-ordering-all4-32.out: $(objpfx)tst-dso-ordering-all4-32-dir/tst-dso-ordering-all4-32
+$(objpfx)tst-dso-ordering-all4-32.out: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-32.sh $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-32.exp $(common-objpfx)support/test-run-command
+	$(SHELL) $< $(common-objpfx) '$(test-wrapper-env)' '$(run-program-env)' '$(rpath-link)' > $@; $(evaluate-test)
+ifeq ($(run-built-tests),yes)
+tests-special += $(objpfx)tst-dso-ordering-all4-32.out
+endif
+endif
+ifeq (yes,$(build-shared))
+$(objpfx)tst-dso-ordering-all4-33-dir/tst-dso-ordering-all4-33-b.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-33-b.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-33-dir/tst-dso-ordering-all4-33-c.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-33-c.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-33-dir/tst-dso-ordering-all4-33-a.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-33-a.c
+	$(compile.c) $(OUTPUT_OPTION)
+modules-names += tst-dso-ordering-all4-33-dir/tst-dso-ordering-all4-33-b tst-dso-ordering-all4-33-dir/tst-dso-ordering-all4-33-c tst-dso-ordering-all4-33-dir/tst-dso-ordering-all4-33-a
+$(objpfx)tst-dso-ordering-all4-33-dir/tst-dso-ordering-all4-33-b.so: $(objpfx)tst-dso-ordering-all4-33-dir/tst-dso-ordering-all4-33-c.so
+$(objpfx)tst-dso-ordering-all4-33-dir/tst-dso-ordering-all4-33-a.so: $(objpfx)tst-dso-ordering-all4-33-dir/tst-dso-ordering-all4-33-b.so
+LDFLAGS-tst-dso-ordering-all4-33-b.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-33-c.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-33-a.so = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-33-dir/tst-dso-ordering-all4-33: $(objpfx)tst-dso-ordering-all4-33-dir/tst-dso-ordering-all4-33-a.so $(objpfx)tst-dso-ordering-all4-33-dir/tst-dso-ordering-all4-33-c.so
+LDFLAGS-tst-dso-ordering-all4-33 = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-33-dir/tst-dso-ordering-all4-33.o: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-33.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-33.out: $(objpfx)tst-dso-ordering-all4-33-dir/tst-dso-ordering-all4-33-b.so $(objpfx)tst-dso-ordering-all4-33-dir/tst-dso-ordering-all4-33-c.so $(objpfx)tst-dso-ordering-all4-33-dir/tst-dso-ordering-all4-33-a.so
+test-srcs += tst-dso-ordering-all4-33-dir/tst-dso-ordering-all4-33
+$(objpfx)tst-dso-ordering-all4-33.out: $(objpfx)tst-dso-ordering-all4-33-dir/tst-dso-ordering-all4-33
+$(objpfx)tst-dso-ordering-all4-33.out: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-33.sh $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-33.exp $(common-objpfx)support/test-run-command
+	$(SHELL) $< $(common-objpfx) '$(test-wrapper-env)' '$(run-program-env)' '$(rpath-link)' > $@; $(evaluate-test)
+ifeq ($(run-built-tests),yes)
+tests-special += $(objpfx)tst-dso-ordering-all4-33.out
+endif
+endif
+ifeq (yes,$(build-shared))
+$(objpfx)tst-dso-ordering-all4-34-dir/tst-dso-ordering-all4-34-b.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-34-b.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-34-dir/tst-dso-ordering-all4-34-c.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-34-c.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-34-dir/tst-dso-ordering-all4-34-a.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-34-a.c
+	$(compile.c) $(OUTPUT_OPTION)
+modules-names += tst-dso-ordering-all4-34-dir/tst-dso-ordering-all4-34-b tst-dso-ordering-all4-34-dir/tst-dso-ordering-all4-34-c tst-dso-ordering-all4-34-dir/tst-dso-ordering-all4-34-a
+$(objpfx)tst-dso-ordering-all4-34-dir/tst-dso-ordering-all4-34-b.so: $(objpfx)tst-dso-ordering-all4-34-dir/tst-dso-ordering-all4-34-c.so
+$(objpfx)tst-dso-ordering-all4-34-dir/tst-dso-ordering-all4-34-a.so: $(objpfx)tst-dso-ordering-all4-34-dir/tst-dso-ordering-all4-34-b.so
+LDFLAGS-tst-dso-ordering-all4-34-b.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-34-c.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-34-a.so = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-34-dir/tst-dso-ordering-all4-34: $(objpfx)tst-dso-ordering-all4-34-dir/tst-dso-ordering-all4-34-b.so $(objpfx)tst-dso-ordering-all4-34-dir/tst-dso-ordering-all4-34-a.so
+LDFLAGS-tst-dso-ordering-all4-34 = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-34-dir/tst-dso-ordering-all4-34.o: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-34.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-34.out: $(objpfx)tst-dso-ordering-all4-34-dir/tst-dso-ordering-all4-34-b.so $(objpfx)tst-dso-ordering-all4-34-dir/tst-dso-ordering-all4-34-c.so $(objpfx)tst-dso-ordering-all4-34-dir/tst-dso-ordering-all4-34-a.so
+test-srcs += tst-dso-ordering-all4-34-dir/tst-dso-ordering-all4-34
+$(objpfx)tst-dso-ordering-all4-34.out: $(objpfx)tst-dso-ordering-all4-34-dir/tst-dso-ordering-all4-34
+$(objpfx)tst-dso-ordering-all4-34.out: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-34.sh $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-34.exp $(common-objpfx)support/test-run-command
+	$(SHELL) $< $(common-objpfx) '$(test-wrapper-env)' '$(run-program-env)' '$(rpath-link)' > $@; $(evaluate-test)
+ifeq ($(run-built-tests),yes)
+tests-special += $(objpfx)tst-dso-ordering-all4-34.out
+endif
+endif
+ifeq (yes,$(build-shared))
+$(objpfx)tst-dso-ordering-all4-35-dir/tst-dso-ordering-all4-35-b.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-35-b.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-35-dir/tst-dso-ordering-all4-35-c.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-35-c.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-35-dir/tst-dso-ordering-all4-35-a.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-35-a.c
+	$(compile.c) $(OUTPUT_OPTION)
+modules-names += tst-dso-ordering-all4-35-dir/tst-dso-ordering-all4-35-b tst-dso-ordering-all4-35-dir/tst-dso-ordering-all4-35-c tst-dso-ordering-all4-35-dir/tst-dso-ordering-all4-35-a
+$(objpfx)tst-dso-ordering-all4-35-dir/tst-dso-ordering-all4-35-b.so: $(objpfx)tst-dso-ordering-all4-35-dir/tst-dso-ordering-all4-35-c.so
+$(objpfx)tst-dso-ordering-all4-35-dir/tst-dso-ordering-all4-35-a.so: $(objpfx)tst-dso-ordering-all4-35-dir/tst-dso-ordering-all4-35-b.so
+LDFLAGS-tst-dso-ordering-all4-35-b.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-35-c.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-35-a.so = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-35-dir/tst-dso-ordering-all4-35: $(objpfx)tst-dso-ordering-all4-35-dir/tst-dso-ordering-all4-35-a.so $(objpfx)tst-dso-ordering-all4-35-dir/tst-dso-ordering-all4-35-b.so
+LDFLAGS-tst-dso-ordering-all4-35 = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-35-dir/tst-dso-ordering-all4-35.o: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-35.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-35.out: $(objpfx)tst-dso-ordering-all4-35-dir/tst-dso-ordering-all4-35-b.so $(objpfx)tst-dso-ordering-all4-35-dir/tst-dso-ordering-all4-35-c.so $(objpfx)tst-dso-ordering-all4-35-dir/tst-dso-ordering-all4-35-a.so
+test-srcs += tst-dso-ordering-all4-35-dir/tst-dso-ordering-all4-35
+$(objpfx)tst-dso-ordering-all4-35.out: $(objpfx)tst-dso-ordering-all4-35-dir/tst-dso-ordering-all4-35
+$(objpfx)tst-dso-ordering-all4-35.out: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-35.sh $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-35.exp $(common-objpfx)support/test-run-command
+	$(SHELL) $< $(common-objpfx) '$(test-wrapper-env)' '$(run-program-env)' '$(rpath-link)' > $@; $(evaluate-test)
+ifeq ($(run-built-tests),yes)
+tests-special += $(objpfx)tst-dso-ordering-all4-35.out
+endif
+endif
+ifeq (yes,$(build-shared))
+$(objpfx)tst-dso-ordering-all4-36-dir/tst-dso-ordering-all4-36-b.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-36-b.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-36-dir/tst-dso-ordering-all4-36-c.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-36-c.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-36-dir/tst-dso-ordering-all4-36-a.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-36-a.c
+	$(compile.c) $(OUTPUT_OPTION)
+modules-names += tst-dso-ordering-all4-36-dir/tst-dso-ordering-all4-36-b tst-dso-ordering-all4-36-dir/tst-dso-ordering-all4-36-c tst-dso-ordering-all4-36-dir/tst-dso-ordering-all4-36-a
+$(objpfx)tst-dso-ordering-all4-36-dir/tst-dso-ordering-all4-36-b.so: $(objpfx)tst-dso-ordering-all4-36-dir/tst-dso-ordering-all4-36-c.so
+$(objpfx)tst-dso-ordering-all4-36-dir/tst-dso-ordering-all4-36-a.so: $(objpfx)tst-dso-ordering-all4-36-dir/tst-dso-ordering-all4-36-b.so
+LDFLAGS-tst-dso-ordering-all4-36-b.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-36-c.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-36-a.so = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-36-dir/tst-dso-ordering-all4-36: $(objpfx)tst-dso-ordering-all4-36-dir/tst-dso-ordering-all4-36-a.so
+LDFLAGS-tst-dso-ordering-all4-36 = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-36-dir/tst-dso-ordering-all4-36.o: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-36.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-36.out: $(objpfx)tst-dso-ordering-all4-36-dir/tst-dso-ordering-all4-36-b.so $(objpfx)tst-dso-ordering-all4-36-dir/tst-dso-ordering-all4-36-c.so $(objpfx)tst-dso-ordering-all4-36-dir/tst-dso-ordering-all4-36-a.so
+test-srcs += tst-dso-ordering-all4-36-dir/tst-dso-ordering-all4-36
+$(objpfx)tst-dso-ordering-all4-36.out: $(objpfx)tst-dso-ordering-all4-36-dir/tst-dso-ordering-all4-36
+$(objpfx)tst-dso-ordering-all4-36.out: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-36.sh $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-36.exp $(common-objpfx)support/test-run-command
+	$(SHELL) $< $(common-objpfx) '$(test-wrapper-env)' '$(run-program-env)' '$(rpath-link)' > $@; $(evaluate-test)
+ifeq ($(run-built-tests),yes)
+tests-special += $(objpfx)tst-dso-ordering-all4-36.out
+endif
+endif
+ifeq (yes,$(build-shared))
+$(objpfx)tst-dso-ordering-all4-37-dir/tst-dso-ordering-all4-37-b.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-37-b.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-37-dir/tst-dso-ordering-all4-37-c.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-37-c.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-37-dir/tst-dso-ordering-all4-37-a.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-37-a.c
+	$(compile.c) $(OUTPUT_OPTION)
+modules-names += tst-dso-ordering-all4-37-dir/tst-dso-ordering-all4-37-b tst-dso-ordering-all4-37-dir/tst-dso-ordering-all4-37-c tst-dso-ordering-all4-37-dir/tst-dso-ordering-all4-37-a
+$(objpfx)tst-dso-ordering-all4-37-dir/tst-dso-ordering-all4-37-b.so: $(objpfx)tst-dso-ordering-all4-37-dir/tst-dso-ordering-all4-37-c.so
+LDFLAGS-tst-dso-ordering-all4-37-b.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-37-c.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-37-a.so = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-37-dir/tst-dso-ordering-all4-37: $(objpfx)tst-dso-ordering-all4-37-dir/tst-dso-ordering-all4-37-c.so $(objpfx)tst-dso-ordering-all4-37-dir/tst-dso-ordering-all4-37-a.so $(objpfx)tst-dso-ordering-all4-37-dir/tst-dso-ordering-all4-37-b.so
+LDFLAGS-tst-dso-ordering-all4-37 = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-37-dir/tst-dso-ordering-all4-37.o: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-37.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-37.out: $(objpfx)tst-dso-ordering-all4-37-dir/tst-dso-ordering-all4-37-b.so $(objpfx)tst-dso-ordering-all4-37-dir/tst-dso-ordering-all4-37-c.so $(objpfx)tst-dso-ordering-all4-37-dir/tst-dso-ordering-all4-37-a.so
+test-srcs += tst-dso-ordering-all4-37-dir/tst-dso-ordering-all4-37
+$(objpfx)tst-dso-ordering-all4-37.out: $(objpfx)tst-dso-ordering-all4-37-dir/tst-dso-ordering-all4-37
+$(objpfx)tst-dso-ordering-all4-37.out: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-37.sh $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-37.exp $(common-objpfx)support/test-run-command
+	$(SHELL) $< $(common-objpfx) '$(test-wrapper-env)' '$(run-program-env)' '$(rpath-link)' > $@; $(evaluate-test)
+ifeq ($(run-built-tests),yes)
+tests-special += $(objpfx)tst-dso-ordering-all4-37.out
+endif
+endif
+ifeq (yes,$(build-shared))
+$(objpfx)tst-dso-ordering-all4-38-dir/tst-dso-ordering-all4-38-b.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-38-b.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-38-dir/tst-dso-ordering-all4-38-c.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-38-c.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-38-dir/tst-dso-ordering-all4-38-a.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-38-a.c
+	$(compile.c) $(OUTPUT_OPTION)
+modules-names += tst-dso-ordering-all4-38-dir/tst-dso-ordering-all4-38-b tst-dso-ordering-all4-38-dir/tst-dso-ordering-all4-38-c tst-dso-ordering-all4-38-dir/tst-dso-ordering-all4-38-a
+$(objpfx)tst-dso-ordering-all4-38-dir/tst-dso-ordering-all4-38-b.so: $(objpfx)tst-dso-ordering-all4-38-dir/tst-dso-ordering-all4-38-c.so
+LDFLAGS-tst-dso-ordering-all4-38-b.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-38-c.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-38-a.so = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-38-dir/tst-dso-ordering-all4-38: $(objpfx)tst-dso-ordering-all4-38-dir/tst-dso-ordering-all4-38-a.so $(objpfx)tst-dso-ordering-all4-38-dir/tst-dso-ordering-all4-38-b.so $(objpfx)tst-dso-ordering-all4-38-dir/tst-dso-ordering-all4-38-c.so
+LDFLAGS-tst-dso-ordering-all4-38 = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-38-dir/tst-dso-ordering-all4-38.o: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-38.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-38.out: $(objpfx)tst-dso-ordering-all4-38-dir/tst-dso-ordering-all4-38-b.so $(objpfx)tst-dso-ordering-all4-38-dir/tst-dso-ordering-all4-38-c.so $(objpfx)tst-dso-ordering-all4-38-dir/tst-dso-ordering-all4-38-a.so
+test-srcs += tst-dso-ordering-all4-38-dir/tst-dso-ordering-all4-38
+$(objpfx)tst-dso-ordering-all4-38.out: $(objpfx)tst-dso-ordering-all4-38-dir/tst-dso-ordering-all4-38
+$(objpfx)tst-dso-ordering-all4-38.out: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-38.sh $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-38.exp $(common-objpfx)support/test-run-command
+	$(SHELL) $< $(common-objpfx) '$(test-wrapper-env)' '$(run-program-env)' '$(rpath-link)' > $@; $(evaluate-test)
+ifeq ($(run-built-tests),yes)
+tests-special += $(objpfx)tst-dso-ordering-all4-38.out
+endif
+endif
+ifeq (yes,$(build-shared))
+$(objpfx)tst-dso-ordering-all4-39-dir/tst-dso-ordering-all4-39-b.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-39-b.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-39-dir/tst-dso-ordering-all4-39-c.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-39-c.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-39-dir/tst-dso-ordering-all4-39-a.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-39-a.c
+	$(compile.c) $(OUTPUT_OPTION)
+modules-names += tst-dso-ordering-all4-39-dir/tst-dso-ordering-all4-39-b tst-dso-ordering-all4-39-dir/tst-dso-ordering-all4-39-c tst-dso-ordering-all4-39-dir/tst-dso-ordering-all4-39-a
+$(objpfx)tst-dso-ordering-all4-39-dir/tst-dso-ordering-all4-39-b.so: $(objpfx)tst-dso-ordering-all4-39-dir/tst-dso-ordering-all4-39-c.so
+LDFLAGS-tst-dso-ordering-all4-39-b.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-39-c.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-39-a.so = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-39-dir/tst-dso-ordering-all4-39: $(objpfx)tst-dso-ordering-all4-39-dir/tst-dso-ordering-all4-39-a.so $(objpfx)tst-dso-ordering-all4-39-dir/tst-dso-ordering-all4-39-c.so $(objpfx)tst-dso-ordering-all4-39-dir/tst-dso-ordering-all4-39-b.so
+LDFLAGS-tst-dso-ordering-all4-39 = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-39-dir/tst-dso-ordering-all4-39.o: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-39.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-39.out: $(objpfx)tst-dso-ordering-all4-39-dir/tst-dso-ordering-all4-39-b.so $(objpfx)tst-dso-ordering-all4-39-dir/tst-dso-ordering-all4-39-c.so $(objpfx)tst-dso-ordering-all4-39-dir/tst-dso-ordering-all4-39-a.so
+test-srcs += tst-dso-ordering-all4-39-dir/tst-dso-ordering-all4-39
+$(objpfx)tst-dso-ordering-all4-39.out: $(objpfx)tst-dso-ordering-all4-39-dir/tst-dso-ordering-all4-39
+$(objpfx)tst-dso-ordering-all4-39.out: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-39.sh $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-39.exp $(common-objpfx)support/test-run-command
+	$(SHELL) $< $(common-objpfx) '$(test-wrapper-env)' '$(run-program-env)' '$(rpath-link)' > $@; $(evaluate-test)
+ifeq ($(run-built-tests),yes)
+tests-special += $(objpfx)tst-dso-ordering-all4-39.out
+endif
+endif
+ifeq (yes,$(build-shared))
+$(objpfx)tst-dso-ordering-all4-40-dir/tst-dso-ordering-all4-40-b.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-40-b.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-40-dir/tst-dso-ordering-all4-40-c.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-40-c.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-40-dir/tst-dso-ordering-all4-40-a.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-40-a.c
+	$(compile.c) $(OUTPUT_OPTION)
+modules-names += tst-dso-ordering-all4-40-dir/tst-dso-ordering-all4-40-b tst-dso-ordering-all4-40-dir/tst-dso-ordering-all4-40-c tst-dso-ordering-all4-40-dir/tst-dso-ordering-all4-40-a
+$(objpfx)tst-dso-ordering-all4-40-dir/tst-dso-ordering-all4-40-b.so: $(objpfx)tst-dso-ordering-all4-40-dir/tst-dso-ordering-all4-40-c.so
+LDFLAGS-tst-dso-ordering-all4-40-b.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-40-c.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-40-a.so = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-40-dir/tst-dso-ordering-all4-40: $(objpfx)tst-dso-ordering-all4-40-dir/tst-dso-ordering-all4-40-a.so $(objpfx)tst-dso-ordering-all4-40-dir/tst-dso-ordering-all4-40-b.so
+LDFLAGS-tst-dso-ordering-all4-40 = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-40-dir/tst-dso-ordering-all4-40.o: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-40.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-40.out: $(objpfx)tst-dso-ordering-all4-40-dir/tst-dso-ordering-all4-40-b.so $(objpfx)tst-dso-ordering-all4-40-dir/tst-dso-ordering-all4-40-c.so $(objpfx)tst-dso-ordering-all4-40-dir/tst-dso-ordering-all4-40-a.so
+test-srcs += tst-dso-ordering-all4-40-dir/tst-dso-ordering-all4-40
+$(objpfx)tst-dso-ordering-all4-40.out: $(objpfx)tst-dso-ordering-all4-40-dir/tst-dso-ordering-all4-40
+$(objpfx)tst-dso-ordering-all4-40.out: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-40.sh $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-40.exp $(common-objpfx)support/test-run-command
+	$(SHELL) $< $(common-objpfx) '$(test-wrapper-env)' '$(run-program-env)' '$(rpath-link)' > $@; $(evaluate-test)
+ifeq ($(run-built-tests),yes)
+tests-special += $(objpfx)tst-dso-ordering-all4-40.out
+endif
+endif
+ifeq (yes,$(build-shared))
+$(objpfx)tst-dso-ordering-all4-41-dir/tst-dso-ordering-all4-41-a.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-41-a.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-41-dir/tst-dso-ordering-all4-41-c.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-41-c.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-41-dir/tst-dso-ordering-all4-41-b.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-41-b.c
+	$(compile.c) $(OUTPUT_OPTION)
+modules-names += tst-dso-ordering-all4-41-dir/tst-dso-ordering-all4-41-a tst-dso-ordering-all4-41-dir/tst-dso-ordering-all4-41-c tst-dso-ordering-all4-41-dir/tst-dso-ordering-all4-41-b
+$(objpfx)tst-dso-ordering-all4-41-dir/tst-dso-ordering-all4-41-a.so: $(objpfx)tst-dso-ordering-all4-41-dir/tst-dso-ordering-all4-41-c.so $(objpfx)tst-dso-ordering-all4-41-dir/tst-dso-ordering-all4-41-b.so
+LDFLAGS-tst-dso-ordering-all4-41-a.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-41-c.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-41-b.so = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-41-dir/tst-dso-ordering-all4-41: $(objpfx)tst-dso-ordering-all4-41-dir/tst-dso-ordering-all4-41-c.so $(objpfx)tst-dso-ordering-all4-41-dir/tst-dso-ordering-all4-41-b.so $(objpfx)tst-dso-ordering-all4-41-dir/tst-dso-ordering-all4-41-a.so
+LDFLAGS-tst-dso-ordering-all4-41 = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-41-dir/tst-dso-ordering-all4-41.o: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-41.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-41.out: $(objpfx)tst-dso-ordering-all4-41-dir/tst-dso-ordering-all4-41-a.so $(objpfx)tst-dso-ordering-all4-41-dir/tst-dso-ordering-all4-41-c.so $(objpfx)tst-dso-ordering-all4-41-dir/tst-dso-ordering-all4-41-b.so
+test-srcs += tst-dso-ordering-all4-41-dir/tst-dso-ordering-all4-41
+$(objpfx)tst-dso-ordering-all4-41.out: $(objpfx)tst-dso-ordering-all4-41-dir/tst-dso-ordering-all4-41
+$(objpfx)tst-dso-ordering-all4-41.out: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-41.sh $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-41.exp $(common-objpfx)support/test-run-command
+	$(SHELL) $< $(common-objpfx) '$(test-wrapper-env)' '$(run-program-env)' '$(rpath-link)' > $@; $(evaluate-test)
+ifeq ($(run-built-tests),yes)
+tests-special += $(objpfx)tst-dso-ordering-all4-41.out
+endif
+endif
+ifeq (yes,$(build-shared))
+$(objpfx)tst-dso-ordering-all4-42-dir/tst-dso-ordering-all4-42-a.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-42-a.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-42-dir/tst-dso-ordering-all4-42-c.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-42-c.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-42-dir/tst-dso-ordering-all4-42-b.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-42-b.c
+	$(compile.c) $(OUTPUT_OPTION)
+modules-names += tst-dso-ordering-all4-42-dir/tst-dso-ordering-all4-42-a tst-dso-ordering-all4-42-dir/tst-dso-ordering-all4-42-c tst-dso-ordering-all4-42-dir/tst-dso-ordering-all4-42-b
+$(objpfx)tst-dso-ordering-all4-42-dir/tst-dso-ordering-all4-42-a.so: $(objpfx)tst-dso-ordering-all4-42-dir/tst-dso-ordering-all4-42-c.so $(objpfx)tst-dso-ordering-all4-42-dir/tst-dso-ordering-all4-42-b.so
+LDFLAGS-tst-dso-ordering-all4-42-a.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-42-c.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-42-b.so = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-42-dir/tst-dso-ordering-all4-42: $(objpfx)tst-dso-ordering-all4-42-dir/tst-dso-ordering-all4-42-b.so $(objpfx)tst-dso-ordering-all4-42-dir/tst-dso-ordering-all4-42-a.so $(objpfx)tst-dso-ordering-all4-42-dir/tst-dso-ordering-all4-42-c.so
+LDFLAGS-tst-dso-ordering-all4-42 = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-42-dir/tst-dso-ordering-all4-42.o: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-42.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-42.out: $(objpfx)tst-dso-ordering-all4-42-dir/tst-dso-ordering-all4-42-a.so $(objpfx)tst-dso-ordering-all4-42-dir/tst-dso-ordering-all4-42-c.so $(objpfx)tst-dso-ordering-all4-42-dir/tst-dso-ordering-all4-42-b.so
+test-srcs += tst-dso-ordering-all4-42-dir/tst-dso-ordering-all4-42
+$(objpfx)tst-dso-ordering-all4-42.out: $(objpfx)tst-dso-ordering-all4-42-dir/tst-dso-ordering-all4-42
+$(objpfx)tst-dso-ordering-all4-42.out: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-42.sh $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-42.exp $(common-objpfx)support/test-run-command
+	$(SHELL) $< $(common-objpfx) '$(test-wrapper-env)' '$(run-program-env)' '$(rpath-link)' > $@; $(evaluate-test)
+ifeq ($(run-built-tests),yes)
+tests-special += $(objpfx)tst-dso-ordering-all4-42.out
+endif
+endif
+ifeq (yes,$(build-shared))
+$(objpfx)tst-dso-ordering-all4-43-dir/tst-dso-ordering-all4-43-a.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-43-a.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-43-dir/tst-dso-ordering-all4-43-c.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-43-c.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-43-dir/tst-dso-ordering-all4-43-b.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-43-b.c
+	$(compile.c) $(OUTPUT_OPTION)
+modules-names += tst-dso-ordering-all4-43-dir/tst-dso-ordering-all4-43-a tst-dso-ordering-all4-43-dir/tst-dso-ordering-all4-43-c tst-dso-ordering-all4-43-dir/tst-dso-ordering-all4-43-b
+$(objpfx)tst-dso-ordering-all4-43-dir/tst-dso-ordering-all4-43-a.so: $(objpfx)tst-dso-ordering-all4-43-dir/tst-dso-ordering-all4-43-c.so $(objpfx)tst-dso-ordering-all4-43-dir/tst-dso-ordering-all4-43-b.so
+LDFLAGS-tst-dso-ordering-all4-43-a.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-43-c.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-43-b.so = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-43-dir/tst-dso-ordering-all4-43: $(objpfx)tst-dso-ordering-all4-43-dir/tst-dso-ordering-all4-43-a.so $(objpfx)tst-dso-ordering-all4-43-dir/tst-dso-ordering-all4-43-b.so $(objpfx)tst-dso-ordering-all4-43-dir/tst-dso-ordering-all4-43-c.so
+LDFLAGS-tst-dso-ordering-all4-43 = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-43-dir/tst-dso-ordering-all4-43.o: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-43.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-43.out: $(objpfx)tst-dso-ordering-all4-43-dir/tst-dso-ordering-all4-43-a.so $(objpfx)tst-dso-ordering-all4-43-dir/tst-dso-ordering-all4-43-c.so $(objpfx)tst-dso-ordering-all4-43-dir/tst-dso-ordering-all4-43-b.so
+test-srcs += tst-dso-ordering-all4-43-dir/tst-dso-ordering-all4-43
+$(objpfx)tst-dso-ordering-all4-43.out: $(objpfx)tst-dso-ordering-all4-43-dir/tst-dso-ordering-all4-43
+$(objpfx)tst-dso-ordering-all4-43.out: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-43.sh $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-43.exp $(common-objpfx)support/test-run-command
+	$(SHELL) $< $(common-objpfx) '$(test-wrapper-env)' '$(run-program-env)' '$(rpath-link)' > $@; $(evaluate-test)
+ifeq ($(run-built-tests),yes)
+tests-special += $(objpfx)tst-dso-ordering-all4-43.out
+endif
+endif
+ifeq (yes,$(build-shared))
+$(objpfx)tst-dso-ordering-all4-44-dir/tst-dso-ordering-all4-44-a.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-44-a.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-44-dir/tst-dso-ordering-all4-44-b.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-44-b.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-44-dir/tst-dso-ordering-all4-44-c.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-44-c.c
+	$(compile.c) $(OUTPUT_OPTION)
+modules-names += tst-dso-ordering-all4-44-dir/tst-dso-ordering-all4-44-a tst-dso-ordering-all4-44-dir/tst-dso-ordering-all4-44-b tst-dso-ordering-all4-44-dir/tst-dso-ordering-all4-44-c
+$(objpfx)tst-dso-ordering-all4-44-dir/tst-dso-ordering-all4-44-a.so: $(objpfx)tst-dso-ordering-all4-44-dir/tst-dso-ordering-all4-44-b.so $(objpfx)tst-dso-ordering-all4-44-dir/tst-dso-ordering-all4-44-c.so
+LDFLAGS-tst-dso-ordering-all4-44-a.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-44-b.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-44-c.so = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-44-dir/tst-dso-ordering-all4-44: $(objpfx)tst-dso-ordering-all4-44-dir/tst-dso-ordering-all4-44-c.so $(objpfx)tst-dso-ordering-all4-44-dir/tst-dso-ordering-all4-44-b.so $(objpfx)tst-dso-ordering-all4-44-dir/tst-dso-ordering-all4-44-a.so
+LDFLAGS-tst-dso-ordering-all4-44 = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-44-dir/tst-dso-ordering-all4-44.o: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-44.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-44.out: $(objpfx)tst-dso-ordering-all4-44-dir/tst-dso-ordering-all4-44-a.so $(objpfx)tst-dso-ordering-all4-44-dir/tst-dso-ordering-all4-44-b.so $(objpfx)tst-dso-ordering-all4-44-dir/tst-dso-ordering-all4-44-c.so
+test-srcs += tst-dso-ordering-all4-44-dir/tst-dso-ordering-all4-44
+$(objpfx)tst-dso-ordering-all4-44.out: $(objpfx)tst-dso-ordering-all4-44-dir/tst-dso-ordering-all4-44
+$(objpfx)tst-dso-ordering-all4-44.out: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-44.sh $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-44-glibc.rtld.dynamic_sort_1.exp $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-44-glibc.rtld.dynamic_sort_2.exp $(common-objpfx)support/test-run-command
+	$(SHELL) $< $(common-objpfx) '$(test-wrapper-env)' '$(run-program-env)' '$(rpath-link)' > $@; $(evaluate-test)
+ifeq ($(run-built-tests),yes)
+tests-special += $(objpfx)tst-dso-ordering-all4-44.out
+endif
+endif
+ifeq (yes,$(build-shared))
+$(objpfx)tst-dso-ordering-all4-45-dir/tst-dso-ordering-all4-45-a.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-45-a.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-45-dir/tst-dso-ordering-all4-45-b.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-45-b.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-45-dir/tst-dso-ordering-all4-45-c.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-45-c.c
+	$(compile.c) $(OUTPUT_OPTION)
+modules-names += tst-dso-ordering-all4-45-dir/tst-dso-ordering-all4-45-a tst-dso-ordering-all4-45-dir/tst-dso-ordering-all4-45-b tst-dso-ordering-all4-45-dir/tst-dso-ordering-all4-45-c
+$(objpfx)tst-dso-ordering-all4-45-dir/tst-dso-ordering-all4-45-a.so: $(objpfx)tst-dso-ordering-all4-45-dir/tst-dso-ordering-all4-45-b.so $(objpfx)tst-dso-ordering-all4-45-dir/tst-dso-ordering-all4-45-c.so
+LDFLAGS-tst-dso-ordering-all4-45-a.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-45-b.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-45-c.so = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-45-dir/tst-dso-ordering-all4-45: $(objpfx)tst-dso-ordering-all4-45-dir/tst-dso-ordering-all4-45-b.so $(objpfx)tst-dso-ordering-all4-45-dir/tst-dso-ordering-all4-45-a.so $(objpfx)tst-dso-ordering-all4-45-dir/tst-dso-ordering-all4-45-c.so
+LDFLAGS-tst-dso-ordering-all4-45 = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-45-dir/tst-dso-ordering-all4-45.o: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-45.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-45.out: $(objpfx)tst-dso-ordering-all4-45-dir/tst-dso-ordering-all4-45-a.so $(objpfx)tst-dso-ordering-all4-45-dir/tst-dso-ordering-all4-45-b.so $(objpfx)tst-dso-ordering-all4-45-dir/tst-dso-ordering-all4-45-c.so
+test-srcs += tst-dso-ordering-all4-45-dir/tst-dso-ordering-all4-45
+$(objpfx)tst-dso-ordering-all4-45.out: $(objpfx)tst-dso-ordering-all4-45-dir/tst-dso-ordering-all4-45
+$(objpfx)tst-dso-ordering-all4-45.out: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-45.sh $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-45.exp $(common-objpfx)support/test-run-command
+	$(SHELL) $< $(common-objpfx) '$(test-wrapper-env)' '$(run-program-env)' '$(rpath-link)' > $@; $(evaluate-test)
+ifeq ($(run-built-tests),yes)
+tests-special += $(objpfx)tst-dso-ordering-all4-45.out
+endif
+endif
+ifeq (yes,$(build-shared))
+$(objpfx)tst-dso-ordering-all4-46-dir/tst-dso-ordering-all4-46-a.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-46-a.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-46-dir/tst-dso-ordering-all4-46-b.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-46-b.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-46-dir/tst-dso-ordering-all4-46-c.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-46-c.c
+	$(compile.c) $(OUTPUT_OPTION)
+modules-names += tst-dso-ordering-all4-46-dir/tst-dso-ordering-all4-46-a tst-dso-ordering-all4-46-dir/tst-dso-ordering-all4-46-b tst-dso-ordering-all4-46-dir/tst-dso-ordering-all4-46-c
+$(objpfx)tst-dso-ordering-all4-46-dir/tst-dso-ordering-all4-46-a.so: $(objpfx)tst-dso-ordering-all4-46-dir/tst-dso-ordering-all4-46-b.so $(objpfx)tst-dso-ordering-all4-46-dir/tst-dso-ordering-all4-46-c.so
+LDFLAGS-tst-dso-ordering-all4-46-a.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-46-b.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-46-c.so = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-46-dir/tst-dso-ordering-all4-46: $(objpfx)tst-dso-ordering-all4-46-dir/tst-dso-ordering-all4-46-a.so $(objpfx)tst-dso-ordering-all4-46-dir/tst-dso-ordering-all4-46-b.so $(objpfx)tst-dso-ordering-all4-46-dir/tst-dso-ordering-all4-46-c.so
+LDFLAGS-tst-dso-ordering-all4-46 = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-46-dir/tst-dso-ordering-all4-46.o: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-46.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-46.out: $(objpfx)tst-dso-ordering-all4-46-dir/tst-dso-ordering-all4-46-a.so $(objpfx)tst-dso-ordering-all4-46-dir/tst-dso-ordering-all4-46-b.so $(objpfx)tst-dso-ordering-all4-46-dir/tst-dso-ordering-all4-46-c.so
+test-srcs += tst-dso-ordering-all4-46-dir/tst-dso-ordering-all4-46
+$(objpfx)tst-dso-ordering-all4-46.out: $(objpfx)tst-dso-ordering-all4-46-dir/tst-dso-ordering-all4-46
+$(objpfx)tst-dso-ordering-all4-46.out: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-46.sh $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-46.exp $(common-objpfx)support/test-run-command
+	$(SHELL) $< $(common-objpfx) '$(test-wrapper-env)' '$(run-program-env)' '$(rpath-link)' > $@; $(evaluate-test)
+ifeq ($(run-built-tests),yes)
+tests-special += $(objpfx)tst-dso-ordering-all4-46.out
+endif
+endif
+ifeq (yes,$(build-shared))
+$(objpfx)tst-dso-ordering-all4-47-dir/tst-dso-ordering-all4-47-a.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-47-a.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-47-dir/tst-dso-ordering-all4-47-c.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-47-c.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-47-dir/tst-dso-ordering-all4-47-b.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-47-b.c
+	$(compile.c) $(OUTPUT_OPTION)
+modules-names += tst-dso-ordering-all4-47-dir/tst-dso-ordering-all4-47-a tst-dso-ordering-all4-47-dir/tst-dso-ordering-all4-47-c tst-dso-ordering-all4-47-dir/tst-dso-ordering-all4-47-b
+$(objpfx)tst-dso-ordering-all4-47-dir/tst-dso-ordering-all4-47-a.so: $(objpfx)tst-dso-ordering-all4-47-dir/tst-dso-ordering-all4-47-c.so $(objpfx)tst-dso-ordering-all4-47-dir/tst-dso-ordering-all4-47-b.so
+LDFLAGS-tst-dso-ordering-all4-47-a.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-47-c.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-47-b.so = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-47-dir/tst-dso-ordering-all4-47: $(objpfx)tst-dso-ordering-all4-47-dir/tst-dso-ordering-all4-47-b.so $(objpfx)tst-dso-ordering-all4-47-dir/tst-dso-ordering-all4-47-a.so
+LDFLAGS-tst-dso-ordering-all4-47 = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-47-dir/tst-dso-ordering-all4-47.o: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-47.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-47.out: $(objpfx)tst-dso-ordering-all4-47-dir/tst-dso-ordering-all4-47-a.so $(objpfx)tst-dso-ordering-all4-47-dir/tst-dso-ordering-all4-47-c.so $(objpfx)tst-dso-ordering-all4-47-dir/tst-dso-ordering-all4-47-b.so
+test-srcs += tst-dso-ordering-all4-47-dir/tst-dso-ordering-all4-47
+$(objpfx)tst-dso-ordering-all4-47.out: $(objpfx)tst-dso-ordering-all4-47-dir/tst-dso-ordering-all4-47
+$(objpfx)tst-dso-ordering-all4-47.out: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-47.sh $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-47.exp $(common-objpfx)support/test-run-command
+	$(SHELL) $< $(common-objpfx) '$(test-wrapper-env)' '$(run-program-env)' '$(rpath-link)' > $@; $(evaluate-test)
+ifeq ($(run-built-tests),yes)
+tests-special += $(objpfx)tst-dso-ordering-all4-47.out
+endif
+endif
+ifeq (yes,$(build-shared))
+$(objpfx)tst-dso-ordering-all4-48-dir/tst-dso-ordering-all4-48-a.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-48-a.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-48-dir/tst-dso-ordering-all4-48-c.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-48-c.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-48-dir/tst-dso-ordering-all4-48-b.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-48-b.c
+	$(compile.c) $(OUTPUT_OPTION)
+modules-names += tst-dso-ordering-all4-48-dir/tst-dso-ordering-all4-48-a tst-dso-ordering-all4-48-dir/tst-dso-ordering-all4-48-c tst-dso-ordering-all4-48-dir/tst-dso-ordering-all4-48-b
+$(objpfx)tst-dso-ordering-all4-48-dir/tst-dso-ordering-all4-48-a.so: $(objpfx)tst-dso-ordering-all4-48-dir/tst-dso-ordering-all4-48-c.so $(objpfx)tst-dso-ordering-all4-48-dir/tst-dso-ordering-all4-48-b.so
+LDFLAGS-tst-dso-ordering-all4-48-a.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-48-c.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-48-b.so = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-48-dir/tst-dso-ordering-all4-48: $(objpfx)tst-dso-ordering-all4-48-dir/tst-dso-ordering-all4-48-a.so $(objpfx)tst-dso-ordering-all4-48-dir/tst-dso-ordering-all4-48-b.so
+LDFLAGS-tst-dso-ordering-all4-48 = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-48-dir/tst-dso-ordering-all4-48.o: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-48.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-48.out: $(objpfx)tst-dso-ordering-all4-48-dir/tst-dso-ordering-all4-48-a.so $(objpfx)tst-dso-ordering-all4-48-dir/tst-dso-ordering-all4-48-c.so $(objpfx)tst-dso-ordering-all4-48-dir/tst-dso-ordering-all4-48-b.so
+test-srcs += tst-dso-ordering-all4-48-dir/tst-dso-ordering-all4-48
+$(objpfx)tst-dso-ordering-all4-48.out: $(objpfx)tst-dso-ordering-all4-48-dir/tst-dso-ordering-all4-48
+$(objpfx)tst-dso-ordering-all4-48.out: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-48.sh $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-48.exp $(common-objpfx)support/test-run-command
+	$(SHELL) $< $(common-objpfx) '$(test-wrapper-env)' '$(run-program-env)' '$(rpath-link)' > $@; $(evaluate-test)
+ifeq ($(run-built-tests),yes)
+tests-special += $(objpfx)tst-dso-ordering-all4-48.out
+endif
+endif
+ifeq (yes,$(build-shared))
+$(objpfx)tst-dso-ordering-all4-49-dir/tst-dso-ordering-all4-49-a.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-49-a.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-49-dir/tst-dso-ordering-all4-49-b.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-49-b.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-49-dir/tst-dso-ordering-all4-49-c.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-49-c.c
+	$(compile.c) $(OUTPUT_OPTION)
+modules-names += tst-dso-ordering-all4-49-dir/tst-dso-ordering-all4-49-a tst-dso-ordering-all4-49-dir/tst-dso-ordering-all4-49-b tst-dso-ordering-all4-49-dir/tst-dso-ordering-all4-49-c
+$(objpfx)tst-dso-ordering-all4-49-dir/tst-dso-ordering-all4-49-a.so: $(objpfx)tst-dso-ordering-all4-49-dir/tst-dso-ordering-all4-49-b.so $(objpfx)tst-dso-ordering-all4-49-dir/tst-dso-ordering-all4-49-c.so
+LDFLAGS-tst-dso-ordering-all4-49-a.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-49-b.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-49-c.so = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-49-dir/tst-dso-ordering-all4-49: $(objpfx)tst-dso-ordering-all4-49-dir/tst-dso-ordering-all4-49-b.so $(objpfx)tst-dso-ordering-all4-49-dir/tst-dso-ordering-all4-49-a.so
+LDFLAGS-tst-dso-ordering-all4-49 = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-49-dir/tst-dso-ordering-all4-49.o: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-49.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-49.out: $(objpfx)tst-dso-ordering-all4-49-dir/tst-dso-ordering-all4-49-a.so $(objpfx)tst-dso-ordering-all4-49-dir/tst-dso-ordering-all4-49-b.so $(objpfx)tst-dso-ordering-all4-49-dir/tst-dso-ordering-all4-49-c.so
+test-srcs += tst-dso-ordering-all4-49-dir/tst-dso-ordering-all4-49
+$(objpfx)tst-dso-ordering-all4-49.out: $(objpfx)tst-dso-ordering-all4-49-dir/tst-dso-ordering-all4-49
+$(objpfx)tst-dso-ordering-all4-49.out: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-49.sh $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-49.exp $(common-objpfx)support/test-run-command
+	$(SHELL) $< $(common-objpfx) '$(test-wrapper-env)' '$(run-program-env)' '$(rpath-link)' > $@; $(evaluate-test)
+ifeq ($(run-built-tests),yes)
+tests-special += $(objpfx)tst-dso-ordering-all4-49.out
+endif
+endif
+ifeq (yes,$(build-shared))
+$(objpfx)tst-dso-ordering-all4-50-dir/tst-dso-ordering-all4-50-a.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-50-a.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-50-dir/tst-dso-ordering-all4-50-b.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-50-b.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-50-dir/tst-dso-ordering-all4-50-c.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-50-c.c
+	$(compile.c) $(OUTPUT_OPTION)
+modules-names += tst-dso-ordering-all4-50-dir/tst-dso-ordering-all4-50-a tst-dso-ordering-all4-50-dir/tst-dso-ordering-all4-50-b tst-dso-ordering-all4-50-dir/tst-dso-ordering-all4-50-c
+$(objpfx)tst-dso-ordering-all4-50-dir/tst-dso-ordering-all4-50-a.so: $(objpfx)tst-dso-ordering-all4-50-dir/tst-dso-ordering-all4-50-b.so $(objpfx)tst-dso-ordering-all4-50-dir/tst-dso-ordering-all4-50-c.so
+LDFLAGS-tst-dso-ordering-all4-50-a.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-50-b.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-50-c.so = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-50-dir/tst-dso-ordering-all4-50: $(objpfx)tst-dso-ordering-all4-50-dir/tst-dso-ordering-all4-50-a.so $(objpfx)tst-dso-ordering-all4-50-dir/tst-dso-ordering-all4-50-b.so
+LDFLAGS-tst-dso-ordering-all4-50 = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-50-dir/tst-dso-ordering-all4-50.o: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-50.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-50.out: $(objpfx)tst-dso-ordering-all4-50-dir/tst-dso-ordering-all4-50-a.so $(objpfx)tst-dso-ordering-all4-50-dir/tst-dso-ordering-all4-50-b.so $(objpfx)tst-dso-ordering-all4-50-dir/tst-dso-ordering-all4-50-c.so
+test-srcs += tst-dso-ordering-all4-50-dir/tst-dso-ordering-all4-50
+$(objpfx)tst-dso-ordering-all4-50.out: $(objpfx)tst-dso-ordering-all4-50-dir/tst-dso-ordering-all4-50
+$(objpfx)tst-dso-ordering-all4-50.out: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-50.sh $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-50.exp $(common-objpfx)support/test-run-command
+	$(SHELL) $< $(common-objpfx) '$(test-wrapper-env)' '$(run-program-env)' '$(rpath-link)' > $@; $(evaluate-test)
+ifeq ($(run-built-tests),yes)
+tests-special += $(objpfx)tst-dso-ordering-all4-50.out
+endif
+endif
+ifeq (yes,$(build-shared))
+$(objpfx)tst-dso-ordering-all4-51-dir/tst-dso-ordering-all4-51-a.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-51-a.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-51-dir/tst-dso-ordering-all4-51-b.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-51-b.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-51-dir/tst-dso-ordering-all4-51-c.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-51-c.c
+	$(compile.c) $(OUTPUT_OPTION)
+modules-names += tst-dso-ordering-all4-51-dir/tst-dso-ordering-all4-51-a tst-dso-ordering-all4-51-dir/tst-dso-ordering-all4-51-b tst-dso-ordering-all4-51-dir/tst-dso-ordering-all4-51-c
+$(objpfx)tst-dso-ordering-all4-51-dir/tst-dso-ordering-all4-51-a.so: $(objpfx)tst-dso-ordering-all4-51-dir/tst-dso-ordering-all4-51-b.so $(objpfx)tst-dso-ordering-all4-51-dir/tst-dso-ordering-all4-51-c.so
+LDFLAGS-tst-dso-ordering-all4-51-a.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-51-b.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-51-c.so = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-51-dir/tst-dso-ordering-all4-51: $(objpfx)tst-dso-ordering-all4-51-dir/tst-dso-ordering-all4-51-a.so
+LDFLAGS-tst-dso-ordering-all4-51 = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-51-dir/tst-dso-ordering-all4-51.o: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-51.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-51.out: $(objpfx)tst-dso-ordering-all4-51-dir/tst-dso-ordering-all4-51-a.so $(objpfx)tst-dso-ordering-all4-51-dir/tst-dso-ordering-all4-51-b.so $(objpfx)tst-dso-ordering-all4-51-dir/tst-dso-ordering-all4-51-c.so
+test-srcs += tst-dso-ordering-all4-51-dir/tst-dso-ordering-all4-51
+$(objpfx)tst-dso-ordering-all4-51.out: $(objpfx)tst-dso-ordering-all4-51-dir/tst-dso-ordering-all4-51
+$(objpfx)tst-dso-ordering-all4-51.out: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-51.sh $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-51.exp $(common-objpfx)support/test-run-command
+	$(SHELL) $< $(common-objpfx) '$(test-wrapper-env)' '$(run-program-env)' '$(rpath-link)' > $@; $(evaluate-test)
+ifeq ($(run-built-tests),yes)
+tests-special += $(objpfx)tst-dso-ordering-all4-51.out
+endif
+endif
+ifeq (yes,$(build-shared))
+$(objpfx)tst-dso-ordering-all4-52-dir/tst-dso-ordering-all4-52-a.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-52-a.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-52-dir/tst-dso-ordering-all4-52-c.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-52-c.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-52-dir/tst-dso-ordering-all4-52-b.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-52-b.c
+	$(compile.c) $(OUTPUT_OPTION)
+modules-names += tst-dso-ordering-all4-52-dir/tst-dso-ordering-all4-52-a tst-dso-ordering-all4-52-dir/tst-dso-ordering-all4-52-c tst-dso-ordering-all4-52-dir/tst-dso-ordering-all4-52-b
+$(objpfx)tst-dso-ordering-all4-52-dir/tst-dso-ordering-all4-52-a.so: $(objpfx)tst-dso-ordering-all4-52-dir/tst-dso-ordering-all4-52-c.so
+LDFLAGS-tst-dso-ordering-all4-52-a.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-52-c.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-52-b.so = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-52-dir/tst-dso-ordering-all4-52: $(objpfx)tst-dso-ordering-all4-52-dir/tst-dso-ordering-all4-52-a.so $(objpfx)tst-dso-ordering-all4-52-dir/tst-dso-ordering-all4-52-b.so $(objpfx)tst-dso-ordering-all4-52-dir/tst-dso-ordering-all4-52-c.so
+LDFLAGS-tst-dso-ordering-all4-52 = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-52-dir/tst-dso-ordering-all4-52.o: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-52.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-52.out: $(objpfx)tst-dso-ordering-all4-52-dir/tst-dso-ordering-all4-52-a.so $(objpfx)tst-dso-ordering-all4-52-dir/tst-dso-ordering-all4-52-c.so $(objpfx)tst-dso-ordering-all4-52-dir/tst-dso-ordering-all4-52-b.so
+test-srcs += tst-dso-ordering-all4-52-dir/tst-dso-ordering-all4-52
+$(objpfx)tst-dso-ordering-all4-52.out: $(objpfx)tst-dso-ordering-all4-52-dir/tst-dso-ordering-all4-52
+$(objpfx)tst-dso-ordering-all4-52.out: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-52.sh $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-52.exp $(common-objpfx)support/test-run-command
+	$(SHELL) $< $(common-objpfx) '$(test-wrapper-env)' '$(run-program-env)' '$(rpath-link)' > $@; $(evaluate-test)
+ifeq ($(run-built-tests),yes)
+tests-special += $(objpfx)tst-dso-ordering-all4-52.out
+endif
+endif
+ifeq (yes,$(build-shared))
+$(objpfx)tst-dso-ordering-all4-53-dir/tst-dso-ordering-all4-53-a.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-53-a.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-53-dir/tst-dso-ordering-all4-53-c.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-53-c.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-53-dir/tst-dso-ordering-all4-53-b.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-53-b.c
+	$(compile.c) $(OUTPUT_OPTION)
+modules-names += tst-dso-ordering-all4-53-dir/tst-dso-ordering-all4-53-a tst-dso-ordering-all4-53-dir/tst-dso-ordering-all4-53-c tst-dso-ordering-all4-53-dir/tst-dso-ordering-all4-53-b
+$(objpfx)tst-dso-ordering-all4-53-dir/tst-dso-ordering-all4-53-a.so: $(objpfx)tst-dso-ordering-all4-53-dir/tst-dso-ordering-all4-53-c.so
+LDFLAGS-tst-dso-ordering-all4-53-a.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-53-c.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-53-b.so = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-53-dir/tst-dso-ordering-all4-53: $(objpfx)tst-dso-ordering-all4-53-dir/tst-dso-ordering-all4-53-a.so $(objpfx)tst-dso-ordering-all4-53-dir/tst-dso-ordering-all4-53-b.so
+LDFLAGS-tst-dso-ordering-all4-53 = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-53-dir/tst-dso-ordering-all4-53.o: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-53.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-53.out: $(objpfx)tst-dso-ordering-all4-53-dir/tst-dso-ordering-all4-53-a.so $(objpfx)tst-dso-ordering-all4-53-dir/tst-dso-ordering-all4-53-c.so $(objpfx)tst-dso-ordering-all4-53-dir/tst-dso-ordering-all4-53-b.so
+test-srcs += tst-dso-ordering-all4-53-dir/tst-dso-ordering-all4-53
+$(objpfx)tst-dso-ordering-all4-53.out: $(objpfx)tst-dso-ordering-all4-53-dir/tst-dso-ordering-all4-53
+$(objpfx)tst-dso-ordering-all4-53.out: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-53.sh $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-53.exp $(common-objpfx)support/test-run-command
+	$(SHELL) $< $(common-objpfx) '$(test-wrapper-env)' '$(run-program-env)' '$(rpath-link)' > $@; $(evaluate-test)
+ifeq ($(run-built-tests),yes)
+tests-special += $(objpfx)tst-dso-ordering-all4-53.out
+endif
+endif
+ifeq (yes,$(build-shared))
+$(objpfx)tst-dso-ordering-all4-54-dir/tst-dso-ordering-all4-54-a.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-54-a.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-54-dir/tst-dso-ordering-all4-54-b.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-54-b.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-54-dir/tst-dso-ordering-all4-54-c.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-54-c.c
+	$(compile.c) $(OUTPUT_OPTION)
+modules-names += tst-dso-ordering-all4-54-dir/tst-dso-ordering-all4-54-a tst-dso-ordering-all4-54-dir/tst-dso-ordering-all4-54-b tst-dso-ordering-all4-54-dir/tst-dso-ordering-all4-54-c
+$(objpfx)tst-dso-ordering-all4-54-dir/tst-dso-ordering-all4-54-a.so: $(objpfx)tst-dso-ordering-all4-54-dir/tst-dso-ordering-all4-54-b.so
+LDFLAGS-tst-dso-ordering-all4-54-a.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-54-b.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-54-c.so = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-54-dir/tst-dso-ordering-all4-54: $(objpfx)tst-dso-ordering-all4-54-dir/tst-dso-ordering-all4-54-b.so $(objpfx)tst-dso-ordering-all4-54-dir/tst-dso-ordering-all4-54-a.so $(objpfx)tst-dso-ordering-all4-54-dir/tst-dso-ordering-all4-54-c.so
+LDFLAGS-tst-dso-ordering-all4-54 = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-54-dir/tst-dso-ordering-all4-54.o: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-54.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-54.out: $(objpfx)tst-dso-ordering-all4-54-dir/tst-dso-ordering-all4-54-a.so $(objpfx)tst-dso-ordering-all4-54-dir/tst-dso-ordering-all4-54-b.so $(objpfx)tst-dso-ordering-all4-54-dir/tst-dso-ordering-all4-54-c.so
+test-srcs += tst-dso-ordering-all4-54-dir/tst-dso-ordering-all4-54
+$(objpfx)tst-dso-ordering-all4-54.out: $(objpfx)tst-dso-ordering-all4-54-dir/tst-dso-ordering-all4-54
+$(objpfx)tst-dso-ordering-all4-54.out: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-54.sh $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-54.exp $(common-objpfx)support/test-run-command
+	$(SHELL) $< $(common-objpfx) '$(test-wrapper-env)' '$(run-program-env)' '$(rpath-link)' > $@; $(evaluate-test)
+ifeq ($(run-built-tests),yes)
+tests-special += $(objpfx)tst-dso-ordering-all4-54.out
+endif
+endif
+ifeq (yes,$(build-shared))
+$(objpfx)tst-dso-ordering-all4-55-dir/tst-dso-ordering-all4-55-a.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-55-a.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-55-dir/tst-dso-ordering-all4-55-b.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-55-b.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-55-dir/tst-dso-ordering-all4-55-c.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-55-c.c
+	$(compile.c) $(OUTPUT_OPTION)
+modules-names += tst-dso-ordering-all4-55-dir/tst-dso-ordering-all4-55-a tst-dso-ordering-all4-55-dir/tst-dso-ordering-all4-55-b tst-dso-ordering-all4-55-dir/tst-dso-ordering-all4-55-c
+$(objpfx)tst-dso-ordering-all4-55-dir/tst-dso-ordering-all4-55-a.so: $(objpfx)tst-dso-ordering-all4-55-dir/tst-dso-ordering-all4-55-b.so
+LDFLAGS-tst-dso-ordering-all4-55-a.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-55-b.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-55-c.so = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-55-dir/tst-dso-ordering-all4-55: $(objpfx)tst-dso-ordering-all4-55-dir/tst-dso-ordering-all4-55-a.so $(objpfx)tst-dso-ordering-all4-55-dir/tst-dso-ordering-all4-55-b.so $(objpfx)tst-dso-ordering-all4-55-dir/tst-dso-ordering-all4-55-c.so
+LDFLAGS-tst-dso-ordering-all4-55 = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-55-dir/tst-dso-ordering-all4-55.o: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-55.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-55.out: $(objpfx)tst-dso-ordering-all4-55-dir/tst-dso-ordering-all4-55-a.so $(objpfx)tst-dso-ordering-all4-55-dir/tst-dso-ordering-all4-55-b.so $(objpfx)tst-dso-ordering-all4-55-dir/tst-dso-ordering-all4-55-c.so
+test-srcs += tst-dso-ordering-all4-55-dir/tst-dso-ordering-all4-55
+$(objpfx)tst-dso-ordering-all4-55.out: $(objpfx)tst-dso-ordering-all4-55-dir/tst-dso-ordering-all4-55
+$(objpfx)tst-dso-ordering-all4-55.out: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-55.sh $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-55.exp $(common-objpfx)support/test-run-command
+	$(SHELL) $< $(common-objpfx) '$(test-wrapper-env)' '$(run-program-env)' '$(rpath-link)' > $@; $(evaluate-test)
+ifeq ($(run-built-tests),yes)
+tests-special += $(objpfx)tst-dso-ordering-all4-55.out
+endif
+endif
+ifeq (yes,$(build-shared))
+$(objpfx)tst-dso-ordering-all4-56-dir/tst-dso-ordering-all4-56-a.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-56-a.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-56-dir/tst-dso-ordering-all4-56-b.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-56-b.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-56-dir/tst-dso-ordering-all4-56-c.os: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-56-c.c
+	$(compile.c) $(OUTPUT_OPTION)
+modules-names += tst-dso-ordering-all4-56-dir/tst-dso-ordering-all4-56-a tst-dso-ordering-all4-56-dir/tst-dso-ordering-all4-56-b tst-dso-ordering-all4-56-dir/tst-dso-ordering-all4-56-c
+LDFLAGS-tst-dso-ordering-all4-56-a.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-56-b.so = -Wl,--no-as-needed
+LDFLAGS-tst-dso-ordering-all4-56-c.so = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-56-dir/tst-dso-ordering-all4-56: $(objpfx)tst-dso-ordering-all4-56-dir/tst-dso-ordering-all4-56-a.so $(objpfx)tst-dso-ordering-all4-56-dir/tst-dso-ordering-all4-56-b.so $(objpfx)tst-dso-ordering-all4-56-dir/tst-dso-ordering-all4-56-c.so
+LDFLAGS-tst-dso-ordering-all4-56 = -Wl,--no-as-needed
+$(objpfx)tst-dso-ordering-all4-56-dir/tst-dso-ordering-all4-56.o: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-56.c
+	$(compile.c) $(OUTPUT_OPTION)
+$(objpfx)tst-dso-ordering-all4-56.out: $(objpfx)tst-dso-ordering-all4-56-dir/tst-dso-ordering-all4-56-a.so $(objpfx)tst-dso-ordering-all4-56-dir/tst-dso-ordering-all4-56-b.so $(objpfx)tst-dso-ordering-all4-56-dir/tst-dso-ordering-all4-56-c.so
+test-srcs += tst-dso-ordering-all4-56-dir/tst-dso-ordering-all4-56
+$(objpfx)tst-dso-ordering-all4-56.out: $(objpfx)tst-dso-ordering-all4-56-dir/tst-dso-ordering-all4-56
+$(objpfx)tst-dso-ordering-all4-56.out: $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-56.sh $(objpfx)dso-sort-tests-src/tst-dso-ordering-all4-56.exp $(common-objpfx)support/test-run-command
+	$(SHELL) $< $(common-objpfx) '$(test-wrapper-env)' '$(run-program-env)' '$(rpath-link)' > $@; $(evaluate-test)
+ifeq ($(run-built-tests),yes)
+tests-special += $(objpfx)tst-dso-ordering-all4-56.out
+endif
+endif

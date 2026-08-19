@@ -1,0 +1,20 @@
+/home/sota/myos/boot/glibc-build/math/s_matherr.os: \
+ ../sysdeps/ieee754/s_matherr.c ../include/stdc-predef.h \
+ /home/sota/myos/boot/glibc-build/libc-modules.h \
+ ../include/libc-symbols.h ../include/libc-misc.h \
+ /home/sota/myos/boot/glibc-build/config.h \
+ ../sysdeps/generic/libc-symver.h ../include/libc-diag.h \
+ ../sysdeps/generic/symbol-hacks.h math-svid-compat.h \
+ ../include/shlib-compat.h \
+ /home/sota/myos/boot/glibc-build/abi-versions.h
+../include/stdc-predef.h:
+/home/sota/myos/boot/glibc-build/libc-modules.h:
+../include/libc-symbols.h:
+../include/libc-misc.h:
+/home/sota/myos/boot/glibc-build/config.h:
+../sysdeps/generic/libc-symver.h:
+../include/libc-diag.h:
+../sysdeps/generic/symbol-hacks.h:
+math-svid-compat.h:
+../include/shlib-compat.h:
+/home/sota/myos/boot/glibc-build/abi-versions.h:
